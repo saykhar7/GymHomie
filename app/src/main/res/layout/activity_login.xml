@@ -67,7 +67,7 @@
             android:textStyle="bold"
             android:textSize="25sp"
             android:fontFamily="@font/roboto"
-            android:background="@drawable/bg1"
+            android:background="@drawable/bg1"/>
 
 
     </RelativeLayout>
