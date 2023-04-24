@@ -14,7 +14,7 @@
         android:layout_height="match_parent"
         android:padding="15sp"
         android:layout_margin="15sp"
-        android:background="#A3ABF1AE">
+        android:background="@drawable/bg_signup">
 
 
         <ImageView
@@ -68,6 +68,16 @@
             android:textSize="25sp"
             android:fontFamily="@font/roboto"
             android:background="@drawable/bg1"/>
+
+        <ProgressBar
+            android:id="@+id/progressBarLogin"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:elevation="10dp"
+            android:visibility="gone"/>
 
 
     </RelativeLayout>
