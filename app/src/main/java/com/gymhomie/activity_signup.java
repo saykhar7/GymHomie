@@ -143,7 +143,7 @@ public class activity_signup extends AppCompatActivity {
 
 
                     //Saving name, email to firebase realtime database
-                    AddFetchUserDetails adduserDetails = new AddFetchUserDetails(firstName, lastName, emailFinal);
+                    AddFetchUserDetails adduserDetails = new AddFetchUserDetails(emailFinal, firstName, lastName );
 
                     DatabaseReference userProfileReference = FirebaseDatabase.getInstance().getReference("Registered User Details");
                     userProfileReference.child(firebaseUser.getUid()).setValue(adduserDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
