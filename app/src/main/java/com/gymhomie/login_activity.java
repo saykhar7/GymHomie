@@ -74,6 +74,25 @@ public class login_activity extends AppCompatActivity {
 
     }
 
+
+    //Checking if the use was logged in before
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(authUser.getCurrentUser() != null)
+        {
+            Toast.makeText(this, "You're alaready logged in", Toast.LENGTH_SHORT).show();
+
+            Intent savedUserIntent = new Intent(login_activity.this, app_homepage.class);
+            startActivity(savedUserIntent);
+
+            //Opening the user profile
+        }
+        else {
+            Toast.makeText(this, "Please login", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void loginUser(String emailAddressText, String passwordText) {
 
         authUser.signInWithEmailAndPassword(emailAddressText, passwordText).addOnCompleteListener(login_activity.this, new OnCompleteListener<AuthResult>() {
@@ -86,6 +105,7 @@ public class login_activity extends AppCompatActivity {
                     Toast.makeText(login_activity.this, "You're logged in", Toast.LENGTH_SHORT).show();
                     Intent intent1 = new Intent(login_activity.this, app_homepage.class);
                     startActivity(intent1);
+                    finish();
                 }
                 else {
                     try {

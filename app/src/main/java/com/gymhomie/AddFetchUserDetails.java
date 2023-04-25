@@ -6,6 +6,9 @@ public class AddFetchUserDetails {
     public String textFirstName;
     public String textLastName;
 
+    public AddFetchUserDetails(){
+
+    }
 
     public AddFetchUserDetails(String emailAddress, String firstName, String lastName)
     {
