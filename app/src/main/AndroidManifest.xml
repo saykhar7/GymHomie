@@ -12,6 +12,15 @@
         android:theme="@style/Theme.GymHomie"
         tools:targetApi="31">
         <activity
+            android:name=".app_homepage"
+            android:exported="false" />
+        <activity
+            android:name=".activity_signup"
+            android:exported="false" />
+        <activity
+            android:name=".login_activity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
