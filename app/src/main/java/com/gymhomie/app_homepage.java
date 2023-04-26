@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -22,7 +23,7 @@ public class app_homepage extends AppCompatActivity {
 
 
     private TextView userNameView;
-    private String userNameinDB;
+    private String userFirstNameinDB, userLastNameinDB, userEmailInDB;
     private FirebaseAuth authedProfile;
     private Button logoutBtn;
 
@@ -72,8 +73,15 @@ public class app_homepage extends AppCompatActivity {
                 AddFetchUserDetails fetchUserDetails = snapshot.getValue(AddFetchUserDetails.class);
                 if(fetchUserDetails!=null)
                 {
-                    userNameinDB = fetchUserDetails.textFirstName;
-                    userNameView.setText("Welcome back "+ userNameinDB+ " !");
+                    userFirstNameinDB = fetchUserDetails.textFirstName;
+                    userLastNameinDB = fetchUserDetails.textLastName;
+                    userEmailInDB = fetchUserDetails.textEmail;
+
+                    userNameView.setText("Welcome back "+ userFirstNameinDB+ " !");
+                    Log.i("First Name : ", userFirstNameinDB);
+                    Log.i("Last Name : ", userLastNameinDB);
+                    Log.i("Email : ", userEmailInDB);
+
                     
                 }else {
                     Toast.makeText(app_homepage.this, "No DATA", Toast.LENGTH_SHORT).show();
