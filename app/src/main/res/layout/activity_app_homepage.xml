@@ -1,47 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".app_homepage">
+    tools:context=".Home_Activity"
+    android:orientation="vertical">
 
-    <LinearLayout
+
+
+
+
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:id="@+id/viewPager"/>
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:background="@color/homie"
+        app:menu="@menu/bottom_nav_cont"
+        android:id="@+id/bottom_navbar"/>
 
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:padding="15dp"
-            android:layout_marginTop="15dp"
-            android:background="#B4D3EC">
-
-            <TextView
-                android:id="@+id/userProfileName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Welcome User Name"
-                android:layout_centerHorizontal="true"
-                android:fontFamily="@font/funk"
-                android:textSize="22sp"/>
-
-
-        </RelativeLayout>
-
-
-
-        <Button
-            android:id="@+id/logoutBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Logout"
-            android:hapticFeedbackEnabled="true"
-            android:paddingHorizontal="15dp"
-            />
-
-    </LinearLayout>
-
-</ScrollView>
+</LinearLayout>
