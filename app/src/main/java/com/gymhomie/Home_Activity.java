@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.annotation.SuppressLint;
@@ -26,6 +27,8 @@ import com.gymhomie.fragments.home_fragment;
 import com.gymhomie.fragments.profile_fragment;
 
 public class Home_Activity extends AppCompatActivity implements home_fragment.HomeController, profile_fragment.OnLogoutClickListener {
+
+    private NameViewModel nameViewModel;
 
 
 
@@ -54,6 +57,8 @@ public class Home_Activity extends AppCompatActivity implements home_fragment.Ho
         viewPager2.setAdapter(viewPagerAdapter);
         viewPager2.setUserInputEnabled(false);
 
+
+        nameViewModel = new ViewModelProvider(this).get(NameViewModel.class);
 
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
 
@@ -148,13 +153,15 @@ public class Home_Activity extends AppCompatActivity implements home_fragment.Ho
     @Override
     public void onFirstNameLastNameFetched(String firstName, String lastName) {
 
-        getSupportFragmentManager().executePendingTransactions();
-        home_fragment homeFragment = (home_fragment) getSupportFragmentManager().findFragmentByTag("f0");
-        if(homeFragment!=null)
-        {
-            homeFragment.updateName(firstName, lastName);
+        nameViewModel.setFullName(firstName, lastName);
 
-        }
+//        getSupportFragmentManager().executePendingTransactions();
+//        home_fragment homeFragment = (home_fragment) getSupportFragmentManager().findFragmentByTag("f0");
+//        if(homeFragment!=null)
+//        {
+//            homeFragment.updateName(firstName, lastName);
+//
+//        }
 
 
     }
