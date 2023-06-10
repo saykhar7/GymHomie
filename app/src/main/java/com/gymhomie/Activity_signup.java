@@ -5,10 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PatternMatcher;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,7 +22,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class activity_signup extends AppCompatActivity {
+public class Activity_signup extends AppCompatActivity {
 
     private EditText email, email1, password, password1, fName, lName;
     private Button signUpbtn;
@@ -75,24 +73,24 @@ public class activity_signup extends AppCompatActivity {
                String passwordFinal;
 
                if (TextUtils.isEmpty(firstName)) {
-                   Toast.makeText(activity_signup.this, "Please Enter Your First Name", Toast.LENGTH_SHORT).show();
+                   Toast.makeText(Activity_signup.this, "Please Enter Your First Name", Toast.LENGTH_SHORT).show();
                    fName.setError("First Name Missing");
                    fName.requestFocus();
                } else if (TextUtils.isEmpty(lastName)) {
-                   Toast.makeText(activity_signup.this, "Please Enter Your Last Name", Toast.LENGTH_SHORT).show();
+                   Toast.makeText(Activity_signup.this, "Please Enter Your Last Name", Toast.LENGTH_SHORT).show();
                    lName.setError("Last Name Missing");
                } else if (TextUtils.isEmpty(emailCheck)) {
-                   Toast.makeText(activity_signup.this, "", Toast.LENGTH_SHORT).show();
+                   Toast.makeText(Activity_signup.this, "", Toast.LENGTH_SHORT).show();
                    email.setError("Enter Email Address");
 
 
                } else if (TextUtils.isEmpty(emailCheck1)) {
-                   Toast.makeText(activity_signup.this, "", Toast.LENGTH_SHORT).show();
+                   Toast.makeText(Activity_signup.this, "", Toast.LENGTH_SHORT).show();
                    email1.setError("Enter Email Address");
                    email1.requestFocus();
 
                } else if (!emailCheck.equals(emailCheck1)) {
-                   Toast.makeText(activity_signup.this, "Emails do not match!", Toast.LENGTH_SHORT).show();
+                   Toast.makeText(Activity_signup.this, "Emails do not match!", Toast.LENGTH_SHORT).show();
                    email.setError("Re-enter Email");
                    email1.setError("Re-enter Email");
                    email.requestFocus();
@@ -100,7 +98,7 @@ public class activity_signup extends AppCompatActivity {
 
 
                } else if (!passwordCheck.equals(passwordCheck1)) {
-                   Toast.makeText(activity_signup.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+                   Toast.makeText(Activity_signup.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
                    password.setError("Re-enter password");
                    password1.setError("Re-Enter password");
                    password.requestFocus();
@@ -130,7 +128,7 @@ public class activity_signup extends AppCompatActivity {
         FirebaseAuth auth = FirebaseAuth.getInstance();
 
         //Adding user to firestore authentication database
-        auth.createUserWithEmailAndPassword(emailFinal, passwordCheck).addOnCompleteListener(activity_signup.this, new OnCompleteListener<AuthResult>() {
+        auth.createUserWithEmailAndPassword(emailFinal, passwordCheck).addOnCompleteListener(Activity_signup.this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
 
@@ -153,18 +151,18 @@ public class activity_signup extends AppCompatActivity {
                             if(task.isSuccessful())
                             {
                                 firebaseUser.sendEmailVerification();
-                                Toast.makeText(activity_signup.this, "Homie Registered", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Activity_signup.this, "Homie Registered", Toast.LENGTH_SHORT).show();
 
 
                                 //Opening currently registered profile
-                                Intent intent = new Intent(activity_signup.this, app_homepage.class);
+                                Intent intent = new Intent(Activity_signup.this, Home_Activity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
                                 //Closing the register page
                                 finish();
 
                             }else {
-                                Toast.makeText(activity_signup.this, "Homie Registation Failed", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Activity_signup.this, "Homie Registation Failed", Toast.LENGTH_SHORT).show();
 
                             }
 
@@ -180,7 +178,7 @@ public class activity_signup extends AppCompatActivity {
                     }catch (FirebaseAuthUserCollisionException e)
                     {
 
-                        Toast.makeText(activity_signup.this, "Email already used", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Activity_signup.this, "Email already used", Toast.LENGTH_SHORT).show();
                         email.setError("Enter New Email");
                         email1.setError("Re-enter New Email");
                         email.requestFocus();
@@ -189,7 +187,7 @@ public class activity_signup extends AppCompatActivity {
                     }catch (Exception e)
                     {
                         Log.e(TAG, e.getMessage() );
-                        Toast.makeText(activity_signup.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Activity_signup.this, e.getMessage(), Toast.LENGTH_SHORT).show();
 
                     }
                 }

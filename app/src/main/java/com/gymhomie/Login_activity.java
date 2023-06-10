@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 
-public class login_activity extends AppCompatActivity {
+public class Login_activity extends AppCompatActivity {
 
     private EditText emailAddress, loginPassword;
     private ProgressBar progressBarLogin;
@@ -53,11 +53,11 @@ public class login_activity extends AppCompatActivity {
 
                if (TextUtils.isEmpty(emailAddressText))
                {
-                   Toast.makeText(login_activity.this, "Email ID missing", Toast.LENGTH_SHORT).show();
+                   Toast.makeText(Login_activity.this, "Email ID missing", Toast.LENGTH_SHORT).show();
                    emailAddress.setError("Enter email address");
                    emailAddress.requestFocus();
                } else if (TextUtils.isEmpty(passwordText)) {
-                   Toast.makeText(login_activity.this, "Password missing", Toast.LENGTH_SHORT).show();
+                   Toast.makeText(Login_activity.this, "Password missing", Toast.LENGTH_SHORT).show();
                    loginPassword.setError("Enter Password");
                    loginPassword.requestFocus();
 
@@ -83,7 +83,7 @@ public class login_activity extends AppCompatActivity {
         {
             Toast.makeText(this, "You're alaready logged in", Toast.LENGTH_SHORT).show();
 
-            Intent savedUserIntent = new Intent(login_activity.this, app_homepage.class);
+            Intent savedUserIntent = new Intent(Login_activity.this, Home_Activity.class);
             startActivity(savedUserIntent);
 
             //Opening the user profile
@@ -95,15 +95,15 @@ public class login_activity extends AppCompatActivity {
 
     private void loginUser(String emailAddressText, String passwordText) {
 
-        authUser.signInWithEmailAndPassword(emailAddressText, passwordText).addOnCompleteListener(login_activity.this, new OnCompleteListener<AuthResult>() {
+        authUser.signInWithEmailAndPassword(emailAddressText, passwordText).addOnCompleteListener(Login_activity.this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 progressBarLogin.setVisibility(View.GONE);
                 
                 if(task.isSuccessful())
                 {
-                    Toast.makeText(login_activity.this, "You're logged in", Toast.LENGTH_SHORT).show();
-                    Intent intent1 = new Intent(login_activity.this, app_homepage.class);
+                    Toast.makeText(Login_activity.this, "You're logged in", Toast.LENGTH_SHORT).show();
+                    Intent intent1 = new Intent(Login_activity.this, Home_Activity.class);
                     startActivity(intent1);
                     finish();
                 }
@@ -112,7 +112,7 @@ public class login_activity extends AppCompatActivity {
                         throw task.getException();
                     } catch (FirebaseAuthInvalidUserException e)
                     {
-                        Toast.makeText(login_activity.this, "No User on this email, please signup", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Login_activity.this, "No User on this email, please signup", Toast.LENGTH_SHORT).show();
                         emailAddress.clearComposingText();
                         emailAddress.requestFocus();
                         loginPassword.clearComposingText();
@@ -131,7 +131,7 @@ public class login_activity extends AppCompatActivity {
                     catch (Exception e)
                     {
                         Log.e(TAG, e.getMessage());
-                        Toast.makeText(login_activity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Login_activity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
 
 

@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, activity_signup.class);
+                Intent i = new Intent(MainActivity.this, Activity_signup.class);
                 startActivity(i);
             }
         });
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i2 = new Intent(MainActivity.this, login_activity.class);
+                Intent i2 = new Intent(MainActivity.this, Login_activity.class);
                 startActivity(i2);
             }
         });
