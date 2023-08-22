@@ -1,5 +1,9 @@
 package com.gymhomie.calculator;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -82,8 +86,20 @@ public class CaloriesBurned {
         double totalHeightInches = (heightFeet * 12) + heightInches;
         return totalHeightInches * 2.54;
     }
+    public static double getCaloriesBurned(String response) throws JSONException {
+        JSONObject jsonResponse = new JSONObject(response);
+        JSONArray exercisesArray = jsonResponse.getJSONArray("exercises");
+        JSONObject exerciseObject = exercisesArray.getJSONObject(0);
+        return exerciseObject.getDouble("nf_calories");
+    }
 
-    public double calculate() {
+    public static double getDuration(String response) throws JSONException {
+        JSONObject jsonResponse = new JSONObject(response);
+        JSONArray exercisesArray = jsonResponse.getJSONArray("exercises");
+        JSONObject exerciseObject = exercisesArray.getJSONObject(0);
+        return exerciseObject.getDouble("duration_min");
+    }
+    public double calculate() throws JSONException {
 
         try {
             // Build the request body
@@ -113,7 +129,8 @@ public class CaloriesBurned {
                     response.append(line);
                 }
                 reader.close();
-
+                //getCaloriesBurned(response.toString());
+                //getDuration(response.toString());
                 System.out.println(response.toString());
             } else {
                 System.out.println("Request failed with response code: " + responseCode);
