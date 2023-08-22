@@ -31,7 +31,6 @@ public class LocationHandler {
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         String ipAddress = reader.readLine();
-
         reader.close();
         connection.disconnect();
 
