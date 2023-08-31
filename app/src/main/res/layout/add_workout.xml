@@ -1,6 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/neon"
+        android:text="Add Workout"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/back_button"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:background="@drawable/back_arrow"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="11dp" />
+
+    <EditText
+        android:id="@+id/workout_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        tools:layout_editor_absoluteX="28dp"
+        tools:layout_editor_absoluteY="77dp" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Workout Name"
+        android:textSize="16sp"
+        tools:layout_editor_absoluteX="32dp"
+        tools:layout_editor_absoluteY="123dp" />
+
+    <ToggleButton
+        android:id="@+id/arms_toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Arms"
+        android:textOff="Arms"
+        tools:layout_editor_absoluteX="42dp"
+        tools:layout_editor_absoluteY="185dp" />
+
+    <ToggleButton
+        android:id="@+id/legs_toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="Legs"
+        android:textOff="Legs"
+        app:layout_constraintStart_toEndOf="@+id/arms_toggle"
+        tools:layout_editor_absoluteY="185dp" />
+
+    <ToggleButton
+        android:id="@+id/glutes_toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:text="Glutes"
+        android:textOff="Glutes"
+        app:layout_constraintStart_toEndOf="@+id/legs_toggle"
+        tools:layout_editor_absoluteY="185dp" />
+
+    <ToggleButton
+        android:id="@+id/chest_toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Chest"
+        android:textOff="Chest"
+        app:layout_constraintTop_toBottomOf="@+id/arms_toggle"
+        tools:layout_editor_absoluteX="42dp" />
+
+    <ToggleButton
+        android:id="@+id/back_toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="Back"
+        android:textOff="Back"
+        app:layout_constraintStart_toEndOf="@+id/chest_toggle"
+        app:layout_constraintTop_toBottomOf="@+id/legs_toggle" />
+
+    <ToggleButton
+        android:id="@+id/cardio_toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="20dp"
+        android:text="Cardio"
+        android:textOff="Cardio"
+        app:layout_constraintStart_toEndOf="@+id/back_toggle"
+        app:layout_constraintTop_toBottomOf="@+id/glutes_toggle" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Muscle Group"
+        android:textSize="16sp"
+        tools:layout_editor_absoluteX="31dp"
+        tools:layout_editor_absoluteY="160dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
