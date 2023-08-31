@@ -9,26 +9,37 @@
 
     <!-- TODO: Update blank fragment layout -->
 
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="163dp"
+        android:layout_height="37dp"
+        android:fontFamily="@font/neon"
+        android:text="BMI"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        tools:layout_editor_absoluteX="40dp"
+        tools:layout_editor_absoluteY="605dp" />
+
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/BMI_button"
         android:layout_width="164dp"
         android:layout_height="172dp"
-        android:text="BMI"
+        android:background="@drawable/body_scan"
         tools:layout_editor_absoluteX="40dp"
-        tools:layout_editor_absoluteY="370dp" />
+        tools:layout_editor_absoluteY="426dp" />
 
     <Button
         android:id="@+id/button5"
         android:layout_width="164dp"
         android:layout_height="172dp"
         tools:layout_editor_absoluteX="212dp"
-        tools:layout_editor_absoluteY="370dp" />
+        tools:layout_editor_absoluteY="426dp" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/stopwatch_button"
         android:layout_width="164dp"
         android:layout_height="172dp"
-        android:text="Stopwatch"
+        android:background="@drawable/stopwatch_icon"
         tools:layout_editor_absoluteX="212dp"
         tools:layout_editor_absoluteY="165dp" />
 
@@ -50,11 +61,33 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/calculator_button"
         android:layout_width="164dp"
         android:layout_height="172dp"
-        android:text="Calculator"
+        android:background="@drawable/calculator"
         tools:layout_editor_absoluteX="40dp"
         tools:layout_editor_absoluteY="165dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="163dp"
+        android:layout_height="37dp"
+        android:fontFamily="@font/neon"
+        android:text="Calculator"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        tools:layout_editor_absoluteX="40dp"
+        tools:layout_editor_absoluteY="337dp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="163dp"
+        android:layout_height="37dp"
+        android:fontFamily="@font/neon"
+        android:text="Stopwatch"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        tools:layout_editor_absoluteX="213dp"
+        tools:layout_editor_absoluteY="337dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
