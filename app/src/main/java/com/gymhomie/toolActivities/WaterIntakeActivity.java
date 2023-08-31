@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -35,6 +36,8 @@ public class WaterIntakeActivity extends AppCompatActivity{
     private EditText editTextTime;
     private EditText editTextAmount;
 
+    private Button waterSave;
+
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
@@ -45,6 +48,14 @@ public class WaterIntakeActivity extends AppCompatActivity{
         editTextDate = findViewById(R.id.edit_text_date);
         editTextTime = findViewById(R.id.edit_text_time);
         editTextAmount = findViewById(R.id.edit_text_amount);
+
+        waterSave = findViewById(R.id.water_save_button);
+        waterSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveNote(view);
+            }
+        });
     }
 
     public void saveNote(View v) {

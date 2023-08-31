@@ -20,15 +20,6 @@ public class tools_fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_tools, container, false);
-//        View rootView = inflater.inflate(R.layout.fragment_tools, container, false);
-//
-//        Button openWaterIntake = rootView.findViewById(R.id.openWaterIntakeButton);
-//        openWaterIntake.setOnClickListener(view -> {
-//            Intent intent = new Intent(getActivity(), WaterIntakeActivity.class);
-//            startActivity(intent);
-//        });
-
-        //  return rootView;
+        return inflater.inflate(R.layout.activity_water_intake, container, false);
     }
 }
