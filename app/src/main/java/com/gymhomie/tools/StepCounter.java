@@ -1,4 +1,4 @@
-package com.gymhomie;
+package com.gymhomie.tools;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gymhomie.R;
+
 public class StepCounter extends AppCompatActivity implements SensorEventListener {
 
     public SensorManager sensorManager;
@@ -21,7 +23,7 @@ public class StepCounter extends AppCompatActivity implements SensorEventListene
     private float previousTotalSteps = 0f;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -61,7 +63,7 @@ public class StepCounter extends AppCompatActivity implements SensorEventListene
         tv_stepsTaken.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(StepCounter.this, "Long tap to reset steps", Toast.LENGTH_SHORT).show();
+                Toast.makeText(com.gymhomie.tools.StepCounter.this, "Long tap to reset steps", Toast.LENGTH_SHORT).show();
             }
         });
 
