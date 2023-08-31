@@ -1,14 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.tools_fragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="THIS IS TOOLS PAGE" />
 
-</FrameLayout>
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="164dp"
+        android:layout_height="172dp"
+        android:text="BMI"
+        tools:layout_editor_absoluteX="40dp"
+        tools:layout_editor_absoluteY="370dp" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="164dp"
+        android:layout_height="172dp"
+        tools:layout_editor_absoluteX="212dp"
+        tools:layout_editor_absoluteY="370dp" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="164dp"
+        android:layout_height="172dp"
+        android:text="Stopwatch"
+        tools:layout_editor_absoluteX="212dp"
+        tools:layout_editor_absoluteY="165dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="0dp"
+        android:layout_height="74dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/neon"
+        android:text="Tools"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+        android:textSize="60sp"
+        android:typeface="normal"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="164dp"
+        android:layout_height="172dp"
+        android:text="Calculator"
+        tools:layout_editor_absoluteX="40dp"
+        tools:layout_editor_absoluteY="165dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
