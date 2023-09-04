@@ -24,7 +24,7 @@
 
     <!--Text View for the step count-->
     <TextView
-        android:id="@+id/tv_stepsTaken"
+        android:id="@+id/accelerometerDataTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"

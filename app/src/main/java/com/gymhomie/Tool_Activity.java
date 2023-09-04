@@ -1,4 +1,4 @@
-package com.gymhomie.tools;
+package com.gymhomie;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -11,9 +11,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.gymhomie.R;
+public class Tool_Activity extends AppCompatActivity implements SensorEventListener {
 
-public class StepCounter extends AppCompatActivity implements SensorEventListener {
     private SensorManager sensorManager;
     private Sensor accelerometer;
     private TextView accelerometerDataTextView;
@@ -28,14 +27,14 @@ public class StepCounter extends AppCompatActivity implements SensorEventListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_steps);
 
         accelerometerDataTextView = findViewById(R.id.accelerometerDataTextView);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         if (accelerometer != null) {
-            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+            sensorManager.registerListener((SensorEventListener) this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
         } else {
             // Handle the case when the accelerometer sensor is not available on the device
         }
@@ -83,4 +82,5 @@ public class StepCounter extends AppCompatActivity implements SensorEventListene
             }
         });
     }
+
 }
