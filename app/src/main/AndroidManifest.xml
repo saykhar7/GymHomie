@@ -17,7 +17,6 @@
         <activity
             android:name=".Home_Activity"
             android:exported="false" />
-        <activity android:name=".tools.StepCounter" />
         <activity android:name=".Tool_Activity"
             android:exported="false"/>
         <activity
