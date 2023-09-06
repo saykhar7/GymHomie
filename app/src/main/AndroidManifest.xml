@@ -19,6 +19,8 @@
             android:exported="false" />
         <activity android:name=".Tool_Activity"
             android:exported="false"/>
+        <activity android:name=".Water_Intake_Activity"
+            android:exported="false"/>
         <activity
             android:name=".Activity_signup"
             android:exported="false" />
