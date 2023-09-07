@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.gymhomie.R;
 import com.gymhomie.tools.WaterIntake;
@@ -33,9 +34,6 @@ public class Water_Intake_Activity extends AppCompatActivity{
     private NumberPicker amountPicker;
 
     private DatePicker datePicker;
-
-    private EditText editTextDocument;
-
     private Button waterSave;
 
     private Button currentMonthIntake;
@@ -49,7 +47,6 @@ public class Water_Intake_Activity extends AppCompatActivity{
         setContentView(R.layout.activity_water_intake);
 
         datePicker = findViewById(R.id.date_picker);
-        editTextDocument = findViewById(R.id.edit_text_document);
         amountPicker = findViewById(R.id.amount_number_picker);
         amountPicker.setMinValue(1);
         amountPicker.setMaxValue(128);
@@ -73,11 +70,14 @@ public class Water_Intake_Activity extends AppCompatActivity{
     }
 
     public void saveNote(View v) {
-        String documentName = editTextDocument.getText().toString();
         int year = datePicker.getYear();
         int month = datePicker.getMonth()+1;
         int day = datePicker.getDayOfMonth();
         int amount = amountPicker.getValue();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        String userID = auth.getCurrentUser().getUid();
+        String collectionPath = "users/"+userID+"/WaterIntakes";
+
 
         Map<String, Object> note = new HashMap<>();
         note.put(KEY_YEAR, year);
@@ -85,7 +85,7 @@ public class Water_Intake_Activity extends AppCompatActivity{
         note.put(KEY_DAY, day);
         note.put(KEY_AMOUNT, amount);
 
-        db.collection("Water Intakes").document(documentName).set(note)
+        db.collection(collectionPath).document().set(note)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {

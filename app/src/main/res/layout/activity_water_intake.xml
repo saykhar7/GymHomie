@@ -39,14 +39,6 @@
         android:layout_height="136dp"
         android:layout_gravity="center_horizontal" />
 
-    <EditText
-        android:id="@+id/edit_text_document"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Document Name"
-        android:inputType="text"
-        android:minHeight="48dp" />
-
     <Button
         android:id="@+id/water_save_button"
         android:layout_width="match_parent"
