@@ -3,16 +3,17 @@ package com.gymhomie;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-//  import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.gymhomie.R;
 import com.gymhomie.tools.WaterIntake;
@@ -24,21 +25,20 @@ public class Water_Intake_Activity extends AppCompatActivity{
 
     private static final String TAG = "Water_Intake_Activity";
 
-    //  public WaterIntake newData = new WaterIntake("08-30-2023", "9:26PM", 16);
-
-    private static final String KEY_DATE = "date";
-
-    private static final String KEY_TIME= "time";
-
+    private static final String KEY_YEAR = "year";
+    private static final String KEY_MONTH = "month";
+    private static final String KEY_DAY = "day";
     private static final String KEY_AMOUNT = "amount";
 
-    private EditText editTextDate;
-    private EditText editTextTime;
-    private EditText editTextAmount;
+    private NumberPicker amountPicker;
+
+    private DatePicker datePicker;
 
     private EditText editTextDocument;
 
     private Button waterSave;
+
+    private Button currentMonthIntake;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -46,12 +46,14 @@ public class Water_Intake_Activity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_water_intake); // TODO Make a view for water intake
+        setContentView(R.layout.activity_water_intake);
 
+        datePicker = findViewById(R.id.date_picker);
         editTextDocument = findViewById(R.id.edit_text_document);
-        editTextDate = findViewById(R.id.edit_text_date);
-        editTextTime = findViewById(R.id.edit_text_time);
-        editTextAmount = findViewById(R.id.edit_text_amount);
+        amountPicker = findViewById(R.id.amount_number_picker);
+        amountPicker.setMinValue(1);
+        amountPicker.setMaxValue(128);
+        amountPicker.setValue(1);
 
         waterSave = findViewById(R.id.water_save_button);
         waterSave.setOnClickListener(new View.OnClickListener() {
@@ -60,23 +62,27 @@ public class Water_Intake_Activity extends AppCompatActivity{
                 saveNote(view);
             }
         });
+        currentMonthIntake = findViewById(R.id.current_month_intake);
+        currentMonthIntake.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO: Swap pages to view current month's water intake
+            }
+        });
+
     }
 
     public void saveNote(View v) {
         String documentName = editTextDocument.getText().toString();
-        String date = editTextDate.getText().toString();
-        String time = editTextTime.getText().toString();
-        String amountAsString = editTextAmount.getText().toString();
-        int amount;
-        try {
-            amount = Integer.parseInt(amountAsString);
-        } catch (NumberFormatException e) {
-            amount = -1;
-        }
+        int year = datePicker.getYear();
+        int month = datePicker.getMonth()+1;
+        int day = datePicker.getDayOfMonth();
+        int amount = amountPicker.getValue();
 
         Map<String, Object> note = new HashMap<>();
-        note.put(KEY_DATE, date);
-        note.put(KEY_TIME, time);
+        note.put(KEY_YEAR, year);
+        note.put(KEY_MONTH, month);
+        note.put(KEY_DAY, day);
         note.put(KEY_AMOUNT, amount);
 
         db.collection("Water Intakes").document(documentName).set(note)
