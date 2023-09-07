@@ -113,34 +113,34 @@ public class Home_Activity extends AppCompatActivity implements home_fragment.Ho
 
         String userID = firebaseUser.getUid();
         DatabaseReference referecedProfile = FirebaseDatabase.getInstance().getReference("Registered User Details");
-        referecedProfile.child(userID).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                AddFetchUserDetails fetchUserDetails = snapshot.getValue(AddFetchUserDetails.class);
-                if(fetchUserDetails!=null)
-                {
-                    userFirstNameinDB = fetchUserDetails.textFirstName;
-                    userLastNameinDB = fetchUserDetails.textLastName;
-                    onFirstNameLastNameFetched(userFirstNameinDB, userLastNameinDB);
-
-                    Log.i("Logged User", "Below User is Logged In");
-                    Log.i("First Name: ", userFirstNameinDB);
-                    Log.i("First Name: ", userLastNameinDB);
-                    Log.i("First Name: ", fetchUserDetails.textEmail);
-
-
-
-
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+//        referecedProfile.child(userID).addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//
+//               // AddFetchUserDetails fetchUserDetails = snapshot.getValue(AddFetchUserDetails.class);
+//                if(fetchUserDetails!=null)
+//                {
+//                    userFirstNameinDB = fetchUserDetails.textFirstName;
+//                    userLastNameinDB = fetchUserDetails.textLastName;
+//                    onFirstNameLastNameFetched(userFirstNameinDB, userLastNameinDB);
+//
+//                    Log.i("Logged User", "Below User is Logged In");
+//                    Log.i("First Name: ", userFirstNameinDB);
+//                    Log.i("First Name: ", userLastNameinDB);
+//                    Log.i("First Name: ", fetchUserDetails.textEmail);
+//
+//
+//
+//
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
 
 
     }

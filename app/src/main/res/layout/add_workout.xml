@@ -200,7 +200,7 @@
     </ScrollView>
 
     <TextView
-        android:id="@+id/textView7"
+        android:id="@+id/yourworkout_text"
         android:layout_width="110dp"
         android:layout_height="29dp"
         android:labelFor="@id/workout_list_box"
