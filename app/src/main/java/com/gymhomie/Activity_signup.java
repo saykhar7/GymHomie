@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,12 +22,21 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Activity_signup extends AppCompatActivity {
 
     private EditText email, email1, password, password1, fName, lName;
     private Button signUpbtn;
     private ProgressBar progressBarView;
+
+    private FirebaseFirestore firebaseFirestore;
+    private String userID;
+
 
     //TAG String for Exception Handling
     private static final String TAG = "SignUp Page: ";
@@ -47,6 +57,7 @@ public class Activity_signup extends AppCompatActivity {
        password1 = findViewById(R.id.signEditPassword1);
 
        progressBarView = findViewById(R.id.progressBar);
+
 
 
 
@@ -126,6 +137,7 @@ public class Activity_signup extends AppCompatActivity {
     private void registerUser(String firstName, String lastName, String emailFinal, String passwordCheck) {
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
 
         //Adding user to firestore authentication database
         auth.createUserWithEmailAndPassword(emailFinal, passwordCheck).addOnCompleteListener(Activity_signup.this, new OnCompleteListener<AuthResult>() {
@@ -138,38 +150,59 @@ public class Activity_signup extends AppCompatActivity {
                 {
 
                     FirebaseUser firebaseUser = auth.getCurrentUser();
+                    firebaseFirestore = FirebaseFirestore.getInstance();
 
 
                     //Saving name, email to firebase realtime database
-                    AddFetchUserDetails adduserDetails = new AddFetchUserDetails(emailFinal, firstName, lastName );
 
-                    DatabaseReference userProfileReference = FirebaseDatabase.getInstance().getReference("Registered User Details");
-                    userProfileReference.child(firebaseUser.getUid()).setValue(adduserDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    userID= auth.getCurrentUser().getUid();
+
+                    Map<String,Object> aUser = new HashMap<>();
+                    aUser.put("firstName", firstName);
+                    aUser.put("lastName", lastName);
+                    aUser.put("email", emailFinal);
+
+                    //Making an object with reference of the Firestore Database Collection
+                    DocumentReference documentReference = firebaseFirestore.collection("users").document(userID);
+
+
+                    //On Successfull addition of user data to database, this listerner will get triggered
+                    documentReference.set(aUser).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
-                        public void onComplete(@NonNull Task<Void> task) {
+                        public void onSuccess(Void unused) {
 
-                            if(task.isSuccessful())
-                            {
-                                firebaseUser.sendEmailVerification();
-                                Toast.makeText(Activity_signup.this, "Homie Registered", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Activity_signup.this, "Homie Registered", Toast.LENGTH_SHORT).show();
 
 
-                                //Opening currently registered profile
-                                Intent intent = new Intent(Activity_signup.this, Home_Activity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);
-                                //Closing the register page
-                                finish();
-
-                            }else {
-                                Toast.makeText(Activity_signup.this, "Homie Registation Failed", Toast.LENGTH_SHORT).show();
-
-                            }
-
-
+                            //Opening currently registered profile
+                            Intent intent = new Intent(Activity_signup.this, Home_Activity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                            //Closing the register page
+                            finish();
 
                         }
                     });
+
+//                    DatabaseReference userProfileReference = FirebaseDatabase.getInstance().getReference("Registered User Details");
+//                    documentReference.child(firebaseUser.getUid()).setValue(adduserDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<Void> task) {
+//
+//                            if(task.isSuccessful())
+//                            {
+//                                firebaseUser.sendEmailVerification();
+//
+//
+//                            }else {
+//                                Toast.makeText(Activity_signup.this, "Homie Registation Failed", Toast.LENGTH_SHORT).show();
+//
+//                            }
+//
+//
+//
+//                        }
+//                    });
 
                 }
                 else {
