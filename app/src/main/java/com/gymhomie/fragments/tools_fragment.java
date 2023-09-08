@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.gymhomie.R;
-import com.gymhomie.Tool_Activity;
+import com.gymhomie.Step_Activity;
 import com.gymhomie.Water_Intake_Activity;
 
 
@@ -45,7 +45,7 @@ public class tools_fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Start the Tool_Activity
-                Intent intent = new Intent(getActivity(), Tool_Activity.class);
+                Intent intent = new Intent(getActivity(), Step_Activity.class);
                 startActivity(intent);
             }
         });

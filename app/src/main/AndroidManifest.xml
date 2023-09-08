@@ -17,7 +17,7 @@
         <activity
             android:name=".Home_Activity"
             android:exported="false" />
-        <activity android:name=".Tool_Activity"
+        <activity android:name=".Step_Activity"
             android:exported="false"/>
         <activity android:name=".Water_Intake_Activity"
             android:exported="false"/>

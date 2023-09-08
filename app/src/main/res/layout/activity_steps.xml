@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".tools.StepCounter">
+    tools:context=".Step_Activity">
 
     <!--Text View for the "Steps" displayed-->
     <TextView
@@ -36,6 +36,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/steps" />
+
+    <!--Text View for today's date (centered)-->
+    <TextView
+        android:id="@+id/todaysDateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Today's Date:"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:paddingTop="100dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@drawable/circle" />
 
     <!--Image View for the circle-->
     <ImageView
