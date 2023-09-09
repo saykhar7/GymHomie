@@ -1,7 +1,7 @@
 # GymHomie
 
 ## Gym Homie App
-*PREFACE: The Gym Homie App is still under construction and the first scheduled release 1.o is 01/01/24*
+*PREFACE: The Gym Homie App is still under construction and the first scheduled release 1.0 is January 1st, 2023*
 ## On Windows 11:
 #### Preparing Code For Checkout:
 * Follow the link here: https://github.com/saykhar7/GymHomie
