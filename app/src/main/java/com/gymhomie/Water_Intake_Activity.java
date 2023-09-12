@@ -10,15 +10,20 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.NumberPicker;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.gymhomie.R;
 import com.gymhomie.tools.WaterIntake;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,6 +44,10 @@ public class Water_Intake_Activity extends AppCompatActivity{
     private Button currentMonthIntake;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    FirebaseAuth auth = FirebaseAuth.getInstance();
+    String userID = auth.getCurrentUser().getUid();
+    String collectionPath = "users/"+userID+"/WaterIntakes";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +73,8 @@ public class Water_Intake_Activity extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 // TODO: Swap pages to view current month's water intake
+                setContentView(R.layout.activity_water_intake_retrieval);
+                retrieveMonthlyIntakes(view);
             }
         });
 
@@ -74,10 +85,6 @@ public class Water_Intake_Activity extends AppCompatActivity{
         int month = datePicker.getMonth()+1;
         int day = datePicker.getDayOfMonth();
         int amount = amountPicker.getValue();
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        String userID = auth.getCurrentUser().getUid();
-        String collectionPath = "users/"+userID+"/WaterIntakes";
-
 
         Map<String, Object> note = new HashMap<>();
         note.put(KEY_YEAR, year);
@@ -98,6 +105,32 @@ public class Water_Intake_Activity extends AppCompatActivity{
                         Toast.makeText(Water_Intake_Activity.this, "Error saving note!", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+    public void retrieveMonthlyIntakes(View v) {
+        TextView monthlyAverage = findViewById(R.id.monthly_average);
+        LocalDate currentDate = LocalDate.now();
+        int currentMonth = currentDate.getMonthValue();
+        int currentYear = currentDate.getYear();
+        db.collection(collectionPath).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        int sum = 0;
+                        int count = 0;
+                        for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                            Long month = document.getLong("month");
+                            Long year = document.getLong("year");
+                            if (year == currentYear & month == currentMonth) {
+                                    Long amount = document.getLong("amount");
+                                    sum += amount.intValue();
+                                    count++;
+                            }
+                        }
+                        float average = sum / count;
+                        monthlyAverage.setText("Monthly Average: " + String.valueOf(average));
+                    }
+                });
+
     }
 
 
