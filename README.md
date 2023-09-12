@@ -16,18 +16,4 @@
 * Under the 'Version Control:' drop-down menu click it and set it to Git.
 * Paste the URL from earlier into the URL text box."
 * Click the blue 'Clone' button on the bottom-right of the window.
-## Running the App on Android Studio:
-* If you want to run the app you will need to either set up an emulator on the IDE (a virtual device) or connect a physical device with a USB.
-### Virtual Device
-* To create a Virtual Device and use the GymHomie application, you will need to go to the 'Device Manager' on the right-side of the IDE. It is a small tab which may make it difficult to find. It is located next to the 'Gradle' tab.
-* Once you are in the 'Device Manager' side-panel, then you will be able to choose a 'Virtual' or 'Physical' device. Click on the 'Virtual' tab. This is located at the right-side of your IDE, near the top.
-* Click on the 'Create Device' button.
-* Select the category as 'Phone' and for demo purposes - choose the 'Pixel 4'. Click the 'Next' button at the bottom-right of the window.
-* The 'System Image' module comes next, choose whichever you would like, but all our current developers have used 'R'. Download if necessary and click 'Next'.
-* The last window will let you name your device. Give it something meaningful if you'd like. When done, click 'Finish'.
-### Gradle Build
-* Please take a look at the build scripts at the root and module level. This project currently uses JDK 17.
-* Import necessary dependencies as needed locally and build the project locally when ready.
-### Running App on Emulator:
-* There should be a green play button at the top-right of the IDE to run the app. Click that button and it should launch the GymHomie App on the Virtual Device we created.
-* If you are a first time user, you will need to sign-up. Other than that, have fun exploring the GymHomie Android app. 
+ 
