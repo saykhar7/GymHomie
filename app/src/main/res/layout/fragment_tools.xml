@@ -9,20 +9,44 @@
 
     <!-- TODO: Update blank fragment layout -->
 
+    <TextView
+        android:id="@+id/membership_text"
+        android:layout_width="123dp"
+        android:layout_height="48dp"
+        android:fontFamily="@font/neon"
+        android:text="View Membership"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.871"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/water_intake_button"
+        app:layout_constraintVertical_bias="0.515" />
+
+    <Button
+        android:id="@+id/view_membership"
+        android:layout_width="120dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="433dp"
+        android:layout_marginEnd="40dp"
+        android:background="@drawable/membership"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tools_title"
+        app:layout_constraintVertical_bias="0.211" />
+
     <Button
         android:id="@+id/water_intake_button"
         android:layout_width="120dp"
         android:layout_height="130dp"
-        android:layout_marginStart="145dp"
         android:layout_marginTop="433dp"
-        android:layout_marginEnd="146dp"
+        android:layout_marginEnd="240dp"
         android:background="@drawable/water_bottle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tools_title"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.1" />
 
     <TextView
         android:id="@+id/textView5"
@@ -66,9 +90,10 @@
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.177"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/water_intake_button"
-        app:layout_constraintVertical_bias="0.214" />
+        app:layout_constraintVertical_bias="0.515" />
 
     <Button
         android:id="@+id/BMI_button"
