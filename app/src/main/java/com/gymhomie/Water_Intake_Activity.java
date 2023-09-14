@@ -20,10 +20,21 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.type.Color;
 import com.gymhomie.R;
 import com.gymhomie.tools.WaterIntake;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.ValueFormatter;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -107,6 +118,9 @@ public class Water_Intake_Activity extends AppCompatActivity{
                 });
     }
     public void retrieveMonthlyIntakes(View v) {
+        LineChart lineChart = findViewById(R.id.lineChart);
+        ArrayList<Entry> entries = new ArrayList<>(); // entries (x,y) for x = day, y = amount
+
         TextView monthlyAverage = findViewById(R.id.monthly_average);
         LocalDate currentDate = LocalDate.now();
         int currentMonth = currentDate.getMonthValue();
@@ -120,14 +134,26 @@ public class Water_Intake_Activity extends AppCompatActivity{
                         for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                             Long month = document.getLong("month");
                             Long year = document.getLong("year");
+                            Long day = document.getLong("day");
                             if (year == currentYear & month == currentMonth) {
                                     Long amount = document.getLong("amount");
                                     sum += amount.intValue();
                                     count++;
+                                    Entry entry = new Entry(day, amount);
+                                    entries.add(entry);
                             }
                         }
                         double average = (sum*1.0) / count;
                         monthlyAverage.setText("Monthly Average: " + String.valueOf(average));
+
+                        LineDataSet dataSet = new LineDataSet(entries, "Water Intake");
+                        dataSet.setColor(android.R.color.holo_blue_bright);
+                        dataSet.setValueTextColor(android.R.color.black);
+                        dataSet.setCircleColor(android.R.color.holo_blue_dark);
+
+                        LineData lineData = new LineData(dataSet);
+                        lineChart.setData(lineData);
+
                     }
                 });
 
