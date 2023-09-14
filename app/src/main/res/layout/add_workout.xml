@@ -104,7 +104,7 @@
         app:layout_constraintVertical_bias="0.37" />
 
     <ToggleButton
-        android:id="@+id/chest_toggle2"
+        android:id="@+id/other_toggle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Other"

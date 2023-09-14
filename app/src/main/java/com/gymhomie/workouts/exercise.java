@@ -1,16 +1,19 @@
 package com.gymhomie.workouts;
 
-public class exercise {
+import android.widget.MultiAutoCompleteTextView;
+import android.widget.NumberPicker;
 
-    String name;
-    int numSets;
+public class exercise{
+
+    MultiAutoCompleteTextView name;
+    NumberPicker numSets;
     int minutes;
     int seconds;
-    int numReps;
-    int weight;
+    NumberPicker numReps;
+    NumberPicker weight;
 
 
-    public exercise(String name, int numSets, int numReps, int weight)
+    public exercise(MultiAutoCompleteTextView name, NumberPicker numSets, NumberPicker numReps, NumberPicker weight)
     {
         this.name = name;
         this.numSets = numSets;
@@ -18,7 +21,7 @@ public class exercise {
         this.weight = weight;
     }
 
-    public exercise(String name, int numSets, int minutes, int seconds, int weight)
+    public exercise(MultiAutoCompleteTextView name, NumberPicker numSets, int minutes, int seconds, NumberPicker weight)
     {
         this.name = name;
         this.numSets = numSets;
@@ -28,10 +31,10 @@ public class exercise {
     }
 
     //gets name of the exercise
-    public String getName() {return name;}
+    public MultiAutoCompleteTextView getName() {return name;}
 
     //gets number of sets for the exercise
-    public int getNumSets() {return numSets;}
+    public NumberPicker getNumSets() {return numSets;}
 
     //gets amount of time for the exercise
     public int getTime() {return minutes;}
@@ -39,10 +42,10 @@ public class exercise {
     public int getSeconds() {return this.seconds;}
 
     //gets number of reps in one set
-    public int getReps() {return numReps;}
+    public NumberPicker getReps() {return numReps;}
 
     //gets amount of weight for each set
-    public int getWeight() {return weight;}
+    public NumberPicker getWeight() {return weight;}
 
 
 
