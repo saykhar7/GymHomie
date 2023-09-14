@@ -126,7 +126,7 @@ public class Water_Intake_Activity extends AppCompatActivity{
                                     count++;
                             }
                         }
-                        float average = sum / count;
+                        double average = (sum*1.0) / count;
                         monthlyAverage.setText("Monthly Average: " + String.valueOf(average));
                     }
                 });
