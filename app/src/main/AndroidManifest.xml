@@ -17,6 +17,9 @@
         <activity
             android:name=".Home_Activity"
             android:exported="false" />
+        <activity
+            android:name=".BarbellCalculator_Activity"
+            android:exported="false" />
         <activity android:name=".Step_Activity"
             android:exported="false"/>
         <activity android:name=".Water_Intake_Activity"

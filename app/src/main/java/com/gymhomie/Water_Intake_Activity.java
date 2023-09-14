@@ -85,7 +85,6 @@ public class Water_Intake_Activity extends AppCompatActivity{
         int month = datePicker.getMonth()+1;
         int day = datePicker.getDayOfMonth();
         int amount = amountPicker.getValue();
-
         Map<String, Object> note = new HashMap<>();
         note.put(KEY_YEAR, year);
         note.put(KEY_MONTH, month);
