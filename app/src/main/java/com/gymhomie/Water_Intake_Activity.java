@@ -35,6 +35,8 @@ import com.github.mikephil.charting.formatter.ValueFormatter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -134,26 +136,54 @@ public class Water_Intake_Activity extends AppCompatActivity{
                         for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                             Long month = document.getLong("month");
                             Long year = document.getLong("year");
-                            Long day = document.getLong("day");
                             if (year == currentYear & month == currentMonth) {
-                                    Long amount = document.getLong("amount");
-                                    sum += amount.intValue();
-                                    count++;
-                                    Entry entry = new Entry(day, amount);
-                                    entries.add(entry);
+                                    float amount = (document.getLong("amount")).floatValue();
+                                    float day = (document.getLong("day")).floatValue();
+                                    sum += amount;
+
+                                    Boolean flag = false;
+                                    for (Entry entry : entries) {
+                                        flag = false;
+                                        if (entry.getX() == day) {
+                                            entry.setY(entry.getY()+amount);
+                                            flag = true;
+                                            break;
+                                        }
+                                    }
+                                    if (!flag) {
+                                        count++;
+                                        entries.add(new Entry(day, amount));
+                                }
                             }
                         }
                         double average = (sum*1.0) / count;
-                        monthlyAverage.setText("Monthly Average: " + String.valueOf(average));
-
+                        monthlyAverage.setText("Daily Average: " + String.valueOf(average) + " oz");
+                        Collections.sort(entries, new Comparator<Entry>() {
+                            @Override
+                            public int compare(Entry entry1, Entry entry2) {
+                                return Float.compare(entry1.getX(), entry2.getX());
+                            }
+                        });
                         LineDataSet dataSet = new LineDataSet(entries, "Water Intake");
-                        dataSet.setColor(android.R.color.holo_blue_bright);
-                        dataSet.setValueTextColor(android.R.color.black);
-                        dataSet.setCircleColor(android.R.color.holo_blue_dark);
-
                         LineData lineData = new LineData(dataSet);
                         lineChart.setData(lineData);
 
+                        XAxis xAxis = lineChart.getXAxis();
+                        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+                        xAxis.setGranularity(1f); // Set the interval between each data point on the X-axis
+
+                        YAxis yAxisLeft = lineChart.getAxisLeft();
+                        yAxisLeft.setGranularity(1f); // Set the interval between labels on the Y-axis
+
+                        // Format the X-axis labels (optional)
+                        xAxis.setValueFormatter(new ValueFormatter() {
+                            @Override
+                            public String getAxisLabel(float value, AxisBase axis) {
+                                // Customize how you want to format the X-axis labels (e.g., date strings)
+                                return "Day " + ((int) value);
+                            }
+                        });
+                        lineChart.invalidate();
                     }
                 });
 
