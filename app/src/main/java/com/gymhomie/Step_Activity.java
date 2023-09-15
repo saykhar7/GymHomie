@@ -12,11 +12,14 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.gymhomie.receiver.MidnightResetReceiver;
+import com.gymhomie.service.DataEntryService;
 import com.gymhomie.service.StepCountUploadService;
 
 import java.text.SimpleDateFormat;
@@ -28,6 +31,7 @@ public class Step_Activity extends AppCompatActivity implements SensorEventListe
     private SensorManager sensorManager;
     private Sensor accelerometer;
     private TextView stepCountTextView;
+    private Button startDataEntryButton;
     private MidnightResetReceiver midnightResetReceiver;
     private TextView dateView;
     // Variables for step counting
@@ -96,14 +100,30 @@ public class Step_Activity extends AppCompatActivity implements SensorEventListe
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, midnight.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-    }
 
+        startDataEntryButton = findViewById(R.id.startDataEntryButton);
+
+        // Set an OnClickListener for the button
+        startDataEntryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // programmatically create a LineChart
+                LineChart chart = new LineChart(Context);
+                // get a layout defined in xml
+                RelativeLayout rl = (RelativeLayout) findViewById(R.id.relativeLayout);
+                rl.add(chart); // add the programmatically created chart
+            }
+        });
+    }
+    public void startDataEntryService() {
+        Intent dataEntryIntent = new Intent(this, DataEntryService.class);
+        startService(dataEntryIntent);
+    }
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("stepCount", stepCount);
     }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -120,7 +140,6 @@ public class Step_Activity extends AppCompatActivity implements SensorEventListe
             unregisterReceiver(midnightResetReceiver);
         }
     }
-
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
@@ -173,13 +192,10 @@ public class Step_Activity extends AppCompatActivity implements SensorEventListe
             }
         }
     }
-
-
     private long getLastResetTimeFromSharedPreferences() {
         SharedPreferences prefs = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         return prefs.getLong(LAST_RESET_KEY, 0);
     }
-
     private long getMidnightTime(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -189,13 +205,10 @@ public class Step_Activity extends AppCompatActivity implements SensorEventListe
         calendar.set(Calendar.MILLISECOND, 0);
         return calendar.getTimeInMillis();
     }
-
-
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
         // Handle changes in sensor accuracy if needed
     }
-
     private void updateStepCountUI() {
         runOnUiThread(new Runnable() {
             @Override
@@ -212,5 +225,4 @@ public class Step_Activity extends AppCompatActivity implements SensorEventListe
             }
         });
     }
-
 }
