@@ -13,6 +13,7 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.components.Description;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -157,7 +158,8 @@ public class Water_Intake_Activity extends AppCompatActivity{
                             }
                         }
                         double average = (sum*1.0) / count;
-                        monthlyAverage.setText("Daily Average: " + String.valueOf(average) + " oz");
+                        String averageString = String.format("%.2f", average);
+                        monthlyAverage.setText("Daily Average: " + averageString + " oz");
                         Collections.sort(entries, new Comparator<Entry>() {
                             @Override
                             public int compare(Entry entry1, Entry entry2) {
@@ -165,29 +167,45 @@ public class Water_Intake_Activity extends AppCompatActivity{
                             }
                         });
                         LineDataSet dataSet = new LineDataSet(entries, "Water Intake");
+
+                        dataSet.setLineWidth(4f);
+                        dataSet.setCircleHoleColor(R.color.black);
+                        dataSet.setCircleColor(R.color.black);
+                        dataSet.setCircleRadius(3f);
+                        dataSet.setCircleHoleRadius(3f);
+                        dataSet.setValueTextSize(9f);
+
+
                         LineData lineData = new LineData(dataSet);
                         lineChart.setData(lineData);
-
+                        lineChart.getDescription().setEnabled(false);
                         XAxis xAxis = lineChart.getXAxis();
                         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-                        xAxis.setGranularity(1f); // Set the interval between each data point on the X-axis
-
+                        xAxis.setGranularity(1f);
                         YAxis yAxisLeft = lineChart.getAxisLeft();
-                        yAxisLeft.setGranularity(1f); // Set the interval between labels on the Y-axis
+                        YAxis yAxisRight = lineChart.getAxisRight();
+                        yAxisLeft.setGranularity(1f);
 
-                        // Format the X-axis labels (optional)
                         xAxis.setValueFormatter(new ValueFormatter() {
                             @Override
                             public String getAxisLabel(float value, AxisBase axis) {
-                                // Customize how you want to format the X-axis labels (e.g., date strings)
                                 return "Day " + ((int) value);
+                            }
+                        });
+                        yAxisLeft.setValueFormatter(new ValueFormatter() {
+                            @Override
+                            public String getAxisLabel(float value, AxisBase axis) {
+                                return ((int) value + "oz" );
+                            }
+                        });
+                        yAxisRight.setValueFormatter(new ValueFormatter() {
+                            @Override
+                            public String getAxisLabel(float value, AxisBase axis) {
+                                return ((int) value + "oz" );
                             }
                         });
                         lineChart.invalidate();
                     }
                 });
-
     }
-
-
 }
