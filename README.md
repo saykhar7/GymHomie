@@ -31,5 +31,4 @@
 ### Running App on Emulator:
 * There should be a green play button at the top-right of the IDE to run the app. Click that button and it should launch the GymHomie App on the Virtual Device we created.
 * If you are a first time user, you will need to sign-up. Other than that, have fun exploring the GymHomie Android app. 
-* 
  
