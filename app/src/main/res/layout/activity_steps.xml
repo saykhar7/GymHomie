@@ -65,7 +65,7 @@
         android:id="@+id/startDataEntryButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start Data Entry"
+        android:text="Weekly Step Report"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
