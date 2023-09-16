@@ -24,17 +24,28 @@ import com.gymhomie.Water_Intake_Activity;
 import java.util.HashMap;
 import java.util.Map;
 
-public class addExercise extends AppCompatActivity{
+
+/*
+    can't figure out how to get workout name to reference in order to put the exercises in the db
+    inside of the right workout
+*/
+class addExercise extends AppCompatActivity{
+    private static final String KEY_SETS = "Number of Sets";
+    private static final String KEY_REPS = "Number of Reps";
+    private static final String KEY_WEIGHT = "Amount of Weight";
+
+    MultiAutoCompleteTextView exerciseName;
+    NumberPicker numSets, numReps, numWeight;
+    Switch timed;
+
+    Button saveExercise;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    //String workoutName;
 
 
-    private MultiAutoCompleteTextView exerciseName;
-    private NumberPicker numSets, numReps, numWeight;
-    private Switch timed;
-
-    private Button saveExercise;
-
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate (Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.add_exercise);
 
         exerciseName = findViewById(R.id.exercise_name);
@@ -45,48 +56,54 @@ public class addExercise extends AppCompatActivity{
         saveExercise = findViewById(R.id.save_exercise_button);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, COUNTRIES);
+                android.R.layout.simple_dropdown_item_1line, EXERCISES);
         exerciseName.setAdapter(adapter);
         exerciseName.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+
+        saveExercise.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveNote(view);
+            }
+        });
     }
 
-    exercise myExercise = new exercise (exerciseName, numSets, numReps, numWeight);
+    //private workout myWorkout;
+    workout.exercise myExercise = new workout.exercise(exerciseName, numSets, numReps, numWeight);
 
-    private static final String[] COUNTRIES = new String[] {
+    private static final String[] EXERCISES = new String[]{
             "Bicep Curl", " ", "", "", ""
     };
+        public void saveNote (View v){
 
-    public void saveNote(View v) {
+            int sets = numSets.getValue();
+            int reps = numReps.getValue();
+            int weight = numWeight.getValue();
 
-        int sets = numSets.getValue();
-        int reps = numReps.getValue();
-        int weight = numWeight.getValue();
-
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        String userID = auth.getCurrentUser().getUid();
-        String collectionPath = "users/"+userID+this.getName()+"/exercises";
+            FirebaseAuth auth = FirebaseAuth.getInstance();
+            String userID = auth.getCurrentUser().getUid();
+            String collectionPath = "users/" + userID + myExercise.getWorkoutName() + "/Exercises";
 
 
-        Map<String, Object> note = new HashMap<>();
-        note.put(KEY_YEAR, year);
-        note.put(KEY_MONTH, month);
-        note.put(KEY_DAY, day);
-        note.put(KEY_AMOUNT, amount);
+            Map<String, Object> note = new HashMap<>();
+            note.put(KEY_SETS, sets);
+            note.put(KEY_REPS, reps);
+            note.put(KEY_WEIGHT, weight);
 
-        db.collection(collectionPath).document().set(note)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Toast.makeText(addExercise.this, "Note saved", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(addExercise.this, "Error saving note!", Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
+            db.collection(collectionPath).document().set(note)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Toast.makeText(addExercise.this, "Note saved", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(addExercise.this, "Error saving note!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
 }
 
 

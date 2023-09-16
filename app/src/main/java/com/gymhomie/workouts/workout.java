@@ -25,11 +25,11 @@ import java.util.Map;
 
 public class workout {
 
-    EditText name = null;
+    static String name;
     ArrayList<String> muscleGroups;
     ArrayList<exercise> exercises;
 
-    public workout(EditText name, ArrayList<String> muscleGroups, ArrayList<exercise> exercises)
+    public workout(String name, ArrayList<String> muscleGroups, ArrayList<exercise> exercises)
     {
         this.name = name;
         this.muscleGroups = muscleGroups;
@@ -37,7 +37,7 @@ public class workout {
     }
 
     //gets name of the workout
-    public EditText getName() {return name;}
+    public String getName() {return name;}
 
     //gets list of muscle groups in one workout
     public List<String> getMuscleGroups() {return muscleGroups;}
@@ -47,7 +47,7 @@ public class workout {
 
 
     //sets name of the workout
-    public void setName(EditText name) {this.name = name;}
+    public void setName(String name) {this.name = name;}
 
     //sets list of muscle groups to the workout
     public void setMuscleGroups(ArrayList<String> muscleGroups) {this.muscleGroups = muscleGroups;}
@@ -56,7 +56,77 @@ public class workout {
     public void setExercise(ArrayList<exercise> exercises) {this.exercises = exercises;}
 
     //adds exercise to exercise list
-    //public void addExercise(exercise exercise) {exercises.add(exercise);}
+    public void addexercise()
+    {
+        new addExercise();
+    }
+
+    static class exercise{
+        String workoutName;
+        MultiAutoCompleteTextView exerciseName;
+        NumberPicker numSets;
+        int minutes;
+        int seconds;
+        NumberPicker numReps;
+        NumberPicker weight;
+
+
+        public exercise(MultiAutoCompleteTextView exerciseName, NumberPicker numSets, NumberPicker numReps, NumberPicker weight)
+        {
+            this.exerciseName = exerciseName;
+            this.numSets = numSets;
+            this.numReps = numReps;
+            this.weight = weight;
+        }
+
+        public exercise(MultiAutoCompleteTextView exerciseName, NumberPicker numSets, int minutes, int seconds, NumberPicker weight)
+        {
+            this.exerciseName = exerciseName;
+            this.numSets = numSets;
+            this.minutes = minutes;
+            this.seconds = seconds;
+            this.weight = weight;
+        }
+
+        public String getWorkoutName() {return name;}
+        //gets name of the exercise
+        public MultiAutoCompleteTextView getName() {return exerciseName;}
+
+        //gets number of sets for the exercise
+        public NumberPicker getNumSets() {return numSets;}
+
+        //gets amount of time for the exercise
+        public int getTime() {return minutes;}
+
+        public int getSeconds() {return this.seconds;}
+
+        //gets number of reps in one set
+        public NumberPicker getReps() {return numReps;}
+
+        //gets amount of weight for each set
+        public NumberPicker getWeight() {return weight;}
+
+
+
+        public void setWorkoutName() {this.workoutName = name;}
+        //sets name of the exercise
+        public void setName() {this.exerciseName = exerciseName;}
+
+        //sets number of sets for the exercise
+        public void setNumSets() {this.numSets = numSets;}
+
+        //sets amount of time for the exercise
+        public void setMinutes() {this.minutes = minutes;}
+
+        public void setSeconds() {this.seconds = seconds;}
+
+        //sets number of reps in one set
+        public void setNumReps() {this.numReps = numReps;}
+
+        //sets amount of weight for each set
+        public void setWeight() {this.weight = weight;}
+
+    }
 
 }
 

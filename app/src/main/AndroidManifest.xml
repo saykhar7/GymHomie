@@ -27,9 +27,13 @@
         <activity
             android:name=".Login_activity"
             android:exported="false" />
+        <activity android:name=".workouts.addWorkout"
+            android:exported="false"/>
         <activity
             android:name=".MainActivity"
             android:exported="true">
+
+
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

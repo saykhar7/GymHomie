@@ -26,12 +26,15 @@ import java.util.Map;
 
 public class addWorkout extends AppCompatActivity {
 
+    private static final String KEY_NAME = "Workout Name";
+    private static final String KEY_MUSCLE_GROUPS = "Muscle Groups";
     private EditText workoutName;
     private ToggleButton arms, legs, glutes, chest, back, cardio, other;
     private Button addExerciseButton, finish;
-    private FirebaseFirestore firebaseFirestore;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
+    ArrayList<String> muscleGroup = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,57 +54,94 @@ public class addWorkout extends AppCompatActivity {
 
         addExerciseButton = findViewById(R.id.add_exercise_button);
         finish = findViewById(R.id.finish_button);
+        ArrayList<String> muscleGroup = new ArrayList<String>();
 
-        ArrayList<String> muscleGroup = null;
         arms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ArrayList<String> muscleGroup;
-                //TODO: add to list of muscle group; do for each toggle button
-            }
-            public void onToggleCLick(View view)
-            {
-                if (arms.isChecked())
-                {
+                if (arms.isChecked()) {
                     muscleGroup.add("Arms");
-                }
-                else if(legs.isChecked())
-                {
-                    muscleGroup.add("Legs");
-                }
-                else if(glutes.isChecked())
-                {
-                    muscleGroup.add("Glutes");
-                }
-                else if(chest.isChecked())
-                {
-                    muscleGroup.add("Chest");
-                }
-                else if(back.isChecked())
-                {
-                    muscleGroup.add("Back");
-                }
-                else if(cardio.isChecked())
-                {
-                    muscleGroup.add("Cardio");
-                }
-                else
-                {
-                    muscleGroup.add("Other");
+                } else {
+                    muscleGroup.remove("Arms");
                 }
             }
         });
 
-        ArrayList<exercise> exercises = null;
+        legs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (legs.isChecked()) {
+                    muscleGroup.add("Legs");
+                } else {
+                    muscleGroup.remove("Legs");
+                }
+            }
+        });
+
+        glutes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (glutes.isChecked()) {
+                    muscleGroup.add("Glutes");
+                } else {
+                    muscleGroup.remove("Glutes");
+                }
+            }
+        });
+
+        chest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (chest.isChecked()) {
+                    muscleGroup.add("Chest");
+                } else {
+                    muscleGroup.remove("Chest");
+                }
+            }
+        });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (back.isChecked()) {
+                    muscleGroup.add("Back");
+                } else {
+                    muscleGroup.remove("Back");
+                }
+            }
+        });
+        cardio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (cardio.isChecked()) {
+                    muscleGroup.add("Cardio");
+                } else {
+                    muscleGroup.remove("Cardio");
+                }
+            }
+        });
+
+        other.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (other.isChecked()) {
+                    muscleGroup.add("Other");
+                }
+                else {
+                    muscleGroup.remove("Other");
+                }
+            }
+        });
+
+        ArrayList<workout.exercise> exercises = null;
+        workout myWorkout = new workout(workoutName.toString(), muscleGroup, exercises);
         addExerciseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
-                new addExercise();
+                myWorkout.addexercise();
             }
         });
-
-        workout myWorkout = new workout(workoutName, muscleGroup, exercises);
 
         finish.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,29 +154,27 @@ public class addWorkout extends AppCompatActivity {
 
     public void saveNote(View v) {
 
-        int amount = amountPicker.getValue();
         FirebaseAuth auth = FirebaseAuth.getInstance();
         String userID = auth.getCurrentUser().getUid();
-        String collectionPath = "users/"+userID+"Workouts";
+        String collectionPath = "users/"+userID+"/Workouts";
 
 
         Map<String, Object> note = new HashMap<>();
-        note.put(KEY_YEAR, year);
-        note.put(KEY_MONTH, month);
-        note.put(KEY_DAY, day);
-        note.put(KEY_AMOUNT, amount);
+        note.put(KEY_NAME, workoutName);
+        note.put(KEY_MUSCLE_GROUPS, muscleGroup);
+
 
         db.collection(collectionPath).document().set(note)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Toast.makeText(Water_Intake_Activity.this, "Note saved", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(addWorkout.this, "Note saved", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(Water_Intake_Activity.this, "Error saving note!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(addWorkout.this, "Error saving note!", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
