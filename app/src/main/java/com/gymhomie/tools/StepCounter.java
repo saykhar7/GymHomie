@@ -14,7 +14,7 @@ public class StepCounter {
     private int month;
     private int year;
     private int steps;
-    private final double averageStrideLength = 2.5;
+    private final double averageStrideLength = 2.5; // We can calculate this based on height and other measurables later
 
     public StepCounter() {}
 

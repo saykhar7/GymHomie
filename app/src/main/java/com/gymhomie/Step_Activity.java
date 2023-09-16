@@ -33,7 +33,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.gymhomie.receiver.MidnightResetReceiver;
-import com.gymhomie.service.DataEntryService;
 import com.gymhomie.service.StepCountUploadService;
 import com.gymhomie.tools.StepCounter;
 
@@ -154,45 +153,12 @@ public class Step_Activity extends AppCompatActivity implements SensorEventListe
                                 StepCounter util = new StepCounter(document.getLong("day"), document.getLong("month"), document.getLong("year"), document.getLong("steps"));
                                 ArrayList<String> items = new ArrayList<>();
                                 items.add(String.valueOf(util.getSteps()));
-//                                items.add(util.getDateString());
-//                                items.add(String.valueOf(util.feetTravelled()));
-//                                items.add(String.valueOf(util.milesTravelled()));
                                 list.add(items);
                             }
                             ArrayList<Float> stepsRes = new ArrayList<>();
                             for (int i = 0; i < list.size(); i++) {
                                 stepsRes.add(Float.parseFloat(list.get(i).get(0)));
                             }
-//                            ArrayList<Float> dateRes = new ArrayList<>();
-//                            for (int i = 0; i < list.size(); i++) {
-//                                dateRes.add(Float.parseFloat(list.get(i).get(0)));
-//                            }
-//                            ArrayList<Float> feetRes = new ArrayList<>();
-//                            for (int i = 0; i < list.size(); i++) {
-//                                feetRes.add(Float.parseFloat(list.get(i).get(1)));
-//                            }
-//                            ArrayList<Float> milesRes = new ArrayList<>();
-//                            for (int i = 0; i < list.size(); i++) {
-//                                milesRes.add(Float.parseFloat(list.get(i).get(2)));
-//                            }
-//
-//                            float sunday = dateRes.get(0);
-//                            float monday = dateRes.get(1);
-//                            float tuesday = dateRes.get(2);
-//                            float wednesday = dateRes.get(3);
-//                            float thursday = dateRes.get(4);
-//                            float friday = dateRes.get(5);
-//                            float saturday = dateRes.get(6);
-//
-//                            float sunday_feet = feetRes.get(0);
-//                            float monday_feet = feetRes.get(1);
-//                            float tuesday_feet = feetRes.get(2);
-//                            float wednesday_feet = feetRes.get(3);
-//                            float thursday_feet = feetRes.get(4);
-//                            float friday_feet = feetRes.get(5);
-//                            float saturday_feet = feetRes.get(6);
-
-
                             ArrayList barEntriesArrayList = new ArrayList<>();
                             // adding new entry to our array list with bar
                             // entry and passing x and y axis value to it.
@@ -235,10 +201,6 @@ public class Step_Activity extends AppCompatActivity implements SensorEventListe
                         }
                     });
 
-    }
-    public void startDataEntryService() {
-        Intent dataEntryIntent = new Intent(this, DataEntryService.class);
-        startService(dataEntryIntent);
     }
     @Override
     protected void onSaveInstanceState(Bundle outState) {
