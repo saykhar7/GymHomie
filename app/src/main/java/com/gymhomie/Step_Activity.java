@@ -67,7 +67,7 @@ public class Step_Activity extends AppCompatActivity implements SensorEventListe
 
     // variable for our bar data set.
     private BarDataSet barDataSet;
-    private static final int STEP_THRESHOLD = 4; // Adjust this threshold as needed
+    private static final float STEP_THRESHOLD = 1.5F; // Adjust this threshold as needed
     private static final int STEP_DELAY_NS = 250000000; // Minimum time between steps (adjust as needed)
     private long lastStepTime = 0;
     private SimpleDateFormat dateFormat;
