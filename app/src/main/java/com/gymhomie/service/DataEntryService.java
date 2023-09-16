@@ -138,6 +138,27 @@ public class DataEntryService extends IntentService {
         return list;
 
     }
+    public ArrayList<String> getDates(ArrayList<ArrayList<String>> list){
+        ArrayList<String> res = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++){
+            res.add(list.get(i).get(0));
+        }
+        return res;
+    }
+    public ArrayList<String> getFeetMetrics(ArrayList<ArrayList<String>> list){
+        ArrayList<String> res = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++){
+            res.add(list.get(i).get(0));
+        }
+        return res;
+    }
+    public ArrayList<String> getMilesMetrics(ArrayList<ArrayList<String>> list){
+        ArrayList<String> res = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++){
+            res.add(list.get(i).get(0));
+        }
+        return res;
+    }
 
 }
 

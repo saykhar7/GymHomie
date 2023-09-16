@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -14,15 +15,34 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.BarLineChartBase;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.gymhomie.receiver.MidnightResetReceiver;
 import com.gymhomie.service.DataEntryService;
 import com.gymhomie.service.StepCountUploadService;
+import com.gymhomie.tools.StepCounter;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -43,6 +63,13 @@ public class Step_Activity extends AppCompatActivity implements SensorEventListe
     private float[] gravity = new float[3];
     private float[] linearAcceleration = new float[3];
     private static final float ALPHA = 0.8f;
+    // variable for our bar chart
+
+    // variable for our bar data.
+    private BarData barData;
+
+    // variable for our bar data set.
+    private BarDataSet barDataSet;
     private static final int STEP_THRESHOLD = 4; // Adjust this threshold as needed
     private static final int STEP_DELAY_NS = 250000000; // Minimum time between steps (adjust as needed)
     private long lastStepTime = 0;
@@ -107,13 +134,110 @@ public class Step_Activity extends AppCompatActivity implements SensorEventListe
         startDataEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // programmatically create a LineChart
-                LineChart chart = new LineChart(Context);
-                // get a layout defined in xml
-                RelativeLayout rl = (RelativeLayout) findViewById(R.id.relativeLayout);
-                rl.add(chart); // add the programmatically created chart
+                getBarEntries(v);
+                setContentView(R.layout.activity_step_history);
             }
         });
+    }
+    private void getBarEntries(View v) {
+
+            ArrayList<ArrayList<String>> list = new ArrayList<>();
+            FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+            FirebaseAuth auth = FirebaseAuth.getInstance();
+            LocalDate currentDate = LocalDate.now();
+            int currentMonth = currentDate.getMonthValue();
+            int currentYear = currentDate.getYear();
+            firestore.collection("users")
+                    .document(auth.getUid())
+                    .collection("StepCounter").get()
+                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                                StepCounter util = new StepCounter(document.getLong("day"), document.getLong("month"), document.getLong("year"), document.getLong("steps"));
+                                ArrayList<String> items = new ArrayList<>();
+                                items.add(String.valueOf(util.getSteps()));
+//                                items.add(util.getDateString());
+//                                items.add(String.valueOf(util.feetTravelled()));
+//                                items.add(String.valueOf(util.milesTravelled()));
+                                list.add(items);
+                            }
+                            ArrayList<Float> stepsRes = new ArrayList<>();
+                            for (int i = 0; i < list.size(); i++) {
+                                stepsRes.add(Float.parseFloat(list.get(i).get(0)));
+                            }
+//                            ArrayList<Float> dateRes = new ArrayList<>();
+//                            for (int i = 0; i < list.size(); i++) {
+//                                dateRes.add(Float.parseFloat(list.get(i).get(0)));
+//                            }
+//                            ArrayList<Float> feetRes = new ArrayList<>();
+//                            for (int i = 0; i < list.size(); i++) {
+//                                feetRes.add(Float.parseFloat(list.get(i).get(1)));
+//                            }
+//                            ArrayList<Float> milesRes = new ArrayList<>();
+//                            for (int i = 0; i < list.size(); i++) {
+//                                milesRes.add(Float.parseFloat(list.get(i).get(2)));
+//                            }
+//
+//                            float sunday = dateRes.get(0);
+//                            float monday = dateRes.get(1);
+//                            float tuesday = dateRes.get(2);
+//                            float wednesday = dateRes.get(3);
+//                            float thursday = dateRes.get(4);
+//                            float friday = dateRes.get(5);
+//                            float saturday = dateRes.get(6);
+//
+//                            float sunday_feet = feetRes.get(0);
+//                            float monday_feet = feetRes.get(1);
+//                            float tuesday_feet = feetRes.get(2);
+//                            float wednesday_feet = feetRes.get(3);
+//                            float thursday_feet = feetRes.get(4);
+//                            float friday_feet = feetRes.get(5);
+//                            float saturday_feet = feetRes.get(6);
+
+
+                            ArrayList barEntriesArrayList = new ArrayList<>();
+                            // adding new entry to our array list with bar
+                            // entry and passing x and y axis value to it.
+                            barEntriesArrayList.add(new BarEntry(1, stepsRes.get(0)));
+                            barEntriesArrayList.add(new BarEntry(2, stepsRes.get(1)));
+                            barEntriesArrayList.add(new BarEntry(3, stepsRes.get(2)));
+                            barEntriesArrayList.add(new BarEntry(4, stepsRes.get(3)));
+                            barEntriesArrayList.add(new BarEntry(5, stepsRes.get(4)));
+                            barEntriesArrayList.add(new BarEntry(6, stepsRes.get(5)));
+                            barEntriesArrayList.add(new BarEntry(7, stepsRes.get(6)));
+
+                            BarDataSet barDataSet = new BarDataSet(barEntriesArrayList, "Weekly Step Analytics");
+
+                            // creating a new bar data and
+                            // passing our bar data set.
+                            barData = new BarData(barDataSet);
+
+                            // below line is to set data
+                            // to our bar chart.
+
+                            BarChart barChart = findViewById(R.id.idBarChart);
+                            ValueFormatter xAxisFormatter = new DayAxisValueFormatter(barChart);
+                            XAxis xAxis = barChart.getXAxis();
+                            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+                            xAxis.setDrawGridLines(false);
+                            xAxis.setLabelCount(7);
+                            xAxis.setValueFormatter(xAxisFormatter);
+                            barChart.setData(barData);
+
+                            // adding color to our bar data set.
+                            barDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+
+                            // setting text color.
+                            barDataSet.setValueTextColor(Color.BLACK);
+
+                            // setting text size
+                            barDataSet.setValueTextSize(16f);
+                            barChart.getDescription().setEnabled(false);
+                            barChart.invalidate();
+                        }
+                    });
+
     }
     public void startDataEntryService() {
         Intent dataEntryIntent = new Intent(this, DataEntryService.class);
@@ -224,5 +348,15 @@ public class Step_Activity extends AppCompatActivity implements SensorEventListe
                 editor.apply();
             }
         });
+    }
+    public class DayAxisValueFormatter extends ValueFormatter {
+        private final BarLineChartBase<?> chart;
+        public DayAxisValueFormatter(BarLineChartBase<?> chart) {
+            this.chart = chart;
+        }
+        @Override
+        public String getFormattedValue(float value) {
+            return "Day" + String.valueOf(Float.parseFloat(String.valueOf(value)));
+        }
     }
 }

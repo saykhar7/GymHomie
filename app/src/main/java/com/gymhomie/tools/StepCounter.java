@@ -1,11 +1,22 @@
 package com.gymhomie.tools;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+
 public class StepCounter {
     private int day;
     private int month;
     private int year;
     private int steps;
     private final double averageStrideLength = 2.5;
+
+    public StepCounter() {}
 
     StepCounter(int day, int month, int year, int steps){
         this.steps = steps;
@@ -75,14 +86,61 @@ public class StepCounter {
     public void setSteps(int steps) {
         this.steps = steps;
     }
+    public ArrayList<ArrayList<String>> retrieveStepData() {
+        ArrayList<ArrayList<String>> list = new ArrayList<>();
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        LocalDate currentDate = LocalDate.now();
+        int currentMonth = currentDate.getMonthValue();
+        int currentYear = currentDate.getYear();
+        firestore.collection("users")
+                .document(auth.getUid())
+                .collection("StepCounter").get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                            StepCounter util = new StepCounter(document.getLong("day"), document.getLong("month"), document.getLong("year"), document.getLong("steps"));
+                            ArrayList<String> items = new ArrayList<>();
+                            items.add(util.getDateString());
+                            items.add(String.valueOf(util.feetTravelled()));
+                            items.add(String.valueOf(util.milesTravelled()));
+                            list.add(items);
+                        }
+                    }
+                });
+        return list;
+
+    }
+    public ArrayList<Float> getDates(ArrayList<ArrayList<String>> list){
+        ArrayList<Float> res = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++){
+            res.add(Float.parseFloat(list.get(i).get(0)));
+        }
+        return res;
+    }
+    public ArrayList<Float> getFeetMetrics(ArrayList<ArrayList<String>> list){
+        ArrayList<Float> res = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++){
+            res.add(Float.parseFloat(list.get(i).get(0)));
+        }
+        return res;
+    }
+    public ArrayList<Float> getMilesMetrics(ArrayList<ArrayList<String>> list){
+        ArrayList<Float> res = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++){
+            res.add(Float.parseFloat(list.get(i).get(0)));
+        }
+        return res;
+    }
     public String getDateString(){
         // This is for UI display, so we want M/DD
-        String res = extractMonth(this.month) + "/" + extractDay(this.day);
+        String res = extractMonth(this.month) + "." + extractDay(this.day);
         return res;
     }
     public String getDateString(int month, int day){
         // This is for UI display, so we want M/DD
-        String res = extractMonth(month) + "/" + extractDay(day);
+        String res = extractMonth(month) + "." + extractDay(day);
         return res;
     }
     public String extractDay(){
