@@ -1,6 +1,7 @@
 package com.gymhomie;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -23,6 +24,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.gymhomie.fragments.home_fragment;
 import com.gymhomie.fragments.profile_fragment;
 
@@ -39,6 +45,8 @@ public class Home_Activity extends AppCompatActivity implements home_fragment.Ho
 
 
     private FirebaseAuth authUser;
+
+    private FirebaseFirestore database;
 
     private String userFirstNameinDB,userLastNameinDB;
 
@@ -110,37 +118,63 @@ public class Home_Activity extends AppCompatActivity implements home_fragment.Ho
 
 
         FirebaseUser firebaseUser = authUser.getCurrentUser();
+        database = FirebaseFirestore.getInstance();
+
 
         String userID = firebaseUser.getUid();
-        DatabaseReference referecedProfile = FirebaseDatabase.getInstance().getReference("Registered User Details");
-        referecedProfile.child(userID).addValueEventListener(new ValueEventListener() {
+        DocumentReference referecedProfile = database.collection("users").document(userID);
+
+        referecedProfile.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                AddFetchUserDetails fetchUserDetails = snapshot.getValue(AddFetchUserDetails.class);
-                if(fetchUserDetails!=null)
-                {
-                    userFirstNameinDB = fetchUserDetails.textFirstName;
-                    userLastNameinDB = fetchUserDetails.textLastName;
-                    onFirstNameLastNameFetched(userFirstNameinDB, userLastNameinDB);
-
-                    Log.i("Logged User", "Below User is Logged In");
-                    Log.i("First Name: ", userFirstNameinDB);
-                    Log.i("First Name: ", userLastNameinDB);
-                    Log.i("First Name: ", fetchUserDetails.textEmail);
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                String fname = value.getString("firstName");
+                String lname = value.getString("lastName");
+                onFirstNameLastNameFetched(fname, lname);
 
 
 
 
-                }
 
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+
+
+
+
+
+
 
             }
         });
+
+
+//        referecedProfile.child(userID).addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//
+//               // AddFetchUserDetails fetchUserDetails = snapshot.getValue(AddFetchUserDetails.class);
+//                if(fetchUserDetails!=null)
+//                {
+//                    userFirstNameinDB = fetchUserDetails.textFirstName;
+//                    userLastNameinDB = fetchUserDetails.textLastName;
+//                    onFirstNameLastNameFetched(userFirstNameinDB, userLastNameinDB);
+//
+//                    Log.i("Logged User", "Below User is Logged In");
+//                    Log.i("First Name: ", userFirstNameinDB);
+//                    Log.i("First Name: ", userLastNameinDB);
+//                    Log.i("First Name: ", fetchUserDetails.textEmail);
+//
+//
+//
+//
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
 
 
     }
@@ -155,13 +189,13 @@ public class Home_Activity extends AppCompatActivity implements home_fragment.Ho
 
         nameViewModel.setFullName(firstName, lastName);
 
-//        getSupportFragmentManager().executePendingTransactions();
-//        home_fragment homeFragment = (home_fragment) getSupportFragmentManager().findFragmentByTag("f0");
-//        if(homeFragment!=null)
-//        {
-//            homeFragment.updateName(firstName, lastName);
-//
-//        }
+        getSupportFragmentManager().executePendingTransactions();
+        home_fragment homeFragment = (home_fragment) getSupportFragmentManager().findFragmentByTag("f0");
+        if(homeFragment!=null)
+        {
+            homeFragment.updateName(firstName, lastName);
+
+        }
 
 
     }

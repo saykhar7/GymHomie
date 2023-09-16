@@ -17,7 +17,12 @@
         <activity
             android:name=".Home_Activity"
             android:exported="false" />
-        <activity android:name=".Tool_Activity"
+        <activity
+            android:name=".BarbellCalculator_Activity"
+            android:exported="false" />
+        <activity android:name=".Step_Activity"
+            android:exported="false"/>
+        <activity android:name=".Water_Intake_Activity"
             android:exported="false"/>
         <activity
             android:name=".Activity_signup"
@@ -28,12 +33,16 @@
         <activity
             android:name=".MainActivity"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver android:name=".receiver.MidnightResetReceiver" />
+        <service android:name=".service.DataEntryService" />
+        <service android:name=".service.StepCountUploadService" />
     </application>
 
 </manifest>
