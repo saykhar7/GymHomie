@@ -47,7 +47,6 @@
             </intent-filter>
         </activity>
         <receiver android:name=".receiver.MidnightResetReceiver" />
-        <service android:name=".service.DataEntryService" />
         <service android:name=".service.StepCountUploadService" />
     </application>
 

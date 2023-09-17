@@ -21,6 +21,9 @@ public class MidnightResetReceiver extends BroadcastReceiver {
         // Reset the step count
         SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
+        // Call the StepCountUploadService to upload the data to Firestore
+        Intent serviceIntent = new Intent(context, StepCountUploadService.class);
+        context.startService(serviceIntent);
         editor.putInt(STEP_COUNT_KEY, 0);
 
         // Update the last reset time to today's midnight
@@ -28,9 +31,6 @@ public class MidnightResetReceiver extends BroadcastReceiver {
         editor.putLong(LAST_RESET_KEY, midnightTime);
         editor.apply();
 
-        // Call the StepCountUploadService to upload the data to Firestore
-        Intent serviceIntent = new Intent(context, StepCountUploadService.class);
-        context.startService(serviceIntent);
     }
 
     private long getMidnightTime() {
