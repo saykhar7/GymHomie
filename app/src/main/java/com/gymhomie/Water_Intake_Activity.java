@@ -56,12 +56,12 @@ public class Water_Intake_Activity extends AppCompatActivity{
     private Button waterSave;
 
     private Button currentMonthIntake;
-
+    //db variables for storing and retrieval
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     FirebaseAuth auth = FirebaseAuth.getInstance();
     String userID = auth.getCurrentUser().getUid();
-    String collectionPath = "users/"+userID+"/WaterIntakes";
+    String collectionPath = "users/"+userID+"/WaterIntakes"; //path for the water intakes on firestore
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +71,8 @@ public class Water_Intake_Activity extends AppCompatActivity{
 
         datePicker = findViewById(R.id.date_picker);
         amountPicker = findViewById(R.id.amount_number_picker);
+
+        //setting values for the number picker so user doesn't have to input
         amountPicker.setMinValue(1);
         amountPicker.setMaxValue(128);
         amountPicker.setValue(1);
@@ -86,26 +88,28 @@ public class Water_Intake_Activity extends AppCompatActivity{
         currentMonthIntake.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: Swap pages to view current month's water intake
                 setContentView(R.layout.activity_water_intake_retrieval);
                 retrieveMonthlyIntakes(view);
             }
         });
 
     }
-
+    //saveNote is to store new water intakes made by user
     public void saveNote(View v) {
         int year = datePicker.getYear();
         int month = datePicker.getMonth()+1;
         int day = datePicker.getDayOfMonth();
         int amount = amountPicker.getValue();
 
+        //hash map for input to database
         Map<String, Object> note = new HashMap<>();
         note.put(KEY_YEAR, year);
         note.put(KEY_MONTH, month);
         note.put(KEY_DAY, day);
+        note.put(KEY_DAY, day);
         note.put(KEY_AMOUNT, amount);
 
+        //storing in db
         db.collection(collectionPath).document().set(note)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -120,29 +124,33 @@ public class Water_Intake_Activity extends AppCompatActivity{
                     }
                 });
     }
+    //retrieveMonthlyIntakes is button for user to see graph of their current month's water intake
     public void retrieveMonthlyIntakes(View v) {
         LineChart lineChart = findViewById(R.id.lineChart);
         ArrayList<Entry> entries = new ArrayList<>(); // entries (x,y) for x = day, y = amount
-
         TextView monthlyAverage = findViewById(R.id.monthly_average);
-        LocalDate currentDate = LocalDate.now();
+
+        LocalDate currentDate = LocalDate.now(); //get the current date
         int currentMonth = currentDate.getMonthValue();
         int currentYear = currentDate.getYear();
+
+        //retrieve the water intakes for current user
         db.collection(collectionPath).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        int sum = 0;
+                        int sum = 0; //so we can get the average, add all amounts
                         int count = 0;
                         for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                             Long month = document.getLong("month");
                             Long year = document.getLong("year");
+                            //check if the entry has current month and year, so we can add it and show user
                             if (year == currentYear & month == currentMonth) {
                                     float amount = (document.getLong("amount")).floatValue();
                                     float day = (document.getLong("day")).floatValue();
                                     sum += amount;
 
-                                    Boolean flag = false;
+                                    Boolean flag = false; //flag for compounding days with multiple water intakes (otherwise, two xs for one y)
                                     for (Entry entry : entries) {
                                         flag = false;
                                         if (entry.getX() == day) {
@@ -159,7 +167,8 @@ public class Water_Intake_Activity extends AppCompatActivity{
                         }
                         double average = (sum*1.0) / count;
                         String averageString = String.format("%.2f", average);
-                        monthlyAverage.setText("Daily Average: " + averageString + " oz");
+                        monthlyAverage.setText("Daily Average: " + averageString + " oz"); //output average for user
+                        //we need to sort the entries so the points connect from left to right
                         Collections.sort(entries, new Comparator<Entry>() {
                             @Override
                             public int compare(Entry entry1, Entry entry2) {
@@ -168,6 +177,7 @@ public class Water_Intake_Activity extends AppCompatActivity{
                         });
                         LineDataSet dataSet = new LineDataSet(entries, "Water Intake");
 
+                        //formatting for the datapoints
                         dataSet.setLineWidth(4f);
                         dataSet.setCircleHoleColor(R.color.black);
                         dataSet.setCircleColor(R.color.black);
@@ -175,7 +185,7 @@ public class Water_Intake_Activity extends AppCompatActivity{
                         dataSet.setCircleHoleRadius(3f);
                         dataSet.setValueTextSize(9f);
 
-
+                        //formatting the graph and axis
                         LineData lineData = new LineData(dataSet);
                         lineChart.setData(lineData);
                         lineChart.getDescription().setEnabled(false);
@@ -204,7 +214,7 @@ public class Water_Intake_Activity extends AppCompatActivity{
                                 return ((int) value + "oz" );
                             }
                         });
-                        lineChart.invalidate();
+                        lineChart.invalidate(); //update the graph for user
                     }
                 });
     }
