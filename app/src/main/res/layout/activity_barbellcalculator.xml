@@ -236,7 +236,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:layout_marginEnd="48dp"
-        android:text="0 lbs"
+        android:text="45 lbs"
         app:layout_constraintEnd_toEndOf="@+id/barbell_calc_title"
         app:layout_constraintTop_toBottomOf="@+id/barbell_calc_title" />
 

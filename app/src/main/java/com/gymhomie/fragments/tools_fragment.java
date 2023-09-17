@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.gymhomie.BarbellCalculator_Activity;
+import com.gymhomie.CalculatorMenu_Activity;
 import com.gymhomie.R;
 import com.gymhomie.Step_Activity;
 import com.gymhomie.Water_Intake_Activity;
@@ -36,7 +36,7 @@ public class tools_fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Start the Tool_Activity
-                Intent intent = new Intent(getActivity(), BarbellCalculator_Activity.class);
+                Intent intent = new Intent(getActivity(), CalculatorMenu_Activity.class);
                 startActivity(intent);
             }
         });

@@ -31,6 +31,12 @@
             android:name=".Login_activity"
             android:exported="false" />
         <activity
+            android:name=".WeightCalculator_Activity"
+            android:exported="false" />
+        <activity
+            android:name=".CalculatorMenu_Activity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
 

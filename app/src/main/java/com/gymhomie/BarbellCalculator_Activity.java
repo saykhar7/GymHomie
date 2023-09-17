@@ -29,7 +29,7 @@ public class BarbellCalculator_Activity extends AppCompatActivity {
     private TextView totalText;
 
     //
-    private double total;
+    private double total = 45;
 
 
 
@@ -47,9 +47,11 @@ public class BarbellCalculator_Activity extends AppCompatActivity {
     private TextView countTextFive;
     private TextView countTextTwoPointFive;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        double total = 45; //initial weight of barbell
+
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_barbellcalculator);
@@ -67,7 +69,7 @@ public class BarbellCalculator_Activity extends AppCompatActivity {
         minusbtn2_5 = findViewById(R.id.minus2_5);
         totalText = findViewById(R.id.totalCalcText);
 
-
+        totalText.setText("45 Lbs");
         countTextFortyFive = findViewById(R.id.countFortyFive);
         countTextThirtyFive = findViewById(R.id.countThirtyFive);
         countTextTwentyFive = findViewById(R.id.countTwentyFive);
