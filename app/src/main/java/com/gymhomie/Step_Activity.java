@@ -66,7 +66,7 @@ public class Step_Activity extends AppCompatActivity implements SensorEventListe
 
     // variable for our bar data set.
     private BarDataSet barDataSet;
-    private static final int STEP_THRESHOLD = 4; // Adjust this threshold as needed
+    private static final double STEP_THRESHOLD = 1.5; // Adjust this threshold as needed
     private static final int STEP_DELAY_NS = 250000000; // Minimum time between steps (adjust as needed)
     private long lastStepTime = 0;
     private SimpleDateFormat dateFormat;
@@ -274,10 +274,6 @@ public class Step_Activity extends AppCompatActivity implements SensorEventListe
                 startService(serviceIntent);
             }
         }
-    }
-    private long getLastResetTimeFromSharedPreferences() {
-        SharedPreferences prefs = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
-        return prefs.getLong(LAST_RESET_KEY, 0);
     }
     private long getMidnightTime(Date date) {
         Calendar calendar = Calendar.getInstance();
