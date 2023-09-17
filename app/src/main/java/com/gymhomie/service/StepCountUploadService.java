@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
@@ -23,8 +24,12 @@ public class StepCountUploadService extends Service {
     private static final String PREF_NAME = "StepCounterPrefs";
     private static final String LAST_RESET_KEY = "lastResetTime";
     private static final String STEP_COUNT_KEY = "stepCount";
-    private FirebaseFirestore firestore;
-    private FirebaseAuth auth;
+
+    private String email;
+
+    public FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+
+    public FirebaseAuth auth = FirebaseAuth.getInstance();
 
     @Override
     public void onCreate() {
@@ -32,7 +37,6 @@ public class StepCountUploadService extends Service {
         firestore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
     }
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         // Check if midnightTime is greater than lastResetTime
@@ -43,23 +47,73 @@ public class StepCountUploadService extends Service {
             // Send the stepCount and date to Firestore
             int stepCount = getStepCountFromSharedPreferences(); // Implement this method
             Date today = new Date();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(today);
+
+            // Extract the month, day, and year as numbers
+            // Use int instead of string to save space in DB
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH) + 1; // Months are zero-based, so add 1
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
 
             Map<String, Object> data = new HashMap<>();
             data.put("steps", stepCount);
-            data.put("day", today.getDay());
-            data.put("month", today.getMonth());
-            data.put("year", today.getYear());
+            data.put("day", day);
+            data.put("month", month);
+            data.put("year", year);
 
+            // Initiate Firestore instance and authorization
+            FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+            FirebaseAuth auth = FirebaseAuth.getInstance();
+
+            // This new ID's purpose is so a new document will be created
+            // for each entry into the StepCounter class
+            String newDocumentId = firestore.collection("users")
+                    .document(auth.getUid())
+                    .collection("StepCounter")
+                    .document().getId();
+
+            // This is a block for potential email service. Where user's email is taken
+            // and we can send daily, weekly, monthly, yearly, or customized reports.
             firestore.collection("users")
-                    .document(auth.getUid()).collection("StepCounter").document("Rrm86MEQtYWPskWBZ1yw").set(data)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    .document(auth.getUid())
+                    .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            if (documentSnapshot.exists()) {
+                                // This will be used to send daily reports / weekly reports
+                                email = documentSnapshot.getString("email");
+                                if (email != null) {
+                                    System.out.println("User's Email: " + email);
+                                } else {
+                                    System.out.println("Email field is null");
+                                }
+                            } else {
+                                System.out.println("Document does not exist");
+                            }
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(Exception e) {
+                            // Handle failure
+                            System.out.println("Error: " + e.getMessage());
+                        }
+                    });
+
+            //  This block enters the user's step count data for the day.
+            firestore.collection("users")
+                    .document(auth.getUid())
+                    .collection("StepCounter")
+                    .document(newDocumentId)
+                    .set(data)
+                    .addOnSuccessListener(new OnSuccessListener < Void > () {
                         @Override
                         public void onSuccess(Void aVoid) {
                             // Data sent successfully
                         }
                     })
-                    .addOnFailureListener(new
-                                                  OnFailureListener() {
+                    .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             // Handle failure
@@ -96,4 +150,3 @@ public class StepCountUploadService extends Service {
         return null;
     }
 }
-

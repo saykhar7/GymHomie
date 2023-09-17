@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BarbellCalculator_Activity">
+
+    <TextView
+        android:id="@+id/barbell_calc_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Barbell Calculator"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.036" />
+
+    <ImageView
+        android:id="@+id/image35"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_marginTop="116dp"
+        android:layout_marginEnd="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/totalCalcText"
+        app:srcCompat="@drawable/weight45v" />
+
+    <Button
+        android:id="@+id/plus35"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="44dp"
+        android:background="@drawable/plusgreen"
+        android:text="@null"
+        app:layout_constraintStart_toEndOf="@+id/image35"
+        app:layout_constraintTop_toTopOf="@+id/image35" />
+
+    <Button
+        android:id="@+id/plus10"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/plusgreen"
+        android:text="@null"
+        app:layout_constraintStart_toEndOf="@+id/image10"
+        app:layout_constraintTop_toTopOf="@+id/image10" />
+
+    <Button
+        android:id="@+id/plus2_5"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/plusgreen"
+        android:text="@null"
+        app:layout_constraintStart_toEndOf="@+id/image2_5"
+        app:layout_constraintTop_toTopOf="@+id/image2_5" />
+
+    <Button
+        android:id="@+id/plus5"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/plusgreen"
+        android:text="@null"
+        app:layout_constraintStart_toEndOf="@+id/image5"
+        app:layout_constraintTop_toTopOf="@+id/image5" />
+
+    <Button
+        android:id="@+id/plus25"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/plusgreen"
+        android:text="@null"
+        app:layout_constraintStart_toEndOf="@+id/image25"
+        app:layout_constraintTop_toTopOf="@+id/image25" />
+
+    <Button
+        android:id="@+id/minus45"
+
+        android:layout_width="30dp"
+        android:layout_height="10dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/minusred"
+        android:text="@null"
+        app:layout_constraintEnd_toStartOf="@+id/image45"
+        app:layout_constraintTop_toTopOf="@+id/image45" />
+
+    <Button
+        android:id="@+id/minus25"
+
+        android:layout_width="30dp"
+        android:layout_height="10dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/minusred"
+        android:text="@null"
+        app:layout_constraintEnd_toStartOf="@+id/image25"
+        app:layout_constraintTop_toTopOf="@+id/image25" />
+
+    <Button
+        android:id="@+id/minus5"
+
+        android:layout_width="30dp"
+        android:layout_height="10dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/minusred"
+        android:text="@null"
+        app:layout_constraintEnd_toStartOf="@+id/image5"
+        app:layout_constraintTop_toTopOf="@+id/image5" />
+
+    <Button
+        android:id="@+id/minus2_5"
+
+        android:layout_width="30dp"
+        android:layout_height="10dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/minusred"
+        android:text="@null"
+        app:layout_constraintEnd_toStartOf="@+id/image2_5"
+        app:layout_constraintTop_toTopOf="@+id/image2_5" />
+
+    <Button
+        android:id="@+id/minus10"
+
+        android:layout_width="30dp"
+        android:layout_height="10dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/minusred"
+        android:text="@null"
+        app:layout_constraintEnd_toStartOf="@+id/image10"
+        app:layout_constraintTop_toTopOf="@+id/image10" />
+
+    <Button
+        android:id="@+id/button9"
+
+        android:layout_width="30dp"
+        android:layout_height="10dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/minusred"
+        android:text="@null"
+        app:layout_constraintEnd_toStartOf="@+id/image35"
+        app:layout_constraintTop_toTopOf="@+id/image35" />
+
+    <ImageView
+        android:id="@+id/image45"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_marginTop="116dp"
+        android:layout_marginEnd="240dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/totalCalcText"
+        app:srcCompat="@drawable/weight45v" />
+
+    <ImageView
+        android:id="@+id/image25"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_marginTop="272dp"
+        android:layout_marginEnd="240dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/totalCalcText"
+        app:srcCompat="@drawable/weight45v" />
+
+    <ImageView
+        android:id="@+id/image10"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_marginTop="272dp"
+        android:layout_marginEnd="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/totalCalcText"
+        app:srcCompat="@drawable/weight45v" />
+
+    <ImageView
+        android:id="@+id/image5"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_marginTop="452dp"
+        android:layout_marginEnd="240dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/totalCalcText"
+        app:srcCompat="@drawable/weight45v" />
+
+    <ImageView
+        android:id="@+id/image2_5"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_marginTop="452dp"
+        android:layout_marginEnd="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/totalCalcText"
+        app:srcCompat="@drawable/weight45v" />
+
+    <Button
+        android:id="@+id/plus45"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="44dp"
+        android:background="@drawable/plusgreen"
+        android:text="@null"
+        app:layout_constraintStart_toEndOf="@+id/image45"
+        app:layout_constraintTop_toTopOf="@+id/image45" />
+
+    <TextView
+        android:id="@+id/weight_amount45"
+        android:layout_width="37dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="12dp"
+        android:text="45 Lb"
+        app:layout_constraintStart_toStartOf="@+id/image45"
+        app:layout_constraintTop_toBottomOf="@+id/image45" />
+
+    <TextView
+        android:id="@+id/weight_amount25"
+        android:layout_width="37dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="252dp"
+        android:layout_marginTop="8dp"
+        android:text="25 Lb"
+        app:layout_constraintStart_toStartOf="@+id/image25"
+        app:layout_constraintTop_toBottomOf="@+id/image25" />
+
+    <TextView
+        android:id="@+id/weight_amount3"
+        android:layout_width="37dp"
+        android:layout_height="20dp"
+        android:text="10 Lb"
+        tools:layout_editor_absoluteX="298dp"
+        tools:layout_editor_absoluteY="474dp" />
+
+    <TextView
+        android:id="@+id/weight_amount2_5"
+        android:layout_width="44dp"
+        android:layout_height="23dp"
+        android:layout_marginStart="29dp"
+        android:layout_marginTop="16dp"
+        android:text="2.5 Lb"
+        app:layout_constraintStart_toStartOf="@+id/image2_5"
+        app:layout_constraintTop_toBottomOf="@+id/image2_5" />
+
+    <TextView
+        android:id="@+id/weight_amount5"
+        android:layout_width="37dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="16dp"
+        android:text="5 Lb"
+        app:layout_constraintStart_toStartOf="@+id/image5"
+        app:layout_constraintTop_toBottomOf="@+id/image5" />
+
+    <TextView
+        android:id="@+id/weight_amount35"
+        android:layout_width="37dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="12dp"
+        android:text="35 Lb"
+        app:layout_constraintStart_toStartOf="@+id/image35"
+        app:layout_constraintTop_toBottomOf="@+id/image35" />
+
+    <TextView
+        android:id="@+id/totalCalcText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="188dp"
+        android:text="0 lbs"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
