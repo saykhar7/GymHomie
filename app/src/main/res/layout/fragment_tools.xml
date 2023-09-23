@@ -9,107 +9,6 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <Button
-        android:id="@+id/water_intake_button"
-        android:layout_width="120dp"
-        android:layout_height="130dp"
-        android:layout_marginStart="145dp"
-        android:layout_marginTop="433dp"
-        android:layout_marginEnd="146dp"
-        android:background="@drawable/water_bottle"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tools_title"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="121dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="8dp"
-        android:fontFamily="@font/neon"
-        android:text="BMI"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.172"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/BMI_button"
-        app:layout_constraintVertical_bias="0.008" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="123dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="4dp"
-        android:fontFamily="@font/neon"
-        android:text="Step Counter"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.85"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/step_counter_button"
-        app:layout_constraintVertical_bias="0.055" />
-
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="123dp"
-        android:layout_height="48dp"
-        android:fontFamily="@font/neon"
-        android:text="Water Intake"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/water_intake_button"
-        app:layout_constraintVertical_bias="0.214" />
-
-    <Button
-        android:id="@+id/BMI_button"
-        android:layout_width="120dp"
-        android:layout_height="130dp"
-        android:layout_marginTop="242dp"
-        android:background="@drawable/body_scan"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.171"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tools_title"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <Button
-        android:id="@+id/step_counter_button"
-        android:layout_width="120dp"
-        android:layout_height="130dp"
-        android:layout_marginStart="76dp"
-        android:layout_marginTop="238dp"
-        android:background="@drawable/jogging"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.786"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tools_title"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <Button
-        android:id="@+id/stopwatch_button"
-        android:layout_width="120dp"
-        android:layout_height="130dp"
-        android:layout_marginTop="54dp"
-        android:background="@drawable/stopwatch_icon"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.831"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tools_title"
-        app:layout_constraintVertical_bias="0.0" />
-
     <TextView
         android:id="@+id/tools_title"
         android:layout_width="0dp"
@@ -157,6 +56,19 @@
         app:layout_constraintTop_toBottomOf="@+id/calculator_button"
         app:layout_constraintVertical_bias="0.0" />
 
+    <Button
+        android:id="@+id/stopwatch_button"
+        android:layout_width="120dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="54dp"
+        android:background="@drawable/stopwatch_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.831"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tools_title"
+        app:layout_constraintVertical_bias="0.0" />
+
     <TextView
         android:id="@+id/textView4"
         android:layout_width="127dp"
@@ -172,5 +84,124 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/stopwatch_button"
         app:layout_constraintVertical_bias="0.002" />
+
+    <Button
+        android:id="@+id/BMI_button"
+        android:layout_width="120dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="238dp"
+        android:background="@drawable/body_scan"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.171"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tools_title"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="120dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/neon"
+        android:text="BMI"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.172"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BMI_button"
+        app:layout_constraintVertical_bias="0.008" />
+
+    <Button
+        android:id="@+id/step_counter_button"
+        android:layout_width="120dp"
+        android:layout_height="130dp"
+        android:layout_marginStart="76dp"
+        android:layout_marginTop="238dp"
+        android:background="@drawable/jogging"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.786"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tools_title"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="123dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/neon"
+        android:text="Step Counter"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.85"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/step_counter_button"
+        app:layout_constraintVertical_bias="0.008" />
+
+    <Button
+        android:id="@+id/water_intake_button"
+        android:layout_width="120dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="433dp"
+        android:layout_marginEnd="74dp"
+        android:background="@drawable/water_bottle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.23"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tools_title"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="120dp"
+        android:layout_height="49dp"
+        android:fontFamily="@font/neon"
+        android:text="Water Intake"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.171"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/water_intake_button"
+        app:layout_constraintVertical_bias="0.219" />
+
+    <!--TODO: Change the gym reminder icon-->
+    <Button
+        android:id="@+id/gym_reminder_button"
+        android:layout_width="120dp"
+        android:layout_height="130dp"
+        android:layout_marginStart="76dp"
+        android:layout_marginTop="433dp"
+        android:background="@android:drawable/ic_lock_idle_alarm"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.786"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tools_title"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textViewGymReminder"
+        android:layout_width="123dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/neon"
+        android:text="Gym Reminder"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.85"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/water_intake_button"
+        app:layout_constraintVertical_bias="0.219" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
