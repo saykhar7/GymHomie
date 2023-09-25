@@ -20,6 +20,12 @@
         <activity
             android:name=".BarbellCalculator_Activity"
             android:exported="false" />
+        <activity
+            android:name=".Calculator_Activity"
+            android:exported="false" />
+        <activity
+            android:name=".CaloriesCalculator_Activity"
+            android:exported="false" />
         <activity android:name=".Step_Activity"
             android:exported="false"/>
         <activity android:name=".Water_Intake_Activity"

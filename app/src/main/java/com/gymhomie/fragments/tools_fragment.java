@@ -11,13 +11,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.gymhomie.BarbellCalculator_Activity;
+import com.gymhomie.Calculator_Activity;
 import com.gymhomie.R;
 import com.gymhomie.Step_Activity;
 import com.gymhomie.Water_Intake_Activity;
 
 
 public class tools_fragment extends Fragment {
-    private Button barbell_Calculator;
+    private Button calculator;
     private Button step_counter_button;
 
     private Button water_intake_button;
@@ -28,15 +29,16 @@ public class tools_fragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tools, container, false);
-        barbell_Calculator = view.findViewById(R.id.calculator_button);
         step_counter_button = view.findViewById(R.id.step_counter_button);
         water_intake_button = view.findViewById(R.id.water_intake_button);
 
-        barbell_Calculator.setOnClickListener(new View.OnClickListener(){
+        calculator = view.findViewById(R.id.calculator_button);
+        calculator.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 // Start the Tool_Activity
-                Intent intent = new Intent(getActivity(), BarbellCalculator_Activity.class);
+                //Intent intent = new Intent(getActivity(), BarbellCalculator_Activity.class);
+                Intent intent = new Intent(getActivity(), Calculator_Activity.class);
                 startActivity(intent);
             }
         });
