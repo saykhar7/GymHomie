@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-
+//Barbell Calculator
 public class BarbellCalculator_Activity extends AppCompatActivity {
     //Plus Buttons
     private Button plusbtn45;
@@ -53,7 +53,7 @@ public class BarbellCalculator_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
+///Instantiating Buttons
         setContentView(R.layout.activity_barbellcalculator);
         plusbtn45 = findViewById(R.id.plus45);
         plusbtn35 = findViewById(R.id.plus35);
@@ -163,7 +163,7 @@ public class BarbellCalculator_Activity extends AppCompatActivity {
             }
         });
     }
-
+//Adds the weight and updatess the text below title
     public void add(double val){
         val = val * 2;
         total += val;
@@ -174,6 +174,7 @@ public class BarbellCalculator_Activity extends AppCompatActivity {
         total -= val;
         totalText.setText(Double.toString(total)+ "lbs");
     }
+    //Updates text inside barbell displaying amount of plates
     public void addCount(TextView current){
         String currentCountString = current.getText().toString();
         int currentCount = Integer.parseInt(currentCountString);

@@ -28,6 +28,9 @@
             android:name=".Activity_signup"
             android:exported="false" />
         <activity
+            android:name=".Stopwatch_Activity"
+            android:exported="false" />
+        <activity
             android:name=".Login_activity"
             android:exported="false" />
         <activity

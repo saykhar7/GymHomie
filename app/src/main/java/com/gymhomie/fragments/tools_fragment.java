@@ -13,13 +13,14 @@ import android.widget.Button;
 import com.gymhomie.CalculatorMenu_Activity;
 import com.gymhomie.R;
 import com.gymhomie.Step_Activity;
+import com.gymhomie.Stopwatch_Activity;
 import com.gymhomie.Water_Intake_Activity;
 
 
 public class tools_fragment extends Fragment {
     private Button barbell_Calculator;
     private Button step_counter_button;
-
+    private Button timer_button;
     private Button water_intake_button;
 
 
@@ -31,6 +32,7 @@ public class tools_fragment extends Fragment {
         barbell_Calculator = view.findViewById(R.id.calculator_button);
         step_counter_button = view.findViewById(R.id.step_counter_button);
         water_intake_button = view.findViewById(R.id.water_intake_button);
+        timer_button = view.findViewById(R.id.stopwatch_button);
 
         barbell_Calculator.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -50,6 +52,13 @@ public class tools_fragment extends Fragment {
             }
         });
 
+        timer_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent (getActivity(), Stopwatch_Activity.class);
+                startActivity(intent);
+            }
+        });
         water_intake_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

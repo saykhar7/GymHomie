@@ -13,10 +13,10 @@
         android:layout_marginTop="216dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.136"
+        app:layout_constraintHorizontal_bias="0.162"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/totalCalcText"
-        app:layout_constraintVertical_bias="0.466"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/weight45v" />
 
     <TextView
@@ -216,7 +216,7 @@
         app:layout_constraintHorizontal_bias="0.162"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/totalCalcText"
-        app:layout_constraintVertical_bias="0.367"
+        app:layout_constraintVertical_bias="0.657"
         app:srcCompat="@drawable/weight45v" />
 
     <Button

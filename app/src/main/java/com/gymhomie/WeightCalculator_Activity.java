@@ -13,7 +13,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
+//Weight Calculator
+//
 public class WeightCalculator_Activity extends AppCompatActivity {
         private Button weightCalc_submitBtn;
         private TextInputEditText targetText;
@@ -66,9 +67,11 @@ public class WeightCalculator_Activity extends AppCompatActivity {
         double  newTarget =  (target) - ((target / (plateValue * 2)));
         return newTarget;
     }
+    //Traverse Through weight updates the final string by going through a selected plateValue
     public String traversingThroughWeights(String current, double target, double plateValue){
             int neededPlates = (int) target / ((int)plateValue * 2);
             double newTarget = (int) target % ((int)plateValue * 2);
+        //The mod is the remainder therefore the newTarget
             this.desiredTarget = newTarget;
             current += "You will need("+neededPlates+") pair(s) of "+plateValue+"'s lb plate \n";
             return current;
