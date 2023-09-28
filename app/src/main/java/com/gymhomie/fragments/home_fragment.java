@@ -1,5 +1,6 @@
 package com.gymhomie.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -10,13 +11,12 @@ import androidx.lifecycle.ViewModelProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.gymhomie.NameViewModel;
 import com.gymhomie.R;
+import com.gymhomie.gymqr.gym_membership;
 
 
 public class home_fragment extends Fragment {
@@ -52,6 +52,10 @@ public class home_fragment extends Fragment {
         access_gym_membership.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                Intent i = new Intent(getActivity(), gym_membership.class);
+                startActivity(i);
+
 
             }
         });
