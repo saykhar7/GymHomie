@@ -16,7 +16,7 @@
         android:layout_marginTop="31dp"
         android:layout_marginEnd="105dp"
         android:fontFamily="@font/neon"
-        android:text="@string/checkin"
+        android:text="Check In"
         android:textAlignment="center"
         android:textColorHighlight="@color/black"
         android:textSize="25sp"
