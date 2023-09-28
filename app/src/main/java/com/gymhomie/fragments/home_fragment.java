@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,6 +24,8 @@ public class home_fragment extends Fragment {
 
     private NameViewModel nameViewModel;
     private TextView fullName;
+
+    private FrameLayout access_gym_membership;
 
     public interface HomeController
     {
@@ -44,6 +47,17 @@ public class home_fragment extends Fragment {
 
         fullName = view.findViewById(R.id.fullNameText);
 
+
+        access_gym_membership = view.findViewById(R.id.open_membershipID);
+        access_gym_membership.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+
+
         nameViewModel = new ViewModelProvider(requireActivity()).get(NameViewModel.class);
         nameViewModel.getFullName().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
@@ -60,7 +74,7 @@ public class home_fragment extends Fragment {
     {
         if(firstName != null && lastName != null)
         {
-            fullName.setText("Welcome Back\n"+firstName+ " "+ lastName);
+            fullName.setText("Welcome Back\n"+firstName+ " "+ lastName+" !");
         }
     }
 }

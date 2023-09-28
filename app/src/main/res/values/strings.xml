@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">GymHomie</string>
     <string name="sign_up"><u>Sign Up</u></string>
+    <string name="ready_to_check_in_at_the_gym">Ready to check in at the gym?</string>
+    <string name="tap_the_button_to_open_your_membership_barcode">Tap the button to open your membership barcode.</string>
 
 </resources>
