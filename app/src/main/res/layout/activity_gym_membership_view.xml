@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".gymqr.gym_membership">
+
+
+
+    <TextView
+        android:id="@+id/membership_welcome"
+        android:layout_width="200dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="106dp"
+        android:layout_marginTop="31dp"
+        android:layout_marginEnd="105dp"
+        android:fontFamily="@font/neon"
+        android:text="Check In"
+        android:textAlignment="center"
+        android:textColorHighlight="@color/black"
+        android:textSize="25sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/qrDataID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="141dp"
+        android:layout_marginTop="37dp"
+        android:layout_marginEnd="140dp"
+        android:text="Here is your barcode"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/membership_welcome" />
+
+
+    <Button
+        android:id="@+id/scanQrButtonID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="139dp"
+        android:layout_marginEnd="152dp"
+        android:layout_marginBottom="121dp"
+        android:text="Scan &amp; Store"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="170dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="416dp"
+        android:layout_marginEnd="121dp"
+        android:fontFamily="@font/neon"
+        android:text="Can't see your barcode?"
+        android:textAlignment="center"
+        android:textStyle="italic"
+        app:flow_horizontalAlign="center"
+        app:flow_verticalAlign="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/qrDataID" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
