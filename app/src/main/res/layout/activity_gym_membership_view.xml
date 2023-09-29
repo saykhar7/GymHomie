@@ -37,7 +37,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/membership_welcome" />
-
+    <ImageView
+        android:id="@+id/qrcontentsID"
+        android:src="@drawable/samplebarcode"
+        android:layout_width="match_parent"
+        android:layout_height="60sp"
+        android:layout_marginLeft="40sp"
+        android:layout_marginRight="40sp"
+        app:layout_constraintTop_toBottomOf="@+id/qrDataID"
+        />
 
     <Button
         android:id="@+id/scanQrButtonID"
