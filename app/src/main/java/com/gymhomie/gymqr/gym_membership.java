@@ -189,16 +189,43 @@ public class gym_membership extends AppCompatActivity {
 
             MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
             try {
-                BitMatrix bitMatrix = multiFormatWriter.encode(content, BarcodeFormat.CODE_128, membershipQR.getWidth(), membershipQR.getHeight());
-                Bitmap bitmap = Bitmap.createBitmap(membershipQR.getWidth(), membershipQR.getHeight(), Bitmap.Config.RGB_565);
-                for (int i=0; i<membershipQR.getWidth();i++)
-                {
-                    for(int j=0; j<membershipQR.getHeight(); j++)
+
+
+                int width = membershipQR.getWidth();
+                int height = membershipQR.getHeight();
+
+                if (width > 0 && height > 0) {
+                    BitMatrix bitMatrix = multiFormatWriter.encode(content, BarcodeFormat.CODE_128, width, height);
+                    Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
                     {
-                        bitmap.setPixel(i,j, bitMatrix.get(i,j)? Color.BLACK:Color.WHITE);
+                        for (int i=0; i<membershipQR.getWidth();i++){
+                            for(int j=0; j<membershipQR.getHeight(); j++)
+                            {
+                                bitmap.setPixel(i,j, bitMatrix.get(i,j)? Color.BLACK:Color.WHITE);
+                            }
+                        }
+
                     }
+
+                    // Rest of your code for setting pixel colors
+
+                    membershipQR.setImageBitmap(bitmap);
+                } else {
+
+                    BitMatrix bitMatrix = multiFormatWriter.encode(content, BarcodeFormat.QR_CODE, 800, 800); // Adjust the size as needed
+
+                    // Create a Bitmap from the BitMatrix
+                    Bitmap bitmap = Bitmap.createBitmap(800, 800, Bitmap.Config.RGB_565);
+
+                    for (int i = 0; i < 800; i++) {
+                        for (int j = 0; j < 800; j++) {
+                            bitmap.setPixel(i, j, bitMatrix.get(i, j) ? Color.BLACK : Color.WHITE);
+                        }
+                    }
+
+                    // Set the Bitmap to the ImageView
+                    membershipQR.setImageBitmap(bitmap);
                 }
-                membershipQR.setImageBitmap(bitmap);
 
             } catch (WriterException e) {
                 throw new RuntimeException(e);
