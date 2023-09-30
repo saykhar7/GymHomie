@@ -2,8 +2,11 @@ package com.gymhomie.workouts;
 
 //adds workout to database
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -32,9 +35,9 @@ public class addWorkout extends AppCompatActivity {
     private ToggleButton arms, legs, glutes, chest, back, cardio, other;
     private Button addExerciseButton, finish;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private workout myWorkout;
 
-
-    ArrayList<String> muscleGroup = null;
+    ArrayList<String> muscleGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,13 +136,19 @@ public class addWorkout extends AppCompatActivity {
             }
         });
 
-        ArrayList<workout.exercise> exercises = null;
-        workout myWorkout = new workout(workoutName.toString(), muscleGroup, exercises);
+
+
         addExerciseButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
+            public void onClick(View view) {
+
+            }
+            /*public void onClick(View view)
             {
-                myWorkout.addexercise();
+                setContentView(R.layout.add_exercise);
+            }*/
+            public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+                return inflater.inflate(R.layout.add_exercise, container, false);
             }
         });
 
@@ -150,6 +159,7 @@ public class addWorkout extends AppCompatActivity {
             }
         });
 
+
     }
 
     public void saveNote(View v) {
@@ -157,10 +167,12 @@ public class addWorkout extends AppCompatActivity {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         String userID = auth.getCurrentUser().getUid();
         String collectionPath = "users/"+userID+"/Workouts";
+        String workout = workoutName.getText().toString();
+
 
 
         Map<String, Object> note = new HashMap<>();
-        note.put(KEY_NAME, workoutName);
+        note.put(KEY_NAME, workout);
         note.put(KEY_MUSCLE_GROUPS, muscleGroup);
 
 

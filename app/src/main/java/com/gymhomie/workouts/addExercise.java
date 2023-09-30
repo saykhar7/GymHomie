@@ -72,7 +72,7 @@ class addExercise extends AppCompatActivity{
     workout.exercise myExercise = new workout.exercise(exerciseName, numSets, numReps, numWeight);
 
     private static final String[] EXERCISES = new String[]{
-            "Bicep Curl", " ", "", "", ""
+            "Bicep Curl", "Lateral Raise", "Crunch", "RDL", "Goblet Squat"
     };
         public void saveNote (View v){
 

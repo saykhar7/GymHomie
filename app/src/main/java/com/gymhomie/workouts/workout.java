@@ -27,7 +27,7 @@ public class workout {
 
     static String name;
     ArrayList<String> muscleGroups;
-    ArrayList<exercise> exercises;
+    ArrayList<exercise> exercises = null;
 
     public workout(String name, ArrayList<String> muscleGroups, ArrayList<exercise> exercises)
     {
