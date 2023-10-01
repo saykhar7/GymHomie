@@ -21,9 +21,6 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.type.Color;
-import com.gymhomie.R;
-import com.gymhomie.tools.WaterIntake;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -42,8 +39,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Water_Intake_Activity extends AppCompatActivity{
-
-    private static final String TAG = "Water_Intake_Activity";
 
     private static final String KEY_YEAR = "year";
     private static final String KEY_MONTH = "month";

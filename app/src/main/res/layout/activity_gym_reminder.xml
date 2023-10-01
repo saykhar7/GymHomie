@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
-<!--   TODO: tools:context="com.gymhomie.Gym_Reminder_Activity">-->
+    android:padding="16dp"
+    tools:context="com.gymhomie.Gym_Reminder_Activity">
 
     <TextView
         android:id="@+id/titleTextView"
@@ -37,6 +37,14 @@
         android:id="@+id/time_picker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/gym_reminder_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:hint="Add a message for your Reminder (Leg Day!)"
+        />
 
     <Button
         android:id="@+id/save_reminder_button"

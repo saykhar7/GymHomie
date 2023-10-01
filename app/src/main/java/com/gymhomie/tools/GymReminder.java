@@ -3,17 +3,19 @@ package com.gymhomie.tools;
 public class GymReminder {
     private String workoutType; // TODO: change to use the GymHomie Workout type
     private String dayOfWeek; // Mon, Tue, etc
-    private String reminderTime; // TODO: must find best time type for firestore and android notifications
+    private int reminderTimeHour; // TODO: must find best time type for firestore and android notifications
+    private int reminderTimeMinute;
 
     public GymReminder () {
         // Default and empty constructor required for Firestore
     }
 
     // Constructor with parameters
-    public GymReminder (String workoutType, String dayOfWeek, String reminderTime) {
+    public GymReminder (String workoutType, String dayOfWeek, int reminderTimeHour, int reminderTimeMinute) {
         this.workoutType = workoutType;
         this.dayOfWeek = dayOfWeek;
-        this.reminderTime = reminderTime;
+        this.reminderTimeHour = reminderTimeHour;
+        this.reminderTimeMinute = reminderTimeMinute;
     }
 
     public String getWorkoutType() {
@@ -24,9 +26,10 @@ public class GymReminder {
         return dayOfWeek;
     }
 
-    public String getReminderTime() {
-        return reminderTime;
+    public int getReminderTimeHour() {
+        return reminderTimeHour;
     }
+    public int getReminderTimeMinute() { return reminderTimeMinute; }
 
     public void setWorkoutType(String workoutType) {
         this.workoutType = workoutType;
@@ -36,7 +39,10 @@ public class GymReminder {
         this.dayOfWeek = dayOfWeek;
     }
 
-    public void setReminderTime(String reminderTime) {
-        this.reminderTime = reminderTime;
+    public void setReminderTimeHour(int reminderTimeHour) {
+        this.reminderTimeHour = reminderTimeHour;
+    }
+    public void setReminderTimeMinute(int reminderTimeMinute) {
+        this.reminderTimeMinute = reminderTimeMinute;
     }
 }

@@ -39,6 +39,8 @@
         <activity
             android:name=".Water_Intake_Activity"
             android:exported="false" />
+        <activity android:name=".Gym_Reminder_Activity"
+            android:exported="false" />
         <activity
             android:name=".Activity_signup"
             android:exported="false" />
