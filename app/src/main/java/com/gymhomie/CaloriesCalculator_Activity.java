@@ -60,25 +60,25 @@ public class CaloriesCalculator_Activity extends AppCompatActivity {
                     // Display an exception message indicating which fields are required
                     StringBuilder message = new StringBuilder("Please fill out the following fields:\n");
                     if (exercise.isEmpty()) {
-                        message.append("- Exercise\n");
+                        message.append("- Exercise (ex: \"ran 3 miles\")\n");
                     }
                     if (heightFeet.isEmpty()) {
-                        message.append("- New Field\n");
+                        message.append("- Height (feet)\n");
                     }
                     if (heightInches.isEmpty()) {
-                        message.append("- Height\n");
+                        message.append("- Height (inches)\n");
                     }
                     if (weight.isEmpty()) {
-                        message.append("- Weight\n");
+                        message.append("- Weight (lbs)\n");
                     }
                     if (gender.isEmpty()) {
-                        message.append("- Gender\n");
+                        message.append("- Gender (male or female)\n");
                     }
                     if (age.isEmpty()) {
-                        message.append("- Age\n");
+                        message.append("- Age (no decimals)\n");
                     }
                     if (duration.isEmpty()) {
-                        message.append("- Duration\n");
+                        message.append("- Duration (in minutes)\n");
                     }
 
                     // Show the exception message as a toast
