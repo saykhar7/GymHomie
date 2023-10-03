@@ -1,11 +1,7 @@
 package com.gymhomie;
 
 import android.annotation.SuppressLint;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.hardware.Sensor;
@@ -36,10 +32,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.gymhomie.receiver.MidnightResetReceiver;
-import com.gymhomie.service.StepCountUploadService;
 import com.gymhomie.tools.StepCounter;
-import com.gymhomie.R;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -59,7 +52,6 @@ public class Step_Activity extends AppCompatActivity implements SensorEventListe
     private Button feetButton;
     private Button milesButton;
     private ImageView imageView;
-    private MidnightResetReceiver midnightResetReceiver;
     private TextView dateView;
     // Variables for step counting
     private int stepCount = 0;
