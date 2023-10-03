@@ -40,6 +40,9 @@
             android:name=".CalculatorMenu_Activity"
             android:exported="false" />
         <activity
+            android:name=".CaloriesCalculator_Activity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
 

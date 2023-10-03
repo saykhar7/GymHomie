@@ -17,6 +17,7 @@ public class CalculatorMenu_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_calculatormenu);
         Button weightButton = findViewById(R.id.WeightCalculatorButton);
         Button barbButton = findViewById(R.id. barbellCalculatorButton);
+        Button calorieButton = findViewById(R.id.caloriesBurnedCalculatorButton);
 
         barbButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -29,6 +30,13 @@ public class CalculatorMenu_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CalculatorMenu_Activity.this, WeightCalculator_Activity.class);
+                startActivity(intent);
+            }
+        });
+        calorieButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CalculatorMenu_Activity.this, CaloriesCalculator_Activity.class);
                 startActivity(intent);
             }
         });
