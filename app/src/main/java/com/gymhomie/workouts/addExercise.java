@@ -29,11 +29,12 @@ import java.util.Map;
     can't figure out how to get workout name to reference in order to put the exercises in the db
     inside of the right workout
 */
-class addExercise extends AppCompatActivity{
+public class addExercise extends AppCompatActivity{
     private static final String KEY_SETS = "Number of Sets";
     private static final String KEY_REPS = "Number of Reps";
     private static final String KEY_WEIGHT = "Amount of Weight";
 
+    addWorkout w = new addWorkout();
     MultiAutoCompleteTextView exerciseName;
     NumberPicker numSets, numReps, numWeight;
     Switch timed;
@@ -63,13 +64,16 @@ class addExercise extends AppCompatActivity{
         saveExercise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveNote(view);
+                w.myExercise.exerciseName = exerciseName;
+                w.myExercise.numSets = numSets;
+                w.myExercise.numReps = numReps;
+                w.myExercise.weight = numWeight;
+                //saveNote(view);
+                w.myWorkout.exercises.add(w.myExercise);
             }
         });
     }
 
-    //private workout myWorkout;
-    workout.exercise myExercise = new workout.exercise(exerciseName, numSets, numReps, numWeight);
 
     private static final String[] EXERCISES = new String[]{
             "Bicep Curl", "Lateral Raise", "Crunch", "RDL", "Goblet Squat"
@@ -82,7 +86,7 @@ class addExercise extends AppCompatActivity{
 
             FirebaseAuth auth = FirebaseAuth.getInstance();
             String userID = auth.getCurrentUser().getUid();
-            String collectionPath = "users/" + userID + myExercise.getWorkoutName() + "/Exercises";
+            String collectionPath = "users/" + userID + "/Workouts" + "/Exercises";
 
 
             Map<String, Object> note = new HashMap<>();

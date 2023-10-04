@@ -31,11 +31,12 @@ public class addWorkout extends AppCompatActivity {
 
     private static final String KEY_NAME = "Workout Name";
     private static final String KEY_MUSCLE_GROUPS = "Muscle Groups";
+    private static final String KEY_EXERCISES = "Exercises";
     private EditText workoutName;
     private ToggleButton arms, legs, glutes, chest, back, cardio, other;
-    private Button addExerciseButton, finish;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private workout myWorkout;
+    public workout myWorkout;
+    public workout.exercise myExercise;
 
     ArrayList<String> muscleGroup;
 
@@ -55,8 +56,8 @@ public class addWorkout extends AppCompatActivity {
         cardio = findViewById(R.id.cardio_toggle);
         other = findViewById(R.id.other_toggle);
 
-        addExerciseButton = findViewById(R.id.add_exercise_button);
-        finish = findViewById(R.id.finish_button);
+        Button addExerciseButton = findViewById(R.id.add_exercise_button);
+        Button finish = findViewById(R.id.finish_button);
         ArrayList<String> muscleGroup = new ArrayList<String>();
 
         arms.setOnClickListener(new View.OnClickListener() {
@@ -137,28 +138,21 @@ public class addWorkout extends AppCompatActivity {
         });
 
 
-
         addExerciseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(addWorkout.this, addExercise.class);
+                startActivity(intent);
+            }
 
-            }
-            /*public void onClick(View view)
-            {
-                setContentView(R.layout.add_exercise);
-            }*/
-            public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-                return inflater.inflate(R.layout.add_exercise, container, false);
-            }
         });
-
+        myWorkout.exercises.add(myExercise);
         finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 saveNote(view);
             }
         });
-
 
     }
 
@@ -173,7 +167,17 @@ public class addWorkout extends AppCompatActivity {
 
         Map<String, Object> note = new HashMap<>();
         note.put(KEY_NAME, workout);
-        note.put(KEY_MUSCLE_GROUPS, muscleGroup);
+
+        for(int i = 0; i < myWorkout.muscleGroups.size(); i++)
+        {
+            note.put(KEY_MUSCLE_GROUPS, myWorkout.muscleGroups);
+        }
+
+        for(int i = 0; i < myWorkout.exercises.size(); i++)
+        {
+            note.put(KEY_EXERCISES, myWorkout.exercises);
+        }
+
 
 
         db.collection(collectionPath).document().set(note)
