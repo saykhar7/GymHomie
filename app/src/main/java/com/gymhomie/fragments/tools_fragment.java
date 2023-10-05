@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.gymhomie.BMI_Activity;
 import com.gymhomie.R;
 import com.gymhomie.Step_Activity;
 import com.gymhomie.Water_Intake_Activity;
@@ -19,8 +20,8 @@ import com.gymhomie.Water_Intake_Activity;
 public class tools_fragment extends Fragment {
     private Button barbell_Calculator;
     private Button step_counter_button;
-
     private Button water_intake_button;
+    private Button BMI_button;
 
 
     @Override
@@ -31,6 +32,7 @@ public class tools_fragment extends Fragment {
         barbell_Calculator = view.findViewById(R.id.calculator_button);
         step_counter_button = view.findViewById(R.id.step_counter_button);
         water_intake_button = view.findViewById(R.id.water_intake_button);
+        BMI_button = view.findViewById(R.id.BMI_button);
 
         barbell_Calculator.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -54,6 +56,14 @@ public class tools_fragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), Water_Intake_Activity.class);
+                startActivity(intent);
+            }
+        });
+
+        BMI_button.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(getActivity(), BMI_Activity.class);
                 startActivity(intent);
             }
         });

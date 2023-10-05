@@ -33,6 +33,9 @@
             android:name=".workouts.addExercise"
             android:exported="false" />
         <activity
+            android:name=".BMI_Activity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
 
