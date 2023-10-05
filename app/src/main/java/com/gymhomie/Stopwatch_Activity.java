@@ -1,4 +1,8 @@
 package com.gymhomie;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.Bundle;
 import android.view.View;
@@ -22,6 +26,7 @@ public class Stopwatch_Activity extends AppCompatActivity {
     private Handler handler = new Handler();
     private boolean isRunning;
     private int seconds = 0;
+    private Intent serviceIntent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -32,7 +37,8 @@ public class Stopwatch_Activity extends AppCompatActivity {
         startBtn = findViewById(R.id.stopwatch_start);
         Display = findViewById(R.id.stopwatch_displayedText);
         isRunning = false;
-
+        serviceIntent = new Intent(getApplicationContext(), TimerService.class);
+        registerReceiver(updateTime, IntentFilter(TimerService.Time_Updcated));
         resetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,7 +60,13 @@ public class Stopwatch_Activity extends AppCompatActivity {
 
 
     }
-
+    private BroadcastReceiver updateTime = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            time = intent.getDoubleExtra(TimerService.TimeExtra)
+            // Your code for handling the broadcast receiver's onReceive method here
+        }
+    };
     private Runnable runTimer = new Runnable() {
         @Override
         public void run() {
