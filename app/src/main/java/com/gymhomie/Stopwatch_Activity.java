@@ -1,110 +1,110 @@
 package com.gymhomie;
-import android.content.BroadcastReceiver;
+
+
+import android.app.Service;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.Handler;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.IBinder;
+import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-
-
-
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Stopwatch_Activity extends AppCompatActivity {
-
-    //Buttons
-    private Button resetBtn;
-    private Button startBtn;
-    private Button stopBtn;
-    //Textview
-    private TextView Display;
-
     private Handler handler = new Handler();
-    private boolean isRunning;
-    private int seconds = 0;
-    private Intent serviceIntent;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    private TimerService timerService;
+    private boolean isBound = false;
 
+    private ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            TimerService.LocalBinder binder = (TimerService.LocalBinder) iBinder;
+            timerService = binder.getService();
+            isBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+            timerService = null;
+            isBound = false;
+        }
+    };
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timertool);
-        resetBtn = findViewById(R.id.stopwatch_reset);
-        stopBtn = findViewById(R.id.stopwatch_stop);
-        startBtn = findViewById(R.id.stopwatch_start);
-        Display = findViewById(R.id.stopwatch_displayedText);
-        isRunning = false;
-        serviceIntent = new Intent(getApplicationContext(), TimerService.class);
-        registerReceiver(updateTime, IntentFilter(TimerService.Time_Updcated));
-        resetBtn.setOnClickListener(new View.OnClickListener() {
+
+        Button startButton = findViewById(R.id.stopwatch_start);
+        Button stopButton = findViewById(R.id.stopwatch_stop);
+        Button resetButton = findViewById(R.id.stopwatch_reset);
+        TextView Display = findViewById(R.id.stopwatch_displayedText);
+
+        // Bind to the TimerService
+        Intent intent = new Intent(this, TimerService.class);
+        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
+
+        startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                resetStopWatch();
-            }
-        });
-        stopBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                stopStopWatch();
-            }
-        });
-        startBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startStopWatch();
+                if (isBound || timerService != null) {
+                    //Display.setText("JJJ");
+                    timerService.startTimer();
+                }
             }
         });
 
+        stopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isBound && timerService != null) {
+                    timerService.stopTimer();
+                }
+            }
+        });
 
+        resetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isBound && timerService != null) {
+                    timerService.resetTimer();
+                }
+            }
+        });
+
+        // Update the TextView with elapsed time
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (isBound && timerService != null) {
+                    long elapsedTime = timerService.getElapsedTime();
+                    Display.setText(formatDuration(elapsedTime));
+                }
+                handler.postDelayed(this, 1000); // Update every second
+            }
+        }, 1000);
     }
-    private BroadcastReceiver updateTime = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            time = intent.getDoubleExtra(TimerService.TimeExtra)
-            // Your code for handling the broadcast receiver's onReceive method here
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (isBound) {
+            unbindService(serviceConnection);
+            isBound = false;
         }
-    };
-    private Runnable runTimer = new Runnable() {
-        @Override
-        public void run() {
-            if (isRunning) {
-                seconds++;
-                updateDisplay();
-                handler.postDelayed(this, 1000);
-            }
-        }
-    };
-
-    private void updateDisplay() {
-        int hours = seconds / 3600;
-        int minutes = (seconds % 3600) / 60;
-        int secs = seconds % 60;
-
-        String time = String.format("%02d:%02d:%02d", hours, minutes, secs);
-        Display.setText(time);
     }
-    public void resetStopWatch(){
-        isRunning = false;
-        seconds = 0;
-        startBtn.setEnabled(true);
-        stopBtn.setEnabled(false);
-        updateDisplay();
-    }
-    public void startStopWatch(){
-        isRunning = true;
-        startBtn.setEnabled(false);
-        stopBtn.setEnabled(true);
+    public static String formatDuration(long totalSeconds) {
+        long hours = totalSeconds / 3600;
+        long minutes = (totalSeconds % 3600) / 60;
+        long seconds = totalSeconds % 60;
 
-        handler.postDelayed(runTimer, 1000);
-    }
-    public void stopStopWatch(){
-        isRunning = false;
-        startBtn.setEnabled(true);
-        stopBtn.setEnabled(false);
-
-        handler.removeCallbacks(runTimer);
+        // Format the values into "00:00:00" format
+        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 }

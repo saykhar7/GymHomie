@@ -1,47 +1,65 @@
 package com.gymhomie;
+
 import android.app.Service;
 import android.content.Intent;
+import android.os.Binder;
+import android.os.Handler;
 import android.os.IBinder;
-import java.util.*;
-
 
 public class TimerService extends Service {
 
-    private Timer timer = new Timer();
-    private String TimeExtra = "TimeExtra";
-    private String Time_Updated = "TimeUpdated";
+    private final IBinder binder = new LocalBinder();
+    private long startTime;
+    private long elapsedTime;
+    private boolean isRunning;
+    private Handler handler = new Handler();
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            elapsedTime = System.currentTimeMillis() - startTime;
+            handler.postDelayed(this, 1000); // Update every second
+        }
+    };
+
+    public class LocalBinder extends Binder {
+        TimerService getService() {
+            return TimerService.this;
+        }
+    }
+
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        return binder;
     }
 
-    @Override
-    public int onStartCommand(Intent intent, int Flags, int startId){
-        double time = intent.getDoubleExtra(TimeExtra, 0.0);
-        timer.scheduleAtFixedRate(new TimeTask(time),0,1000);
-
-        return START_NOT_STICKY;
-    }
-
-    @Override
-    public void onDestroy(){
-        timer.cancel();
-        super.onDestroy();
-    }
-        private  class TimeTask extends TimerTask{
-
-            private double time;
-
-            public TimeTask(double time) {
-                this.time = time;
-            }
-            @Override
-            public void run() {
-            Intent intent = new Intent(Time_Updated);
-            time++;
-            intent.putExtra(TimeExtra, time);
-            sendBroadcast(intent);
-            }
+    public void startTimer() {
+        if (!isRunning) {
+            startTime = System.currentTimeMillis() - elapsedTime;
+            handler.post(runnable);
+            isRunning = true;
         }
+    }
+
+    public void stopTimer() {
+        if (isRunning) {
+            handler.removeCallbacks(runnable);
+            isRunning = false;
+        }
+    }
+
+    public void resetTimer() {
+        elapsedTime = 0;
+        startTime = 0;
+    }
+
+    public long getElapsedTime() {
+        return elapsedTime / 1000; // Return elapsed time in seconds
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        stopTimer();
+    }
 
 }
