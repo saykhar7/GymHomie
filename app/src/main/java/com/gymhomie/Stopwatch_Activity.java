@@ -20,7 +20,7 @@ public class Stopwatch_Activity extends AppCompatActivity {
     private Handler handler = new Handler();
     private TimerService timerService;
     private boolean isBound = false;
-
+    private boolean isRunning = false;
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
@@ -44,30 +44,30 @@ public class Stopwatch_Activity extends AppCompatActivity {
         Button startButton = findViewById(R.id.stopwatch_start);
         Button stopButton = findViewById(R.id.stopwatch_stop);
         Button resetButton = findViewById(R.id.stopwatch_reset);
-        TextView Display = findViewById(R.id.stopwatch_displayedText);
+
+        Button Display = findViewById(R.id.timerbutton);
 
         // Bind to the TimerService
         Intent intent = new Intent(this, TimerService.class);
         bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
-
-        startButton.setOnClickListener(new View.OnClickListener() {
+        Display.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isBound || timerService != null) {
-                    //Display.setText("JJJ");
-                    timerService.startTimer();
+                if (isRunning){
+                    if (isBound && timerService != null) {
+                        timerService.stopTimer();
+                        isRunning = !isRunning;
+                    }
+                }
+                else{
+                    if (isBound && timerService != null) {
+                        timerService.startTimer();
+                        isRunning = !isRunning;
+                    }
                 }
             }
         });
 
-        stopButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (isBound && timerService != null) {
-                    timerService.stopTimer();
-                }
-            }
-        });
 
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
