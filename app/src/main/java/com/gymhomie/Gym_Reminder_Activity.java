@@ -5,11 +5,9 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,12 +23,16 @@ import androidx.core.content.ContextCompat;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.gymhomie.tools.GymReminder;
 
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import android.Manifest;
 
@@ -42,6 +44,7 @@ public class Gym_Reminder_Activity extends AppCompatActivity {
     private EditText gymReminderMessage;
     private Button saveReminderButton;
     private Button viewRemindersButton;
+    private Button deleteRemindersButton;
     private GymReminder gymReminder;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -68,48 +71,71 @@ public class Gym_Reminder_Activity extends AppCompatActivity {
 
         saveReminderButton = findViewById(R.id.save_reminder_button);
         viewRemindersButton = findViewById(R.id.view_reminders_button);
+        deleteRemindersButton = findViewById(R.id.delete_reminders_button);
 
         saveReminderButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
-            public void onClick(View view) {saveNote(view); }
+            public void onClick(View view) {
+                //  saveNote(view);
+                setAlarm(view);
+            }
+        });
+        deleteRemindersButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                deleteReminders();
+            }
         });
 
     }
 
-    public void saveNote(View v) {
+    private void deleteReminders() {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        CollectionReference collectionReference = db.collection(collectionPath);
+        collectionReference.get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                            // TODO: notificationID may be coming back NULL, check if needs to be Number type
+                            int notificationID = documentSnapshot.get("notificationID", Integer.class);
+                            Intent alarmIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
+                            PendingIntent pendingAlarmIntent = PendingIntent.getBroadcast(getApplicationContext(), notificationID, alarmIntent, PendingIntent.FLAG_IMMUTABLE);
+                            db.collection(collectionPath).document(documentSnapshot.getId()).delete()
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            //document successfully deleted, need to cancel the reminder
+                                            alarmManager.cancel(pendingAlarmIntent);
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            // TODO: Handle errors that occur during deletion
+                                        }
+                                    });
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // TODO: handle errors that occur when fetching the documents
+                    }
+                });
+    }
+
+    public void saveNote(View view, int notificationID) {
         int hour = timePicker.getHour();
         int minute = timePicker.getMinute();
         String day = dayPicker.getSelectedItem().toString();
         String message = gymReminderMessage.getText().toString();
 
-        AlarmManager alarmMgr;
-        PendingIntent pendingAlarmIntent;
-
-        // TODO: Don't hardcode FRIDAY
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
-        calendar.set(Calendar.HOUR_OF_DAY, hour);
-        calendar.set(Calendar.MINUTE, minute);
-        calendar.set(Calendar.SECOND, 0);
-        long triggerTime = calendar.getTimeInMillis();
-        Log.d("triggerAtMillis", String.valueOf(triggerTime));
-        long intervalMillis = 604800000; // Should be one week
-        //  long intervalMillis = 60000;
-
-        alarmMgr = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
-        Intent notificationIntent = new Intent(this, AlarmReceiver.class);
-        notificationIntent.putExtra("notification_message", message);
-        pendingAlarmIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
-
-        //TODO: ensure repeating works
-        if (checkAlarmPermission()) {
-            alarmMgr.setExact(AlarmManager.RTC_WAKEUP, triggerTime, pendingAlarmIntent);
-            //  alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, triggerTime, intervalMillis, pendingAlarmIntent);
-            //alarmMgr.cancel(pendingAlarmIntent);
-        }
-
-        gymReminder = new GymReminder(message, day, hour, minute);
+        gymReminder = new GymReminder(message, day, hour, minute, notificationID);
         Map<String, Object> note = new HashMap<>();
         note.put(KEY_OBJ, gymReminder);
 
@@ -127,6 +153,79 @@ public class Gym_Reminder_Activity extends AppCompatActivity {
                     }
                 });
     }
+
+    private void setAlarm(View view) {
+        int hour = timePicker.getHour();
+        int minute = timePicker.getMinute();
+        String day = dayPicker.getSelectedItem().toString();
+        String message = gymReminderMessage.getText().toString();
+        //  int uniqueNotificationID = UniqueNotificationIDGenerator.generateUniqueNotificationID();
+        int uniqueNotificationID = generateUniqueId();
+
+        AlarmManager alarmMgr;
+        PendingIntent pendingAlarmIntent;
+
+        Calendar calendar = Calendar.getInstance();
+        switch (day) {
+            case "Monday":
+                calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+                break;
+            case "Tuesday":
+                calendar.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
+                break;
+            case "Wednesday":
+                calendar.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
+                break;
+            case "Thursday":
+                calendar.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
+                break;
+            case "Friday":
+                calendar.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
+                break;
+            case "Saturday":
+                calendar.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+                break;
+            case "Sunday":
+                calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+                break;
+        }
+        //  calendar.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.SECOND, 0);
+        long triggerTime = calendar.getTimeInMillis();
+        Log.d("triggerAtMillis", String.valueOf(triggerTime));
+        // long intervalMillis = 604800000; // Should be one week
+        //  long intervalMillis = 60000;
+        // Sunday 11:05am   1696183500510
+        // Monday 11:05am   1696269900733
+        // Friday 11:05am   1696615500466
+        // Saturday 11:05am 1696701900617
+
+        if (triggerTime <= System.currentTimeMillis()) {
+            calendar.add(Calendar.DAY_OF_MONTH, 7);
+            triggerTime = calendar.getTimeInMillis();
+            Log.d("triggerAtMillis after change", String.valueOf(triggerTime));
+        }
+
+
+        alarmMgr = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
+        Intent notificationIntent = new Intent(this, AlarmReceiver.class);
+        notificationIntent.putExtra("notification_message", message);
+        notificationIntent.putExtra("notification_ID", uniqueNotificationID);
+        pendingAlarmIntent = PendingIntent.getBroadcast(this, uniqueNotificationID, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
+
+        if (checkNotificationPermission()) {
+            if (checkAlarmPermission()) {
+                //TODO: ensure repeating works
+                alarmMgr.setExact(AlarmManager.RTC_WAKEUP, triggerTime, pendingAlarmIntent);
+                saveNote(view, uniqueNotificationID);
+                //alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, triggerTime, intervalMillis, pendingAlarmIntent);
+                //alarmMgr.cancel(pendingAlarmIntent);
+            }
+        }
+    }
+
     //TODO: maybe need to ask for a different perm that relates to general notis on an app
     private boolean checkAlarmPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.SCHEDULE_EXACT_ALARM)
@@ -137,5 +236,24 @@ public class Gym_Reminder_Activity extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+    private boolean checkNotificationPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                    1);
+            return false;
+        }
+        return true;
+    }
+    public static int generateUniqueId() {
+        Random random = new Random();
+        // Generate a random integer between 0 and 999999999 (inclusive)
+        int randomNumber = random.nextInt(1000000000);
+        // Ensure the number has 10 digits by adding leading zeros
+        String randomString = String.format("%010d", randomNumber);
+        // Parse the string as an integer
+        return Integer.parseInt(randomString);
     }
 }
