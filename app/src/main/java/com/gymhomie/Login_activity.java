@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 public class Login_activity extends AppCompatActivity {
 
     private EditText emailAddress, loginPassword;
+    private TextView forgotPassword;
     private ProgressBar progressBarLogin;
     private FirebaseAuth authUser;
     private Button loginButton;
@@ -40,6 +42,19 @@ public class Login_activity extends AppCompatActivity {
         loginPassword = findViewById(R.id.loginPasswordEdit);
         loginButton = findViewById(R.id.btnLogin);
         progressBarLogin = findViewById(R.id.progressBarLogin);
+
+
+        //Initiating textview for Forgot Password
+        forgotPassword = findViewById(R.id.forgotPwID);
+        //listener for forgot password if user forgot or wants to reset password
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(Login_activity.this, ForgotPassword.class);
+                startActivity(i);
+            }
+        });
+
 
         authUser = FirebaseAuth.getInstance();
 
