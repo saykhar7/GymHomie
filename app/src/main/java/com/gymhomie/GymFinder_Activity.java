@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -15,6 +16,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.widget.Toast;
 
 
 public class GymFinder_Activity extends AppCompatActivity {
@@ -24,7 +26,7 @@ public class GymFinder_Activity extends AppCompatActivity {
 
 
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
-    private Button openInMapsButton;
+    private Button findGymButton;
 
 
     @Override
@@ -35,9 +37,25 @@ public class GymFinder_Activity extends AppCompatActivity {
         // Initialize the fusedLocationClient in your onCreate method
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-        ImageView magnifyingGlassImageView = findViewById(R.id.magnifyingGlassImageView);
-
-        magnifyingGlassImageView.setOnClickListener(new View.OnClickListener() {
+        // Check and request location permission
+        if (checkLocationPermission()) {
+            // Request the user's last known location
+            fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(GymFinder_Activity.this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            if (location != null) {
+                                double latitude = location.getLatitude();
+                                double longitude = location.getLongitude();
+                                // Now you have the user's latitude and longitude
+                                // You can use these values to open Google Maps
+                                openMaps(latitude, longitude);
+                            }
+                        }
+                    });
+        }
+        findGymButton = findViewById(R.id.findGymButton);
+        findGymButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Check and request location permission
@@ -51,8 +69,7 @@ public class GymFinder_Activity extends AppCompatActivity {
                                         double latitude = location.getLatitude();
                                         double longitude = location.getLongitude();
                                         // Now you have the user's latitude and longitude
-                                        // You can use these values as needed
-                                        // After obtaining the location, you can open maps or perform other actions
+                                        // You can use these values to open Google Maps
                                         openMaps(latitude, longitude);
                                     }
                                 }
@@ -62,12 +79,14 @@ public class GymFinder_Activity extends AppCompatActivity {
         });
     }
 
+
     // Define a method to open maps with the obtained latitude and longitude
     private void openMaps(double latitude, double longitude) {
         String uri = "geo:" + latitude + "," + longitude + "?q=" + Uri.encode("Nearest gyms");
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
         startActivity(mapIntent);
     }
+
 
     private boolean checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)

@@ -9,13 +9,23 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.gymhomie.calculator.CaloriesBurned;
 import com.gymhomie.R;
 
 import org.json.JSONException;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CaloriesCalculator_Activity extends AppCompatActivity {
 
@@ -27,6 +37,15 @@ public class CaloriesCalculator_Activity extends AppCompatActivity {
     EditText ageEditText;
     EditText durationEditText;
     Button calculateButton;
+    Button saveActivityButton;
+    String exercise;
+    String heightFeet;
+    String heightInches;
+    String weight;
+    String gender;
+    String age;
+    String duration;
+    Double caloriesBurned;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -41,19 +60,20 @@ public class CaloriesCalculator_Activity extends AppCompatActivity {
         ageEditText = findViewById(R.id.age);
         durationEditText = findViewById(R.id.duration);
         calculateButton = findViewById(R.id.calculateButton);
+        saveActivityButton = findViewById(R.id.saveActivityButton);
 
         // Set a click listener for the Calculate button
         calculateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Get the input from EditText fields
-                String exercise = exerciseEditText.getText().toString().trim();
-                String heightFeet = heightFeetEditText.getText().toString().trim();
-                String heightInches = heightInchesEditText.getText().toString().trim();
-                String weight = weightEditText.getText().toString().trim();
-                String gender = genderEditText.getText().toString().trim();
-                String age = ageEditText.getText().toString().trim();
-                String duration = durationEditText.getText().toString().trim();
+                exercise = exerciseEditText.getText().toString().trim();
+                heightFeet = heightFeetEditText.getText().toString().trim();
+                heightInches = heightInchesEditText.getText().toString().trim();
+                weight = weightEditText.getText().toString().trim();
+                gender = genderEditText.getText().toString().trim();
+                age = ageEditText.getText().toString().trim();
+                duration = durationEditText.getText().toString().trim();
 
                 // Check if any field is empty
                 if (exercise.isEmpty() || heightFeet.isEmpty() || heightInches.isEmpty() || weight.isEmpty() || gender.isEmpty() || age.isEmpty() || duration.isEmpty()) {
@@ -90,7 +110,9 @@ public class CaloriesCalculator_Activity extends AppCompatActivity {
             }
         });
     }
-
+    public void setCaloriesBurned(Double caloriesBurned){
+        this.caloriesBurned = caloriesBurned;
+    }
     private class CalculateTask extends AsyncTask<String, Void, Double> {
         @Override
         protected Double doInBackground(String... params) {
@@ -130,6 +152,62 @@ public class CaloriesCalculator_Activity extends AppCompatActivity {
             setContentView(R.layout.calories_burned_result);
             TextView caloriesBurnedTextView = findViewById(R.id.caloriesBurnedTextView);
             caloriesBurnedTextView.setText(String.format("%.2f", caloriesBurned));
+            setCaloriesBurned(caloriesBurned(caloriesBurned));
+            saveActivityButton = findViewById(R.id.saveActivityButton);
+            saveActivityButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // Send the stepCount and date to Firestore
+                    Date today = new Date();
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(today);
+
+                    // Extract the month, day, and year as numbers
+                    // Use int instead of string to save space in DB
+                    int year = calendar.get(Calendar.YEAR);
+                    int month = calendar.get(Calendar.MONTH) + 1; // Months are zero-based, so add 1
+                    int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+                    Map<String, Object> data = new HashMap<>();
+                    data.put("exercise", exercise); // string
+                    data.put("duration", Float.parseFloat(duration)); // float
+                    data.put("calories", caloriesBurned); // float
+                    data.put("day", day);
+                    data.put("month", month);
+                    data.put("year", year);
+
+                    // Initiate Firestore instance and authorization
+                    FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+                    FirebaseAuth auth = FirebaseAuth.getInstance();
+
+                    String newDocumentId = firestore.collection("users")
+                            .document(auth.getUid())
+                            .collection("CaloriesBurnedActivity")
+                            .document().getId();
+                    //  This block enters the user's step count data for the day.
+                    firestore.collection("users")
+                            .document(auth.getUid())
+                            .collection("CaloriesBurnedActivity")
+                            .document(newDocumentId)
+                            .set(data)
+                            .addOnSuccessListener(new OnSuccessListener< Void >() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    // Data sent successfully
+                                    Toast.makeText(CaloriesCalculator_Activity.this, "Congratulations on your activity! Your activity has been recorded in the database.", Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    // Handle failure
+                                }
+                            });
+                }
+            });
+        }
+        public Double caloriesBurned(Double caloriesBurned){
+            return caloriesBurned;
         }
     }
 }
