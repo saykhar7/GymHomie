@@ -44,6 +44,9 @@ public class Login_activity extends AppCompatActivity {
         authUser = FirebaseAuth.getInstance();
 
 
+
+
+
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,8 +84,6 @@ public class Login_activity extends AppCompatActivity {
         super.onStart();
         if(authUser.getCurrentUser() != null)
         {
-            Toast.makeText(this, "You're alaready logged in", Toast.LENGTH_SHORT).show();
-
             Intent savedUserIntent = new Intent(Login_activity.this, Home_Activity.class);
             startActivity(savedUserIntent);
 
