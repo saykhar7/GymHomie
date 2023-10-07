@@ -7,13 +7,13 @@
     android:layout_height="match_parent"
     android:fillViewport="true">
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/frameLayout3"
+        android:id="@+id/homie_constraintlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".fragments.homie_fragment">
 
         <TextView
-            android:id="@+id/textView8"
+            android:id="@+id/homies_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
