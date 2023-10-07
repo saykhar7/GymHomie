@@ -40,9 +40,6 @@ public class Stopwatch_Activity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timertool);
-
-        //Button startButton = findViewById(R.id.stopwatch_start);
-        //Button stopButton = findViewById(R.id.stopwatch_stop);
         Button resetButton = findViewById(R.id.stopwatch_reset);
 
         Button Display = findViewById(R.id.timerbutton);
