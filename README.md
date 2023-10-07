@@ -19,7 +19,7 @@
 * ## Running the App on Android Studio:
 * If you want to run the app you will need to either set up an emulator on the IDE (a virtual device) or connect a physical device with a USB.
 ### Virtual Device
-* To create a Virtual Device and use the GymHomie application, you will need to go to the 'Device Manager' on the right-side of the IDE. It is a small tab which may make it difficult to find. It is located next to the 'Gradle' tab.
+* To create a Virtual Device and use the GymHomie applicatqion, you will need to go to the 'Device Manager' on the right-side of the IDE. It is a small tab which may make it difficult to find. It is located next to the 'Gradle' tab.
 * Once you are in the 'Device Manager' side-panel, then you will be able to choose a 'Virtual' or 'Physical' device. Click on the 'Virtual' tab. This is located at the right-side of your IDE, near the top.
 * Click on the 'Create Device' button.
 * Select the category as 'Phone' and for demo purposes - choose the 'Pixel 4'. Click the 'Next' button at the bottom-right of the window.

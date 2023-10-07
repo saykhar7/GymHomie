@@ -12,51 +12,48 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <Button
-            android:id="@+id/stopwatch_stop"
-            android:layout_width="98dp"
-            android:layout_height="62dp"
-            android:layout_marginTop="120dp"
-            android:layout_marginEnd="28dp"
-            android:text="Stop"
-            android:textColor="#388e3c"
-            app:layout_constraintEnd_toStartOf="@+id/stopwatch_reset"
-            app:layout_constraintTop_toBottomOf="@+id/stopwatch_displayedText" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <Button
             android:id="@+id/stopwatch_reset"
             android:layout_width="98dp"
             android:layout_height="62dp"
-            android:layout_marginTop="120dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginTop="44dp"
             android:text="Reset"
-            android:textColor="#388e3c"
+            android:textColor="#F37F09"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/stopwatch_displayedText" />
+            app:layout_constraintHorizontal_bias="0.546"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/timerbutton" />
 
         <Button
-            android:id="@+id/stopwatch_start"
-            android:layout_width="98dp"
-            android:layout_height="62dp"
-            android:layout_marginTop="120dp"
-            android:text="Start"
-            android:textColor="#388e3c"
-            app:layout_constraintEnd_toStartOf="@+id/stopwatch_stop"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/stopwatch_displayedText" />
-
-        <TextView
-            android:id="@+id/stopwatch_displayedText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="172dp"
+            android:id="@+id/timerbutton"
+            android:layout_width="200dp"
+            android:layout_height="75dp"
+            android:background="@drawable/orange_timer"
             android:text="00:00:00"
             android:textSize="30sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.55"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.31" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="128dp"
+            android:text="Stopwatch"
+            android:textSize="40sp"
+            app:layout_constraintBottom_toTopOf="@+id/timerbutton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.572"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
