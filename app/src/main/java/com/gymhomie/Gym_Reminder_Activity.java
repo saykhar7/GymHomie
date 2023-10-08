@@ -20,6 +20,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,8 +33,10 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.gymhomie.tools.GymReminder;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -76,20 +80,63 @@ public class Gym_Reminder_Activity extends AppCompatActivity {
         deleteRemindersButton = findViewById(R.id.delete_reminders_button);
 
         saveReminderButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
                 //  saveNote(view);
                 setAlarm(view);
             }
         });
+        viewRemindersButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setContentView(R.layout.activity_view_reminders);
+                viewReminders(view);
+            }
+        });
         deleteRemindersButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
                 deleteReminders();
             }
         });
+
+    }
+
+    private void viewReminders(View view) {
+        // grab the gym reminders for current user
+        ArrayList<GymReminder> gymReminderList = new ArrayList<>();
+        db.collection(collectionPath).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
+                            // int notificationID = ((Long) gymReminder.get("notificationID")).intValue();
+                            Map<String, Object> gymReminderMap = (Map<String, Object>) documentSnapshot.get("gymreminder");
+                            String workoutType = (String) gymReminderMap.get("workoutType");
+                            String dayOfWeek = (String) gymReminderMap.get("dayOfWeek");
+                            int reminderTimeHour = ((Long) gymReminderMap.get("reminderTimeHour")).intValue();
+                            int reminderTimeMinute = ((Long) gymReminderMap.get("reminderTimeMinute")).intValue();
+                            int notificationID = ((Long) gymReminderMap.get("notificationID")).intValue();
+
+                            GymReminder gymReminder = new GymReminder(workoutType, dayOfWeek, reminderTimeHour, reminderTimeMinute, notificationID);
+                            gymReminderList.add(gymReminder);
+
+                        }
+                        // update UI
+                        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+                        GymReminderAdapter adapter = new GymReminderAdapter(getApplicationContext(), gymReminderList);
+                        Log.d("Gym Reminders View", String.valueOf(adapter.getItemCount()));
+                        recyclerView.setAdapter(adapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // TODO: error handling
+                    }
+                });
+
 
     }
 
