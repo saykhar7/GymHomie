@@ -43,7 +43,7 @@ import java.util.Random;
 import android.Manifest;
 
 //TODO: Need the workout type for Gym Reminder
-public class Gym_Reminder_Activity extends AppCompatActivity {
+public class Gym_Reminder_Activity extends AppCompatActivity implements GymReminderAdapter.OnCancelClickListener{
     private static final String KEY_OBJ = "gymreminder";
     private TimePicker timePicker;
     private Spinner dayPicker;
@@ -52,6 +52,7 @@ public class Gym_Reminder_Activity extends AppCompatActivity {
     private Button viewRemindersButton;
     private Button deleteRemindersButton;
     private GymReminder gymReminder;
+    private ArrayList<GymReminder> gymReminderList;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseAuth auth = FirebaseAuth.getInstance();
     String userID = auth.getCurrentUser().getUid();
@@ -104,7 +105,8 @@ public class Gym_Reminder_Activity extends AppCompatActivity {
 
     private void viewReminders(View view) {
         // grab the gym reminders for current user
-        ArrayList<GymReminder> gymReminderList = new ArrayList<>();
+        //  ArrayList<GymReminder> gymReminderList = new ArrayList<>();
+        gymReminderList = new ArrayList<>();
         db.collection(collectionPath).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -125,7 +127,58 @@ public class Gym_Reminder_Activity extends AppCompatActivity {
                         // update UI
                         RecyclerView recyclerView = findViewById(R.id.recyclerView);
                         GymReminderAdapter adapter = new GymReminderAdapter(getApplicationContext(), gymReminderList);
-                        Log.d("Gym Reminders View", String.valueOf(adapter.getItemCount()));
+                        adapter.setOnCancelClickListener(new GymReminderAdapter.OnCancelClickListener() {
+                            @Override
+                            public void onCancelClick(int position) {
+                                Log.d("Gym Reminder Activity", "onCancelClick method called");
+                                GymReminder clickedReminder = gymReminderList.get(position);
+                                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                                //  CollectionReference collectionReference = db.collection(collectionPath);
+                                db.collection(collectionPath).get()
+                                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                                for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
+                                                    Map<String, Object> gymReminder = (Map<String, Object>) documentSnapshot.get("gymreminder");
+                                                    if (gymReminder == null) {
+                                                        Log.d("Gym Reminder Deletion", "got null gym reminder");
+                                                        continue;
+                                                    }
+                                                    int notificationID = ((Long) gymReminder.get("notificationID")).intValue();
+                                                    if (notificationID == clickedReminder.getNotificationID()) {
+                                                        Intent alarmIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
+                                                        PendingIntent pendingAlarmIntent = PendingIntent.getBroadcast(getApplicationContext(), notificationID, alarmIntent, PendingIntent.FLAG_IMMUTABLE);
+                                                        db.collection(collectionPath).document(documentSnapshot.getId()).delete()
+                                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                    @Override
+                                                                    public void onSuccess(Void unused) {
+                                                                        //document successfully deleted, need to cancel the reminder
+                                                                        alarmManager.cancel(pendingAlarmIntent);
+                                                                        Toast.makeText(Gym_Reminder_Activity.this, "Reminder Cancelled", Toast.LENGTH_SHORT).show();
+                                                                        Log.d("Gym Reminder Deletion", "Successful deletion");
+                                                                    }
+                                                                })
+                                                                .addOnFailureListener(new OnFailureListener() {
+                                                                    @Override
+                                                                    public void onFailure(@NonNull Exception e) {
+                                                                        // TODO: Handle errors that occur during deletion
+                                                                        Log.e("Gym Reminder Deletion", "Failure deletion");
+                                                                    }
+                                                                });
+                                                    }
+
+                                                }
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                // TODO: handle errors that occur when fetching the documents
+                                            }
+                                        });
+                            }
+                        });
+
                         recyclerView.setAdapter(adapter);
                         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                     }
@@ -164,6 +217,7 @@ public class Gym_Reminder_Activity extends AppCompatActivity {
                                         public void onSuccess(Void unused) {
                                             //document successfully deleted, need to cancel the reminder
                                             alarmManager.cancel(pendingAlarmIntent);
+                                            Toast.makeText(Gym_Reminder_Activity.this, "All Reminders Cancelled", Toast.LENGTH_SHORT).show();
                                             Log.d("Gym Reminder Deletion", "Successful deletion");
                                         }
                                     })
@@ -199,7 +253,7 @@ public class Gym_Reminder_Activity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Toast.makeText(Gym_Reminder_Activity.this, "Note saved", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Gym_Reminder_Activity.this, "Reminder Saved", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -222,6 +276,7 @@ public class Gym_Reminder_Activity extends AppCompatActivity {
         PendingIntent pendingAlarmIntent;
 
         Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
         switch (day) {
             case "Monday":
                 calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
@@ -245,20 +300,21 @@ public class Gym_Reminder_Activity extends AppCompatActivity {
                 calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
                 break;
         }
+
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, 0);
+
         long triggerTime = calendar.getTimeInMillis();
         //  Log.d("triggerAtMillis", String.valueOf(triggerTime));
-        long intervalMillis = 604800000; // Should be one week
-        //  long intervalMillis = 60000; // To test one minute intervals
+        //  long intervalMillis = 604800000; // Should be one week
+        long intervalMillis = 60000; // To test one minute intervals
+        //  whole week delay? 453600000
 
-//        if (triggerTime <= System.currentTimeMillis()) {
-//            calendar.add(Calendar.DAY_OF_MONTH, 7);
-//            triggerTime = calendar.getTimeInMillis();
-//            Log.d("triggerAtMillis after change", String.valueOf(triggerTime));
-//        }
-
+        if (triggerTime <= System.currentTimeMillis()) {
+            calendar.add(Calendar.DAY_OF_MONTH, 7);
+            triggerTime = calendar.getTimeInMillis();
+        }
 
         alarmMgr = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
         Intent notificationIntent = new Intent(this, AlarmReceiver.class);
@@ -268,9 +324,10 @@ public class Gym_Reminder_Activity extends AppCompatActivity {
 
         if (checkNotificationPermission()) {
             if (checkAlarmPermission()) {
-                alarmMgr.setExact(AlarmManager.RTC_WAKEUP, triggerTime, pendingAlarmIntent);
+                //  alarmMgr.setExact(AlarmManager.RTC_WAKEUP, triggerTime, pendingAlarmIntent);
                 saveNote(view, uniqueNotificationID);
-                alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, triggerTime, intervalMillis, pendingAlarmIntent);
+                //  alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingAlarmIntent);
+                alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), intervalMillis, pendingAlarmIntent);
             }
         }
     }
@@ -303,5 +360,54 @@ public class Gym_Reminder_Activity extends AppCompatActivity {
         String randomString = String.format("%010d", randomNumber);
         // Parse the string as an integer
         return Integer.parseInt(randomString);
+    }
+
+    @Override
+    public void onCancelClick(int position) {
+        Log.d("Gym Reminder Activity", "onCancelClick method called");
+        GymReminder clickedReminder = gymReminderList.get(position);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        //  CollectionReference collectionReference = db.collection(collectionPath);
+        db.collection(collectionPath).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
+                            Map<String, Object> gymReminder = (Map<String, Object>) documentSnapshot.get("gymreminder");
+                            if (gymReminder == null) {
+                                Log.d("Gym Reminder Deletion", "got null gym reminder");
+                                continue;
+                            }
+                            int notificationID = ((Long) gymReminder.get("notificationID")).intValue();
+                            if (notificationID == clickedReminder.getNotificationID()) {
+                                Intent alarmIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
+                                PendingIntent pendingAlarmIntent = PendingIntent.getBroadcast(getApplicationContext(), notificationID, alarmIntent, PendingIntent.FLAG_IMMUTABLE);
+                                db.collection(collectionPath).document(documentSnapshot.getId()).delete()
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void unused) {
+                                                //document successfully deleted, need to cancel the reminder
+                                                alarmManager.cancel(pendingAlarmIntent);
+                                                Log.d("Gym Reminder Deletion", "Successful deletion");
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                // TODO: Handle errors that occur during deletion
+                                                Log.e("Gym Reminder Deletion", "Failure deletion");
+                                            }
+                                        });
+                            }
+
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // TODO: handle errors that occur when fetching the documents
+                    }
+                });
     }
 }

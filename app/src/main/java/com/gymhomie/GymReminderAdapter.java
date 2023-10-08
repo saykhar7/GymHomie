@@ -1,9 +1,11 @@
 package com.gymhomie;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,6 +20,7 @@ import java.util.List;
 public class GymReminderAdapter extends RecyclerView.Adapter<GymReminderAdapter.GymReminderViewHolder> {
     private List<GymReminder> gymReminders;
     private Context context;
+    private OnCancelClickListener onCancelClickListener;
 
     public GymReminderAdapter(Context context, List<GymReminder> gymReminders) {
         this.context = context;
@@ -42,6 +45,9 @@ public class GymReminderAdapter extends RecyclerView.Adapter<GymReminderAdapter.
         return gymReminders.size();
     }
 
+    public void setOnCancelClickListener(OnCancelClickListener listener) {
+        this.onCancelClickListener = listener;
+    }
     public class GymReminderViewHolder extends RecyclerView.ViewHolder {
         private TextView reminderTitle;
         private TextView reminderDay;
@@ -52,6 +58,19 @@ public class GymReminderAdapter extends RecyclerView.Adapter<GymReminderAdapter.
             reminderDay = itemView.findViewById(R.id.gym_reminder_day);
             reminderTime = itemView.findViewById(R.id.gym_reminder_time);
             // initialize UI elements
+            Button cancelButton = itemView.findViewById(R.id.cancelButton);
+            cancelButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (onCancelClickListener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            Log.d("GymReminderAdapter", "onCancelClickListener");
+                            onCancelClickListener.onCancelClick(position);
+                        }
+                    }
+                }
+            });
         }
         public void bind(GymReminder gymReminder) {
             // bind other gym reminder data to UI as needed
@@ -81,5 +100,8 @@ public class GymReminderAdapter extends RecyclerView.Adapter<GymReminderAdapter.
             // Create the formatted time string
             return formattedHour + ":" + formattedMinute + " " + amPm;
         }
+    }
+    public interface OnCancelClickListener {
+        void onCancelClick(int position);
     }
 }
