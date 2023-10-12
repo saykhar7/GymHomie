@@ -161,23 +161,23 @@
         app:layout_constraintTop_toBottomOf="@+id/tools_title"
         app:layout_constraintVertical_bias="0.0" />
 
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="120dp"
-        android:layout_height="49dp"
-        android:fontFamily="@font/neon"
-        android:text="Water Intake"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.171"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/water_intake_button"
-        app:layout_constraintVertical_bias="0.219" />
+        <!--TODO: Change the gym reminder icon-->
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="120dp"
+            android:layout_height="49dp"
+            android:fontFamily="@font/neon"
+            android:text="Water Intake"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.171"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/water_intake_button"
+            app:layout_constraintVertical_bias="0.062" />
 
-    <!--TODO: Change the gym reminder icon-->
-    <Button
+        <Button
         android:id="@+id/gym_reminder_button"
         android:layout_width="120dp"
         android:layout_height="130dp"
@@ -191,34 +191,34 @@
         app:layout_constraintTop_toBottomOf="@+id/tools_title"
         app:layout_constraintVertical_bias="0.0" />
 
-    <TextView
-        android:id="@+id/textViewGymReminder"
-        android:layout_width="123dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="4dp"
-        android:fontFamily="@font/neon"
-        android:text="Gym Reminder"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.85"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/water_intake_button"
-        app:layout_constraintVertical_bias="0.219" />
+        <TextView
+            android:id="@+id/textViewGymReminder"
+            android:layout_width="123dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/neon"
+            android:text="Gym Reminder"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.836"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/water_intake_button"
+            app:layout_constraintVertical_bias="0.047" />
 
         <Button
             android:id="@+id/gymfinder"
             android:layout_width="125dp"
             android:layout_height="130dp"
             android:layout_marginTop="70dp"
-            android:layout_marginEnd="0dp"
-        android:background="@drawable/magnifyingglass"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.85"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gym_reminder_button" />
+            android:background="@drawable/magnifyingglass"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.849"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/gym_reminder_button"
+            app:layout_constraintVertical_bias="0.333" />
 
         <TextView
             android:id="@+id/gymfindertext"
