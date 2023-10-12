@@ -74,9 +74,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".receiver.MidnightResetReceiver" />
         <receiver android:name=".AlarmReceiver"/>
-        <service android:name=".service.StepCountUploadService" />
         <service android:name=".TimerService" />
     </application>
 
