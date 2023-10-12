@@ -183,7 +183,7 @@
         android:layout_height="130dp"
         android:layout_marginStart="76dp"
         android:layout_marginTop="433dp"
-        android:background="@android:drawable/ic_lock_idle_alarm"
+        android:background="@drawable/notification"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.786"
