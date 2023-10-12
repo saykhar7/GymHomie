@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/rounded_bg"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/gymFinderTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gym Finder"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/holo_orange_dark"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:paddingTop="25dp" />
+
+    <Button
+        android:id="@+id/findGymButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Search"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/gymFinderTitle"
+        android:layout_marginTop="75dp" />
+</RelativeLayout>

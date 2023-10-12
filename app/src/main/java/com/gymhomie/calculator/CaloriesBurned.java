@@ -23,6 +23,7 @@ public class CaloriesBurned {
     private double weight;
     private double height;
     private int age;
+    private double duration;
     // Constructor that uses metric system
     public CaloriesBurned(String exerciseQuery, double weight, int age, double height, String gender) {
         this.exerciseQuery = exerciseQuery;
@@ -38,6 +39,14 @@ public class CaloriesBurned {
         this.weight = poundsToKilograms(weightLbs);
         this.height = feetAndInchesToCentimeters(heightFeet, heightInches);
         this.age = age;
+    }
+    public CaloriesBurned(String exerciseQuery, double heightFeet, double weightLbs, int age, double heightInches, String gender, double duration) {
+        this.exerciseQuery = exerciseQuery;
+        this.gender = gender;
+        this.weight = poundsToKilograms(weightLbs);
+        this.height = feetAndInchesToCentimeters(heightFeet, heightInches);
+        this.age = age;
+        this.duration = duration;
     }
 
     public String getExerciseQuery() {
@@ -99,8 +108,8 @@ public class CaloriesBurned {
         JSONObject exerciseObject = exercisesArray.getJSONObject(0);
         return exerciseObject.getDouble("duration_min");
     }
-    public double calculate() throws JSONException {
-
+    public String calculate() throws JSONException {
+        String res = "";
         try {
             // Build the request body
             String requestBody = String.format("{\"query\":\"%s\",\"gender\":\"%s\",\"weight_kg\":%.2f,\"height_cm\":%.2f,\"age\":%d}",
@@ -129,9 +138,8 @@ public class CaloriesBurned {
                     response.append(line);
                 }
                 reader.close();
-                //getCaloriesBurned(response.toString());
-                //getDuration(response.toString());
                 System.out.println(response.toString());
+                res = response.toString();
             } else {
                 System.out.println("Request failed with response code: " + responseCode);
             }
@@ -139,6 +147,48 @@ public class CaloriesBurned {
             e.printStackTrace();
         }
 
-        return 0;
+        return res;
     }
+    public String calculate(String exerciseQuery, String gender, double height, double weight, int age) throws JSONException {
+        String res = "";
+        try {
+            // Build the request body
+            String requestBody = String.format("{\"query\":\"%s\",\"gender\":\"%s\",\"weight_kg\":%.2f,\"height_cm\":%.2f,\"age\":%d}",
+                    exerciseQuery, gender, weight, height, age);
+
+            URL url = new URL(apiUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("x-app-id", appId);
+            connection.setRequestProperty("x-app-key", appKey);
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setDoOutput(true);
+
+            OutputStream outputStream = connection.getOutputStream();
+            outputStream.write(requestBody.getBytes());
+            outputStream.flush();
+            outputStream.close();
+
+            int responseCode = connection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line;
+                StringBuilder response = new StringBuilder();
+
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+                reader.close();
+                System.out.println(response.toString());
+                res = response.toString();
+            } else {
+                System.out.println("Request failed with response code: " + responseCode);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return res;
+    }
+
 }

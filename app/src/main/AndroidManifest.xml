@@ -50,6 +50,9 @@
             android:name=".Stopwatch_Activity"
             android:exported="false" />
         <activity
+            android:name=".GymFinder_Activity"
+            android:exported="false" />
+        <activity
             android:name=".Login_activity"
             android:exported="false" />
         <activity
@@ -57,6 +60,9 @@
             android:exported="false" />
         <activity
             android:name=".CalculatorMenu_Activity"
+            android:exported="false" />
+        <activity
+            android:name=".CaloriesCalculator_Activity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
