@@ -6,6 +6,18 @@
     tools:context=".fragments.profile_fragment">
 
     <Button
+        android:id="@+id/achievements_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg"
+        android:text="Achievements"
+        android:layout_marginTop="80dp"
+        android:fontFamily="@font/neon"
+        android:textSize="32dp"
+        android:layout_gravity="center_horizontal"/>
+
+
+    <Button
         android:id="@+id/logoutBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
