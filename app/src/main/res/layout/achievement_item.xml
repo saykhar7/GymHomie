@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <!-- Badge ImageView -->
+    <ImageView
+        android:id="@+id/achievementBadgeImageView"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@drawable/default_badge"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <!-- Achievement Title -->
+    <TextView
+        android:id="@+id/achievementTitleTextView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="Achievement Title"
+        app:layout_constraintStart_toEndOf="@+id/achievementBadgeImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/achievementDescriptionTextView"
+        app:layout_constraintHeight_percent="0.33"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="16sp" />
+
+    <!-- Achievement Description -->
+    <TextView
+        android:id="@+id/achievementDescriptionTextView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="Achievement Description"
+        app:layout_constraintStart_toEndOf="@+id/achievementBadgeImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/achievementTitleTextView"
+        app:layout_constraintBottom_toTopOf="@+id/achievementProgressBar"
+        app:layout_constraintHeight_percent="0.33"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="14sp" />
+
+    <ProgressBar
+        android:id="@+id/achievementProgressBar"
+        android:layout_width="0dp"
+        android:layout_height="8dp"
+        style="?android:attr/progressBarStyleHorizontal"
+        app:layout_constraintStart_toEndOf="@+id/achievementBadgeImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/achievementDescriptionTextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_percent="0.1"
+        android:max="100"
+        android:progress="50"
+        android:progressDrawable="@android:drawable/progress_horizontal"
+        android:progressTint="@android:color/holo_blue_light"
+        android:indeterminate="false" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
