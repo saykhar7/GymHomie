@@ -27,7 +27,8 @@ public class workout {
 
     static String name;
     ArrayList<String> muscleGroups;
-    ArrayList<exercise> exercises = null;
+    ArrayList<exercise> exercises = new ArrayList<exercise>();
+    {exercises.add(new exercise());}
 
     public workout(String name, ArrayList<String> muscleGroups, ArrayList<exercise> exercises)
     {
@@ -66,12 +67,12 @@ public class workout {
         MultiAutoCompleteTextView exerciseName;
         NumberPicker numSets;
         int minutes;
-        int seconds;
+        EditText seconds;
         NumberPicker numReps;
-        NumberPicker weight;
+        EditText weight;
 
 
-        public exercise(MultiAutoCompleteTextView exerciseName, NumberPicker numSets, NumberPicker numReps, NumberPicker weight)
+        public exercise(MultiAutoCompleteTextView exerciseName, NumberPicker numSets, NumberPicker numReps, EditText weight)
         {
             this.exerciseName = exerciseName;
             this.numSets = numSets;
@@ -79,13 +80,17 @@ public class workout {
             this.weight = weight;
         }
 
-        public exercise(MultiAutoCompleteTextView exerciseName, NumberPicker numSets, int minutes, int seconds, NumberPicker weight)
+        public exercise(MultiAutoCompleteTextView exerciseName, NumberPicker numSets, int minutes, EditText seconds, EditText weight)
         {
             this.exerciseName = exerciseName;
             this.numSets = numSets;
             this.minutes = minutes;
             this.seconds = seconds;
             this.weight = weight;
+        }
+
+        public exercise() {
+
         }
 
         public String getWorkoutName() {return name;}
@@ -98,13 +103,13 @@ public class workout {
         //gets amount of time for the exercise
         public int getTime() {return minutes;}
 
-        public int getSeconds() {return this.seconds;}
+        public EditText getSeconds() {return this.seconds;}
 
         //gets number of reps in one set
         public NumberPicker getReps() {return numReps;}
 
         //gets amount of weight for each set
-        public NumberPicker getWeight() {return weight;}
+        public EditText getWeight() {return weight;}
 
 
 

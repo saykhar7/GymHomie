@@ -1,12 +1,15 @@
 package com.gymhomie.workouts;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.NumberPicker;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Switch;
 
@@ -36,9 +39,10 @@ public class addExercise extends AppCompatActivity{
 
     addWorkout w = new addWorkout();
     MultiAutoCompleteTextView exerciseName;
-    NumberPicker numSets, numReps, numWeight;
+    NumberPicker numSets, numReps;
+    EditText numWeight, time;
     Switch timed;
-
+    TextView seconds, repsText;
     Button saveExercise;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     //String workoutName;
@@ -55,6 +59,39 @@ public class addExercise extends AppCompatActivity{
         numWeight = findViewById(R.id.weight);
         timed = findViewById(R.id.time_switch);
         saveExercise = findViewById(R.id.save_exercise_button);
+        time = findViewById(R.id.time);
+        seconds = findViewById(R.id.seconds_text);
+        repsText = findViewById(R.id.numreps_text);
+
+        numSets.setMinValue(1);
+        numSets.setMaxValue(20);
+        numSets.setValue(3);
+
+        numReps.setMinValue(1);
+        numReps.setMaxValue(30);
+        numReps.setValue(10);
+
+        timed.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //Log.v("Switch State=", ""+isChecked);
+                if (isChecked)
+                {
+                    time.setVisibility(View.VISIBLE);
+                    seconds.setVisibility(View.VISIBLE);
+                    numReps.setVisibility(View.GONE);
+                    repsText.setVisibility(View.GONE);
+                }
+                else
+                {
+                    time.setVisibility(View.GONE);
+                    seconds.setVisibility(View.GONE);
+                    numReps.setVisibility(View.VISIBLE);
+                    repsText.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, EXERCISES);
@@ -64,12 +101,13 @@ public class addExercise extends AppCompatActivity{
         saveExercise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                w.myExercise.seconds = time;
                 w.myExercise.exerciseName = exerciseName;
                 w.myExercise.numSets = numSets;
                 w.myExercise.numReps = numReps;
                 w.myExercise.weight = numWeight;
                 //saveNote(view);
-                w.myWorkout.exercises.add(w.myExercise);
+                w.myWorkout.exercises.set(-1, w.myExercise);
             }
         });
     }
@@ -82,7 +120,7 @@ public class addExercise extends AppCompatActivity{
 
             int sets = numSets.getValue();
             int reps = numReps.getValue();
-            int weight = numWeight.getValue();
+            String weight = numWeight.getText().toString();
 
             FirebaseAuth auth = FirebaseAuth.getInstance();
             String userID = auth.getCurrentUser().getUid();

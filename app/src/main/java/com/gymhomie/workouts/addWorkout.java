@@ -36,9 +36,7 @@ public class addWorkout extends AppCompatActivity {
     private ToggleButton arms, legs, glutes, chest, back, cardio, other;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     public workout myWorkout;
-    public workout.exercise myExercise;
-
-    ArrayList<String> muscleGroup;
+    public workout.exercise myExercise = new workout.exercise();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,7 +144,7 @@ public class addWorkout extends AppCompatActivity {
             }
 
         });
-        myWorkout.exercises.add(myExercise);
+        //myWorkout.exercises.add(myExercise);
         finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -162,8 +160,6 @@ public class addWorkout extends AppCompatActivity {
         String userID = auth.getCurrentUser().getUid();
         String collectionPath = "users/"+userID+"/Workouts";
         String workout = workoutName.getText().toString();
-
-
 
         Map<String, Object> note = new HashMap<>();
         note.put(KEY_NAME, workout);
