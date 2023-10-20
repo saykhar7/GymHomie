@@ -4,7 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/bg"
     tools:context=".fragments.profile_fragment">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Profile"
+        android:textSize="40dp"
+        android:background="@drawable/bg"
+        android:textAlignment="center"
+        android:layout_gravity="center"
+        android:textColor="@color/black"/>
 
     <Button
         android:id="@+id/achievementsButton"
@@ -22,7 +33,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hapticFeedbackEnabled="true"
-        android:layout_gravity="center"
         android:background="@drawable/button_border"
         android:textSize="32dp"
         android:text="Logout" />
