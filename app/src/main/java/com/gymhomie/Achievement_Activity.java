@@ -54,6 +54,7 @@ public class Achievement_Activity extends AppCompatActivity {
                                     public void onSuccess(QuerySnapshot queryUserDocumentSnapshots) {
                                         if (queryUserDocumentSnapshots.size() != queryBaseDocumentSnapshots.size()) {
                                             // sizes are different, must update
+                                            // TODO : this check does not account for us removing achievements
 
                                             for (DocumentSnapshot baseAchievement : queryBaseDocumentSnapshots.getDocuments()) {
                                                 //with each base ach, let's grab each field
