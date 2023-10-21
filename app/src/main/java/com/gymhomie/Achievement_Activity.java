@@ -27,6 +27,8 @@ import java.util.Map;
 
 public class Achievement_Activity extends AppCompatActivity {
     private ArrayList<Achievement> achievementList;
+    private int updatesNeeded;
+    private int updatesMade;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseAuth auth = FirebaseAuth.getInstance();
     String userID = auth.getCurrentUser().getUid();
@@ -38,13 +40,14 @@ public class Achievement_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_view_achievements);
-        updateMissingAchievements();
-        viewAchievements();
+        updateMissingAchievements(); // also calls viewAchievements when updates are done
 
     }
 
     private void viewAchievements() {
-        // this one is tough...user can view their achievements and progress
+        // TODO: BUG -> this method when called at first will not show updates (have to reopen achievements)
+        // user can view their achievements and progress
+        // called from onAchievementsUpdateComplete within updateMissingAchievements
         // very similar to the gym reminders
         achievementList = new ArrayList<>();
         db.collection(userAchievementsPath).get()
@@ -76,7 +79,6 @@ public class Achievement_Activity extends AppCompatActivity {
                         Log.e("Achievement Viewing Retrieval", "Failure to retrieve user Achievements");
                     }
                 });
-
     }
 
     private void updateMissingAchievements() {
@@ -85,6 +87,7 @@ public class Achievement_Activity extends AppCompatActivity {
         // for each achievement stored before we can track and display them
         // Probably move to login later
         // (so they don't have to open achievements to unlock the feature)
+        // THIS WILL CALL onAchievementsUpdateComplete which calls viewAchievements
 
         // first we need to grab all possible achievements (imagine we have an update)
         db.collection(baseAchievementsPath).get()
@@ -96,10 +99,11 @@ public class Achievement_Activity extends AppCompatActivity {
                                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                                     @Override
                                     public void onSuccess(QuerySnapshot queryUserDocumentSnapshots) {
-                                        if (queryUserDocumentSnapshots.size() != queryBaseDocumentSnapshots.size()) {
+                                        updatesNeeded = queryBaseDocumentSnapshots.size() - queryUserDocumentSnapshots.size();
+                                        updatesMade = 0;
+                                        if (updatesNeeded != 0) {
                                             // sizes are different, must update
-                                            // TODO : this check does not account for us removing achievements
-
+                                            // TODO : this check does not account for us removing achievements from base
                                             for (DocumentSnapshot baseAchievement : queryBaseDocumentSnapshots.getDocuments()) {
                                                 //with each base ach, let's grab each field
                                                 // criteria(number) description(string) id(number) name(string)
@@ -121,6 +125,12 @@ public class Achievement_Activity extends AppCompatActivity {
                                                                     newDoc.put("progress", 0);
                                                                     newDoc.put("unlocked", false);
                                                                     db.collection(userAchievementsPath).document(baseAchID).set(newDoc);
+                                                                    Log.d("Achievement Viewing Debug", "saving achievement");
+                                                                    updatesMade += 1;
+                                                                    if (updatesMade == updatesNeeded) {
+                                                                        onAchievementUpdateComplete();
+                                                                    }
+
                                                                 }
                                                             }
                                                         })
@@ -132,12 +142,19 @@ public class Achievement_Activity extends AppCompatActivity {
                                                             }
                                                         });
                                             }
+                                            Log.d("Achievement Viewing Debug", "end of saving ach for");
                                         } else {
                                             Log.d("Achievement Existing Retrieval", "All Docs already exist");
+                                            onAchievementUpdateComplete();
                                         }
                                     }
                                 });
                     }
                 });
+    }
+    public void onAchievementUpdateComplete() {
+        // so the viewAchievements will wait for the update in db
+        Log.d("Achievement Viewing Debug", "cb: now calling view ach");
+        viewAchievements();
     }
 }
