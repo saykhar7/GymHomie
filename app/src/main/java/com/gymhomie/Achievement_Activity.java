@@ -6,6 +6,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -14,12 +16,17 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.gymhomie.tools.Achievement;
 import com.gymhomie.tools.GymReminder;
 
+import org.checkerframework.checker.units.qual.A;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Achievement_Activity extends AppCompatActivity {
+    private ArrayList<Achievement> achievementList;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseAuth auth = FirebaseAuth.getInstance();
     String userID = auth.getCurrentUser().getUid();
@@ -32,6 +39,43 @@ public class Achievement_Activity extends AppCompatActivity {
 
         setContentView(R.layout.activity_view_achievements);
         updateMissingAchievements();
+        viewAchievements();
+
+    }
+
+    private void viewAchievements() {
+        // this one is tough...user can view their achievements and progress
+        // very similar to the gym reminders
+        achievementList = new ArrayList<>();
+        db.collection(userAchievementsPath).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
+                            String id = (String) documentSnapshot.get("id");
+                            int criteria = ((Long) documentSnapshot.get("criteria")).intValue();
+                            int progress = ((Long) documentSnapshot.get("progress")).intValue();
+                            String description = (String) documentSnapshot.get("description");
+                            String name = (String) documentSnapshot.get("name");
+                            boolean unlocked = (boolean) documentSnapshot.get("unlocked");
+
+                            Achievement currentAchievement = new Achievement(id, name, description, criteria, progress, unlocked);
+                            achievementList.add(currentAchievement);
+
+                        }
+                        // update UI
+                        RecyclerView recyclerView = findViewById(R.id.achievement_recycler_view);
+                        AchievementAdapter adapter = new AchievementAdapter(getApplicationContext(), achievementList);
+                        recyclerView.setAdapter(adapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager((getApplicationContext())));
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e("Achievement Viewing Retrieval", "Failure to retrieve user Achievements");
+                    }
+                });
 
     }
 

@@ -1,7 +1,7 @@
 package com.gymhomie.tools;
 
 public class Achievement {
-    private int achievementID; // each achievement has a unique ID starting from 1
+    private String achievementID; // each achievement has a unique ID starting from 1
     private String name; // name for the achievement (some title to make the user proud)
     private String description; // description of the achievement (typically illustrates the criteria)
     private int criteria; // progress required to unlock the achievement (e.g. 3 liters of water)
@@ -9,7 +9,7 @@ public class Achievement {
     private Boolean unlocked; // has the achievement been unlocked?
     // when progress >= criteria -> unlocked = True
 
-    public Achievement(int achievementID, String name, String description, int criteria, int progress, Boolean unlocked) {
+    public Achievement(String achievementID, String name, String description, int criteria, int progress, Boolean unlocked) {
         this.achievementID = achievementID;
         this.name = name;
         this.description = description;
@@ -18,11 +18,11 @@ public class Achievement {
         this.unlocked = unlocked;
     }
 
-    public int getAchievementID() {
+    public String getAchievementID() {
         return achievementID;
     }
 
-    public void setAchievementID(int achievementID) {
+    public void setAchievementID(String achievementID) {
         this.achievementID = achievementID;
     }
 
