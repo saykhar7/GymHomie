@@ -1,4 +1,7 @@
 package com.gymhomie;
 
-public class Goal_Activity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class Goal_Activity extends AppCompatActivity {
+
 }
