@@ -1,3 +1,4 @@
+//activity for bmi calculator
 package com.gymhomie;
 
 import android.os.Bundle;
