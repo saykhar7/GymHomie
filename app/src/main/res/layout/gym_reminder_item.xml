@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- gym_reminder_item.xml -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/bg">
+
+    <TextView
+        android:id="@+id/gym_reminder_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gym Reminder Title" />
+
+    <TextView
+        android:id="@+id/gym_reminder_day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Day of the Week" />
+
+    <TextView
+        android:id="@+id/gym_reminder_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Time: 10:00 AM" />
+
+    <!-- Cancel button -->
+    <Button
+        android:id="@+id/cancelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel Reminder"
+        android:backgroundTint="@color/black"
+        android:textColor="@android:color/white"
+        android:layout_gravity="end"/> <!-- Align to the end of the layout -->
+
+</LinearLayout>

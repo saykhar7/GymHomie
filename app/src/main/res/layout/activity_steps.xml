@@ -52,6 +52,7 @@
 
     <!--Image View for the circle-->
     <ImageView
+        android:id="@+id/circleImageView"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_marginTop="264dp"
@@ -59,6 +60,39 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:clickable="true"
+        android:onClick="onCircleImageClick"/>
+
+    <Button
+        android:id="@+id/stepButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Weekly Step Report"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/circleImageView"
+        app:layout_constraintBottom_toTopOf="@id/feetButton" />
+
+    <Button
+        android:id="@+id/feetButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Weekly Step Report: Feet"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/stepButton"
+        app:layout_constraintBottom_toTopOf="@id/milesButton" />
+
+    <Button
+        android:id="@+id/milesButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Weekly Step Report: Miles"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/feetButton"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Layout for gym reminders; users can create new ones or open saved reminders-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context="com.gymhomie.Gym_Reminder_Activity">
+
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Make a New Gym Reminder"
+        android:textSize="24dp"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:text="Pick a Day:"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+
+    <Spinner
+        android:id="@+id/day_spinner"
+        android:layout_width="161dp"
+        android:layout_height="68dp"
+        android:layout_gravity="left"
+        android:minHeight="48dp" />
+
+    <TimePicker
+        android:id="@+id/time_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/gym_reminder_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:hint="Add a message for your Reminder (Leg Day!)"
+        />
+
+    <Button
+        android:id="@+id/save_reminder_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save Reminder"
+        android:textSize="20dp"
+        android:layout_gravity="center_horizontal"/>
+
+    <Button
+        android:id="@+id/view_reminders_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View Gym Reminders"
+        android:textSize="24dp"
+        android:layout_gravity="center_horizontal"/>
+
+    <Button
+        android:id="@+id/delete_reminders_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete All Reminders"
+        android:textSize="24dp"
+        android:layout_gravity="center_horizontal"/>
+
+
+</LinearLayout>

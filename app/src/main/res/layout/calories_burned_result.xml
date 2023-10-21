@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp"
+    android:background="@drawable/rounded_bg"
+    tools:context=".CaloriesCalculator_Activity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Calories Burned:"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:textSize="30sp"/>
+
+    <TextView
+        android:id="@+id/caloriesBurnedTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:text="0"
+        android:textSize="45sp" />
+
+    <Button
+        android:id="@+id/saveActivityButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save Activity"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="75dp" />
+
+</LinearLayout>
