@@ -1,0 +1,112 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@drawable/rounded_bg"
+    tools:context=".CaloriesCalculator_Activity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/caloriesBurnedTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Calories Burned"
+            android:textSize="50sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/holo_orange_dark"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            />
+
+        <EditText
+            android:id="@+id/exercise"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Exercise (e.g. 'ran 3 miles')"
+            app:layout_constraintTop_toBottomOf="@+id/caloriesBurnedTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"/>
+
+        <EditText
+            android:id="@+id/heightFeet"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Height (Feet)"
+            app:layout_constraintTop_toBottomOf="@+id/exercise"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"/>
+
+        <EditText
+            android:id="@+id/heightInches"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Height (Inches)"
+            app:layout_constraintTop_toBottomOf="@+id/heightFeet"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"/>
+
+        <EditText
+            android:id="@+id/weight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Weight (LBS)"
+            app:layout_constraintTop_toBottomOf="@+id/heightInches"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"/>
+
+        <EditText
+            android:id="@+id/gender"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Gender (Male/Female)"
+            app:layout_constraintTop_toBottomOf="@+id/weight"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"/>
+
+        <EditText
+            android:id="@+id/age"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Age (integer > 0)"
+            app:layout_constraintTop_toBottomOf="@+id/gender"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"/>
+
+        <EditText
+            android:id="@+id/duration"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Duration (minutes)"
+            app:layout_constraintTop_toBottomOf="@+id/age"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"/>
+
+        <Button
+            android:id="@+id/calculateButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Calculate"
+            app:layout_constraintTop_toBottomOf="@+id/duration"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -3,21 +3,72 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:layout_height="match_parent"
+    android:background="#4529E7FF"
     tools:context=".fragments.home_fragment">
 
     <TextView
         android:id="@+id/fullNameText"
-        android:layout_width="wrap_content"
+        android:layout_width="228dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
+        android:layout_marginStart="8sp"
+        android:layout_marginTop="25sp"
+        android:fontFamily="@font/spacegrotesk"
         android:gravity="center_vertical"
-        android:layout_marginHorizontal="100sp"
-        android:fontFamily="@font/funk"
-        android:text="Welcome Random User"
+        android:text="Welcome Random User ! "
         android:textColor="#000000"
         android:textSize="18sp"
- />
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="italic"
+        android:fontFamily="@font/neon"
+        android:textSize="14sp"
+        android:layout_marginStart="12sp"
+        android:layout_marginTop="10sp"
+        android:text="@string/ready_to_check_in_at_the_gym"
+        />
+
+    <FrameLayout
+        android:id="@+id/open_membershipID"
+        android:layout_width="match_parent"
+        android:layout_height="100sp"
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="10sp"
+        android:layout_marginTop="10sp"
+        android:background="@drawable/rounded_bg">
+
+
+        <ImageView
+            android:id="@+id/membershiplogoID"
+            android:layout_width="130sp"
+            android:layout_height="80sp"
+            android:layout_marginTop="5sp"
+            android:src="@drawable/membership"
+            android:layout_gravity="center_vertical|center_horizontal"
+
+
+            />
+        <TextView
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/membersip_reqID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tap_the_button_to_open_your_membership_barcode"/>
+
+
+    </FrameLayout>
+
+
+
+
+
+
+
+
+
 
 </LinearLayout>
