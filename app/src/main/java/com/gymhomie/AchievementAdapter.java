@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -51,15 +52,16 @@ public class AchievementAdapter extends RecyclerView.Adapter<AchievementAdapter.
         private TextView achievementName;
         private TextView achievementDescription;
         private ProgressBar achievementProgressBar;
+        private ImageView achievementImage;
         public AchievementViewHolder(@NonNull View itemView) {
             super(itemView);
             achievementName = itemView.findViewById(R.id.achievementTitleTextView);
             achievementDescription = itemView.findViewById(R.id.achievementDescriptionTextView);
             achievementProgressBar = itemView.findViewById(R.id.achievementProgressBar);
-            // initialize UI elements
+            achievementImage = itemView.findViewById(R.id.achievementBadgeImageView);
         }
         public void bind(Achievement achievement) {
-            // bind other gym reminder data to UI as needed
+            // bind achievement data to UI
             achievementName.setText(achievement.getName());
             achievementDescription.setText(achievement.getDescription());
             int progress = achievement.getProgress();
@@ -69,7 +71,9 @@ public class AchievementAdapter extends RecyclerView.Adapter<AchievementAdapter.
             achievementProgressBar.setProgress(progress);
             if (unlocked) {
                 achievementProgressBar.setProgressTintList(ColorStateList.valueOf(Color.GREEN));
+                achievementImage.setImageResource(R.drawable.trophy_unlocked);
             }
+
         }
     }
 }

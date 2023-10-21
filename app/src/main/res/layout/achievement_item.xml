@@ -12,7 +12,7 @@
         android:id="@+id/achievementBadgeImageView"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:src="@drawable/default_badge"
+        android:src="@drawable/trophy_locked"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
@@ -32,6 +32,7 @@
         android:textSize="16sp" />
 
     <!-- Achievement Description -->
+    <!-- BUG: can run off screen if too long -->
     <TextView
         android:id="@+id/achievementDescriptionTextView"
         android:layout_width="0dp"
