@@ -37,7 +37,7 @@ public class addExercise extends AppCompatActivity{
     private static final String KEY_REPS = "Number of Reps";
     private static final String KEY_WEIGHT = "Amount of Weight";
 
-    addWorkout w = new addWorkout();
+    AddWorkout w = new AddWorkout();
     MultiAutoCompleteTextView exerciseName;
     NumberPicker numSets, numReps;
     EditText numWeight, time;
@@ -101,13 +101,13 @@ public class addExercise extends AppCompatActivity{
         saveExercise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                w.myExercise.seconds = time;
-                w.myExercise.exerciseName = exerciseName;
-                w.myExercise.numSets = numSets;
-                w.myExercise.numReps = numReps;
-                w.myExercise.weight = numWeight;
+                w.exercises.get(0).seconds = time;
+                w.exercises.get(0).exerciseName = exerciseName;
+                w.exercises.get(0).numSets = numSets;
+                w.exercises.get(0).numReps = numReps;
+                w.exercises.get(0).weight = numWeight;
                 //saveNote(view);
-                w.myWorkout.exercises.set(-1, w.myExercise);
+                w.myWorkout.exercises.set(-1, w.exercises.get(0));
             }
         });
     }

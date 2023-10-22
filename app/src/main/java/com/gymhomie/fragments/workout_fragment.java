@@ -11,8 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.gymhomie.R;
-import com.gymhomie.Step_Activity;
-import com.gymhomie.workouts.addWorkout;
+import com.gymhomie.Workout_Activity;
 
 
 public class workout_fragment extends Fragment {
@@ -30,7 +29,7 @@ public class workout_fragment extends Fragment {
             @Override
             public void onClick(View view)
             {
-                Intent intent = new Intent(getActivity(), addWorkout.class);
+                Intent intent = new Intent(getActivity(), Workout_Activity.class);
                 startActivity(intent);
                 //new addWorkout();
             }
