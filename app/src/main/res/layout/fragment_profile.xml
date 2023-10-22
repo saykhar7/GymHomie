@@ -1,24 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".fragments.profile_fragment">
 
     <Button
-        android:id="@+id/goalsBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hapticFeedbackEnabled="true"
-        android:text="Goals"
-        android:background="@drawable/button_border"/>
-    <Button
         android:id="@+id/logoutBtn"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hapticFeedbackEnabled="true"
-        android:text="Logout"
-        android:background="@drawable/button_border"/>
-
-</LinearLayout>
+        android:layout_gravity="center"
+        android:background="@color/homie"
+        android:text="Logout" />
+</FrameLayout>

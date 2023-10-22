@@ -6,4 +6,8 @@
         android:angle="270" />
     <corners android:radius="3dp" />
     <stroke android:width="5px" android:color="#000000" />
+<<<<<<< HEAD
 </shape>
+=======
+</shape>
+>>>>>>> 59b0e05cb7d27af0fa7cfcad071f74fc02d2e6f4
