@@ -1,16 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg"
     tools:context=".fragments.profile_fragment">
 
-    <Button
-        android:id="@+id/logoutBtn"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hapticFeedbackEnabled="true"
+        android:text="Profile"
+        android:textSize="40dp"
+        android:background="@drawable/bg"
+        android:textAlignment="center"
         android:layout_gravity="center"
-        android:background="@color/homie"
+        android:textColor="@color/black"/>
+
+    <Button
+        android:id="@+id/achievementsButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hapticFeedbackEnabled="true"
+        android:background="@drawable/button_border"
+        android:text="Achievements"
+        android:layout_marginTop="80dp"
+        android:fontFamily="@font/neon"
+        android:textSize="32dp"/>
+
+    <Button
+        android:id="@+id/goalsBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hapticFeedbackEnabled="true"
+        android:text="Goals"
+        android:textSize="32dp"
+        android:fontFamily="@font/neon"
+        android:background="@drawable/button_border"/>
+    <Button
+        android:id="@+id/logoutBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hapticFeedbackEnabled="true"
+        android:background="@drawable/button_border"
+        android:textSize="32dp"
         android:text="Logout" />
-</FrameLayout>
+</LinearLayout>

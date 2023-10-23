@@ -39,6 +39,14 @@
             android:name=".Step_Activity"
             android:exported="false" />
         <activity
+            android:name=".GoalMenu_Activity"
+            android:exported="false"
+            />
+        <activity
+            android:name=".Goal_Activity"
+            android:exported="false"
+            />
+        <activity
             android:name=".Water_Intake_Activity"
             android:exported="false" />
         <activity android:name=".Gym_Reminder_Activity"

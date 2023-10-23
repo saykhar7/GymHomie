@@ -1,5 +1,6 @@
 package com.gymhomie.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.gymhomie.Achievement_Activity;
+import com.gymhomie.GoalMenu_Activity;
 import com.gymhomie.R;
 
 
@@ -18,6 +21,8 @@ public class profile_fragment extends Fragment {
 
 
     private Button btnLogout;
+    private Button btnGoals;
+    private Button btnAchievements;
     private OnLogoutClickListener onLogoutClickListener;
 
     public profile_fragment() {
@@ -28,10 +33,27 @@ public class profile_fragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         btnLogout = view.findViewById(R.id.logoutBtn);
+        btnGoals = view.findViewById(R.id.goalsBtn);
+        btnGoals.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), GoalMenu_Activity.class);
+                startActivity(intent);
+            }
+        });
+        btnAchievements = view.findViewById(R.id.achievementsButton);
 
         btnLogout.setOnClickListener(v -> {
             if (onLogoutClickListener != null) {
                 onLogoutClickListener.onLogout();
+            }
+        });
+        btnAchievements.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Start the achievements activity
+                Intent intent = new Intent(getActivity(), Achievement_Activity.class);
+                startActivity(intent);
             }
         });
 
