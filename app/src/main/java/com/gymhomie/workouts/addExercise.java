@@ -123,10 +123,10 @@ public class addExercise extends AppCompatActivity{
                 }
                 workout w = new workout();
                 //w.myWorkout.exercises.set(-1, w.exercises.get(0));*/
-                workout w = new workout();
+                //  workout w = new workout();
                 //w.myWorkout.exercises.set(-1, e);
 
-                w.myWorkout.addexercise(e);
+                //  w.myWorkout.addexercise(e);
             }
         });
     }
