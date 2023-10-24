@@ -37,7 +37,7 @@ public class addExercise extends AppCompatActivity{
     private static final String KEY_REPS = "Number of Reps";
     private static final String KEY_WEIGHT = "Amount of Weight";
 
-    AddWorkout w = new AddWorkout();
+    //workout w = new workout();
     MultiAutoCompleteTextView exerciseName;
     NumberPicker numSets, numReps;
     EditText numWeight, time;
@@ -46,7 +46,7 @@ public class addExercise extends AppCompatActivity{
     Button saveExercise;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     //String workoutName;
-
+    boolean isTimed;
 
     protected void onCreate (Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -78,6 +78,7 @@ public class addExercise extends AppCompatActivity{
                 //Log.v("Switch State=", ""+isChecked);
                 if (isChecked)
                 {
+                    isTimed = true;
                     time.setVisibility(View.VISIBLE);
                     seconds.setVisibility(View.VISIBLE);
                     numReps.setVisibility(View.GONE);
@@ -85,6 +86,7 @@ public class addExercise extends AppCompatActivity{
                 }
                 else
                 {
+                    isTimed = false;
                     time.setVisibility(View.GONE);
                     seconds.setVisibility(View.GONE);
                     numReps.setVisibility(View.VISIBLE);
@@ -99,15 +101,32 @@ public class addExercise extends AppCompatActivity{
         exerciseName.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
         saveExercise.setOnClickListener(new View.OnClickListener() {
+            //workout.exercise e = new workout.exercise(exerciseName, numSets, numReps, numWeight);
             @Override
             public void onClick(View view) {
-                w.exercises.get(0).seconds = time;
-                w.exercises.get(0).exerciseName = exerciseName;
-                w.exercises.get(0).numSets = numSets;
-                w.exercises.get(0).numReps = numReps;
-                w.exercises.get(0).weight = numWeight;
-                //saveNote(view);
-                w.myWorkout.exercises.set(-1, w.exercises.get(0));
+                workout.exercise e = new workout.exercise(exerciseName, numSets, numReps, numWeight);
+/*
+                e.setName(exerciseName);
+                e.setNumReps(numReps);
+                e.setWeight(numWeight);
+                if(isTimed) {
+                    e.setNumSets(numSets);
+                    /*w.exercises.get(0).seconds = time;
+                    w.exercises.get(0).exerciseName = exerciseName;
+                    w.exercises.get(0).numSets = numSets;
+                    w.exercises.get(0).numReps = numReps;
+                    w.exercises.get(0).weight = numWeight;
+                    //saveNote(view);
+                }
+                else{
+                    e.setSeconds(time);
+                }
+                workout w = new workout();
+                //w.myWorkout.exercises.set(-1, w.exercises.get(0));*/
+                workout w = new workout();
+                //w.myWorkout.exercises.set(-1, e);
+
+                w.myWorkout.addexercise(e);
             }
         });
     }
