@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.gymhomie.workouts.AddWorkout;
 import com.gymhomie.workouts.addExercise;
+import com.gymhomie.workouts.workout;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -150,22 +151,12 @@ public class Workout_Activity extends AppCompatActivity {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         String userID = auth.getCurrentUser().getUid();
         String collectionPath = "users/"+userID+"/Workouts";
-        String workout = obj.name;
+
+        obj.name = workoutName.getText().toString();
+        workout newWorkout = new workout(obj.name, obj.muscleGroup, obj.exercises);
 
         Map<String, Object> note = new HashMap<>();
-        note.put(KEY_NAME, workout);
-
-        for(int i = 0; i < obj.muscleGroup.size(); i++)
-        {
-            note.put(KEY_MUSCLE_GROUPS, obj.muscleGroup);
-        }
-
-        for(int i = 0; i < obj.exercises.size(); i++)
-        {
-            note.put(KEY_EXERCISES, obj.exercises);
-        }
-
-
+        note.put("Workout", newWorkout);
 
         db.collection(collectionPath).document().set(note)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
