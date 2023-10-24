@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.gymhomie.R;
 
+import java.util.ArrayList;
+
 public class Goal_Activity extends AppCompatActivity {
 
     private ImageView artImageView;
@@ -21,7 +23,7 @@ public class Goal_Activity extends AppCompatActivity {
             R.drawable.jogging,
             R.drawable.water_bottle,
             R.drawable.body_scan,
-            R.drawable.workout,
+            R.drawable.weights,
             R.drawable.stopwatch_icon
 
     };
@@ -32,6 +34,7 @@ public class Goal_Activity extends AppCompatActivity {
             "PR Goals",
             "Check-in Goals"
     };
+    private boolean[] hasGoals = new boolean[imageResources.length];
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,8 +42,10 @@ public class Goal_Activity extends AppCompatActivity {
 
         artImageView = findViewById(R.id.artImageView);
         title = findViewById(R.id.titleTextView);
+        summary = findViewById(R.id.summaryTextView);
         updateArtImageView();
         updateTitle();
+        updateSummary();
         Button nextButton = findViewById(R.id.nextButton);
         Button previousButton = findViewById(R.id.previousButton);
 
@@ -79,7 +84,7 @@ public class Goal_Activity extends AppCompatActivity {
     }
     private void updateSummary() {
         if (currentImageIndex >= 0 && currentImageIndex < imageResources.length) {
-            //summary.setText("Active Goals:" + goals);
+            summary.setText("Active Goals:");
         }
     }
 
