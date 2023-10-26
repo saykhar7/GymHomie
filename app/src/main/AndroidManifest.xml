@@ -78,6 +78,9 @@
             android:name=".workouts.addExercise"
             android:exported="false" />
         <activity
+            android:name=".Body_Measurement_Activity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

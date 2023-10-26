@@ -29,6 +29,15 @@
         android:textSize="32dp"/>
 
     <Button
+        android:id="@+id/body_measurement_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_border"
+        android:hapticFeedbackEnabled="true"
+        android:text="Body Measurements"
+        android:textSize="32dp" />
+
+    <Button
         android:id="@+id/logoutBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,4 +45,5 @@
         android:background="@drawable/button_border"
         android:textSize="32dp"
         android:text="Logout" />
+
 </LinearLayout>

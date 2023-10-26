@@ -1,10 +1,17 @@
 package com.gymhomie;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.MultiAutoCompleteTextView;
+import android.widget.NumberPicker;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -19,6 +26,7 @@ import com.gymhomie.workouts.AddWorkout;
 import com.gymhomie.workouts.addExercise;
 import com.gymhomie.workouts.workout;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,10 +34,11 @@ public class Workout_Activity extends AppCompatActivity {
     private static final String KEY_NAME = "Workout Name";
     private static final String KEY_MUSCLE_GROUPS = "Muscle Groups";
     private static final String KEY_EXERCISES = "Exercises";
+
     private EditText workoutName;
     private ToggleButton arms, legs, glutes, chest, back, cardio, other;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private AddWorkout obj = new AddWorkout();
+    private workout obj = new workout();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,13 +59,16 @@ public class Workout_Activity extends AppCompatActivity {
         Button addExerciseButton = findViewById(R.id.add_exercise_button);
         Button finish = findViewById(R.id.finish_button);
 
+
+        obj.setName(workoutName.toString());
+
         arms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (arms.isChecked()) {
-                    obj.muscleGroup.add("Arms");
+                    obj.addMG("Arms");
                 } else {
-                    obj.muscleGroup.remove("Arms");
+                    obj.removeMG("Arms");
                 }
             }
         });
@@ -65,9 +77,9 @@ public class Workout_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (legs.isChecked()) {
-                    obj.muscleGroup.add("Legs");
+                    obj.addMG("Legs");
                 } else {
-                    obj.muscleGroup.remove("Legs");
+                    obj.removeMG("Legs");
                 }
             }
         });
@@ -76,9 +88,9 @@ public class Workout_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (glutes.isChecked()) {
-                    obj.muscleGroup.add("Glutes");
+                    obj.addMG("Glutes");
                 } else {
-                    obj.muscleGroup.remove("Glutes");
+                    obj.removeMG("Glutes");
                 }
             }
         });
@@ -87,9 +99,9 @@ public class Workout_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (chest.isChecked()) {
-                    obj.muscleGroup.add("Chest");
+                    obj.addMG("Chest");
                 } else {
-                    obj.muscleGroup.remove("Chest");
+                    obj.removeMG("Chest");
                 }
             }
         });
@@ -98,9 +110,9 @@ public class Workout_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (back.isChecked()) {
-                    obj.muscleGroup.add("Back");
+                    obj.addMG("Back");
                 } else {
-                    obj.muscleGroup.remove("Back");
+                    obj.removeMG("Back");
                 }
             }
         });
@@ -108,9 +120,9 @@ public class Workout_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (cardio.isChecked()) {
-                    obj.muscleGroup.add("Cardio");
+                    obj.addMG("Cardio");
                 } else {
-                    obj.muscleGroup.remove("Cardio");
+                    obj.removeMG("Cardio");
                 }
             }
         });
@@ -119,41 +131,123 @@ public class Workout_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (other.isChecked()) {
-                    obj.muscleGroup.add("Other");
+                    obj.addMG("Other");
                 }
                 else {
-                    obj.muscleGroup.remove("Other");
+                    obj.removeMG("Other");
                 }
             }
         });
 
 
+        final String[] EXERCISES = new String[]{
+                "Bicep Curl", "Lateral Raise", "Crunch", "RDL", "Goblet Squat"
+        };
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                (this, android.R.layout.simple_dropdown_item_1line, EXERCISES);
         addExerciseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Workout_Activity.this, addExercise.class);
-                startActivity(intent);
-            }
 
+                MultiAutoCompleteTextView exerciseName;
+                NumberPicker numSets, numReps;
+                EditText numWeight, time;
+                Switch timed;
+                TextView seconds, repsText;
+                Button saveExercise;
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                //String workoutName;
+                final boolean[] isTimed = new boolean[1];
+
+                setContentView(R.layout.add_exercise);
+
+                exerciseName = findViewById(R.id.exercise_name);
+                numSets = findViewById(R.id.numSets);
+                numReps = findViewById(R.id.numReps);
+                numWeight = findViewById(R.id.weight);
+                timed = findViewById(R.id.time_switch);
+                saveExercise = findViewById(R.id.save_exercise_button);
+                time = findViewById(R.id.time);
+                seconds = findViewById(R.id.seconds_text);
+                repsText = findViewById(R.id.numreps_text);
+                numSets.setMinValue(1);
+                numSets.setMaxValue(20);
+                numSets.setValue(3);
+
+                numReps.setMinValue(1);
+                numReps.setMaxValue(30);
+                numReps.setValue(10);
+
+
+
+                timed.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        //Log.v("Switch State=", ""+isChecked);
+                        if (isChecked)
+                        {
+                            isTimed[0] = true;
+                            time.setVisibility(View.VISIBLE);
+                            seconds.setVisibility(View.VISIBLE);
+                            numReps.setVisibility(View.GONE);
+                            repsText.setVisibility(View.GONE);
+                        }
+                        else
+                        {
+                            isTimed[0] = false;
+                            time.setVisibility(View.GONE);
+                            seconds.setVisibility(View.GONE);
+                            numReps.setVisibility(View.VISIBLE);
+                            repsText.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
+
+                exerciseName.setAdapter(adapter);
+                exerciseName.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+
+                saveExercise.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        workout.exercise e = new workout.exercise(exerciseName, numSets, numReps, numWeight);
+                        obj.addExercise(e);
+                        //finish();
+                        setContentView(R.layout.add_workout);
+                    }
+                });
+            }
         });
-        //myWorkout.exercises.add(myExercise);
         finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 saveNote(view, obj);
             }
         });
+        if (savedInstanceState != null)
+        {
+            String savedWorkoutName = savedInstanceState.getString(KEY_NAME);
+            workoutName.setText(savedWorkoutName);
 
+            //ArrayList<String> savedMuscles = savedInstanceState.getStringArrayList(KEY_MUSCLE_GROUPS);
+
+        }
     }
 
-    public void saveNote(View v, AddWorkout obj) {
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outstate) {
+
+        outstate.putString(KEY_NAME, workoutName.getText().toString());
+        super.onSaveInstanceState(outstate);
+    }
+    public void saveNote(View v, workout obj) {
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         String userID = auth.getCurrentUser().getUid();
         String collectionPath = "users/"+userID+"/Workouts";
 
-        obj.name = workoutName.getText().toString();
-        workout newWorkout = new workout(obj.name, obj.muscleGroup, obj.exercises);
+        obj.setName(workoutName.getText().toString());
+        workout newWorkout = new workout(obj.getName(), obj.getMuscleGroups(), obj.getExercises());
 
         Map<String, Object> note = new HashMap<>();
         note.put("Workout", newWorkout);

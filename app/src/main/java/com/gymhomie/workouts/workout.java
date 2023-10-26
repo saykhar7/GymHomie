@@ -26,10 +26,10 @@ import java.util.Map;
 public class workout {
 
     static String name;
-    ArrayList<String> muscleGroups;
-    ArrayList<exercise> exercises = new ArrayList<exercise>();
-    {exercises.add(new exercise());}
+    private ArrayList<String> muscleGroups = new ArrayList<String>();
+    private ArrayList<exercise> exercises = new ArrayList<exercise>();
 
+    public workout(){};
     public workout(String name, ArrayList<String> muscleGroups, ArrayList<exercise> exercises)
     {
         this.name = name;
@@ -37,14 +37,15 @@ public class workout {
         this.exercises = exercises;
     }
 
+
     //gets name of the workout
     public String getName() {return name;}
 
     //gets list of muscle groups in one workout
-    public List<String> getMuscleGroups() {return muscleGroups;}
+    public ArrayList<String> getMuscleGroups() {return muscleGroups;}
 
     //gets list of exercises in one workout
-    public List<exercise> getExercises() {return exercises;}
+    public ArrayList<exercise> getExercises() {return exercises;}
 
 
     //sets name of the workout
@@ -57,12 +58,29 @@ public class workout {
     public void setExercise(ArrayList<exercise> exercises) {this.exercises = exercises;}
 
     //adds exercise to exercise list
-    public void addexercise()
+    public void addExercise(exercise e)
     {
-        new addExercise();
+        exercises.add(e);
     }
 
-    static class exercise{
+    public void removeExercise(exercise e)
+    {
+        exercises.remove(e);
+    }
+
+    //adds muscle group
+    public void addMG(String muscle)
+    {
+        muscleGroups.add(muscle);
+    }
+
+    //removes muscle group
+    public void removeMG(String muscle)
+    {
+        muscleGroups.remove(muscle);
+    }
+
+    public static class exercise{
         String workoutName;
         MultiAutoCompleteTextView exerciseName;
         NumberPicker numSets;

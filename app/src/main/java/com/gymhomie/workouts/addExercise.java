@@ -135,36 +135,7 @@ public class addExercise extends AppCompatActivity{
     private static final String[] EXERCISES = new String[]{
             "Bicep Curl", "Lateral Raise", "Crunch", "RDL", "Goblet Squat"
     };
-        public void saveNote (View v){
 
-            int sets = numSets.getValue();
-            int reps = numReps.getValue();
-            String weight = numWeight.getText().toString();
-
-            FirebaseAuth auth = FirebaseAuth.getInstance();
-            String userID = auth.getCurrentUser().getUid();
-            String collectionPath = "users/" + userID + "/Workouts" + "/Exercises";
-
-
-            Map<String, Object> note = new HashMap<>();
-            note.put(KEY_SETS, sets);
-            note.put(KEY_REPS, reps);
-            note.put(KEY_WEIGHT, weight);
-
-            db.collection(collectionPath).document().set(note)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            Toast.makeText(addExercise.this, "Note saved", Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(addExercise.this, "Error saving note!", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }
 }
 
 

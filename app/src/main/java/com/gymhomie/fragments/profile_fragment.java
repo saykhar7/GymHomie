@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.gymhomie.Achievement_Activity;
+import com.gymhomie.Body_Measurement_Activity;
 import com.gymhomie.R;
 
 
@@ -21,6 +22,7 @@ public class profile_fragment extends Fragment {
 
     private Button btnLogout;
     private Button btnAchievements;
+    private Button btnBodyMeasurement;
     private OnLogoutClickListener onLogoutClickListener;
 
     public profile_fragment() {
@@ -43,6 +45,15 @@ public class profile_fragment extends Fragment {
             public void onClick(View view) {
                 //Start the achievements activity
                 Intent intent = new Intent(getActivity(), Achievement_Activity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnBodyMeasurement.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), Body_Measurement_Activity.class);
                 startActivity(intent);
             }
         });
