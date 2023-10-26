@@ -43,6 +43,11 @@
             android:exported="false"
             />
         <activity
+            android:name=".popup_ManageHomies"
+            android:theme="@style/AppTheme.CustomTheme"
+            android:exported="false"
+            />
+        <activity
             android:name=".Goal_Activity"
             android:exported="false"
             />

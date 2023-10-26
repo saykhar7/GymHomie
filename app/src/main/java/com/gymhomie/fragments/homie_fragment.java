@@ -1,5 +1,6 @@
 package com.gymhomie.fragments;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -10,7 +11,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,6 +22,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.gymhomie.R;
+import com.gymhomie.popup_ManageHomies;
 
 public class homie_fragment extends Fragment {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -35,6 +39,13 @@ public class homie_fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_homie, container, false);
         TextView homie_title = view.findViewById(R.id.homies_title);
         ConstraintLayout constraintLayout = view.findViewById(R.id.homie_constraintlayout);
+        Button mangeHomiesBtn = (Button) view.findViewById(R.id.homie_request_btn);
+        mangeHomiesBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(view.getContext(), popup_ManageHomies.class));
+            }
+        });
         db.collection(collectionPath).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
