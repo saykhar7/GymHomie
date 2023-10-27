@@ -131,7 +131,6 @@ public class CaloriesCalculator_Activity extends AppCompatActivity {
 
             try {
                 String response = cb.calculate();
-                //String response = "{\"exercises\":[{\"tag_id\":317,\"user_input\":\"ran\",\"duration_min\":30.02,\"met\":9.8,\"nf_calories\":418.15,\"photo\":{\"highres\":\"https://d2xdmhkmkbyw75.cloudfront.net/exercise/317_highres.jpg\",\"thumb\":\"https://d2xdmhkmkbyw75.cloudfront.net/exercise/317_thumb.jpg\",\"is_user_uploaded\":false},\"compendium_code\":12050,\"name\":\"running\",\"description\":null,\"benefits\":null}]}";
                 caloriesBurned = cb.getCaloriesBurned(response);
                 respDuration = cb.getDuration(response);
                 double ratio = 0;

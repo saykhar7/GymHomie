@@ -29,6 +29,15 @@
         android:textSize="32dp"/>
 
     <Button
+        android:id="@+id/goalsBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hapticFeedbackEnabled="true"
+        android:text="Goals"
+        android:textSize="32dp"
+        android:fontFamily="@font/neon"
+        android:background="@drawable/button_border"/>
+    <Button
         android:id="@+id/logoutBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
