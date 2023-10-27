@@ -3,21 +3,19 @@ package com.gymhomie;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.mikephil.charting.components.Description;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -57,6 +55,8 @@ public class Water_Intake_Activity extends AppCompatActivity{
     FirebaseAuth auth = FirebaseAuth.getInstance();
     String userID = auth.getCurrentUser().getUid();
     String collectionPath = "users/"+userID+"/WaterIntakes"; //path for the water intakes on firestore
+    String achievementCollectionPath = "users/"+userID+"/Achievements"; //path for the user's achievements on firestore
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +101,6 @@ public class Water_Intake_Activity extends AppCompatActivity{
         note.put(KEY_YEAR, year);
         note.put(KEY_MONTH, month);
         note.put(KEY_DAY, day);
-        note.put(KEY_DAY, day);
         note.put(KEY_AMOUNT, amount);
 
         //storing in db
@@ -110,6 +109,8 @@ public class Water_Intake_Activity extends AppCompatActivity{
                     @Override
                     public void onSuccess(Void unused) {
                         Toast.makeText(Water_Intake_Activity.this, "Note saved", Toast.LENGTH_SHORT).show();
+                        // update corresponding achievements, we pass current note so we only check the day that was changed
+                        updateWaterAchievements(note);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -118,6 +119,7 @@ public class Water_Intake_Activity extends AppCompatActivity{
                         Toast.makeText(Water_Intake_Activity.this, "Error saving note!", Toast.LENGTH_SHORT).show();
                     }
                 });
+
     }
     //retrieveMonthlyIntakes is button for user to see graph of their current month's water intake
     public void retrieveMonthlyIntakes(View v) {
@@ -210,6 +212,118 @@ public class Water_Intake_Activity extends AppCompatActivity{
                             }
                         });
                         lineChart.invalidate(); //update the graph for user
+                    }
+                });
+    }
+    public void updateWaterAchievements(Map<String, Object> newNote) {
+        // TODO: only works for achievement 1, 2, 4 (novice, enthu, parched), need to think about others
+        db.collection(collectionPath).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        // let's check each user's water intake for same day, month, year as newNote
+                        int totalAmount = 0;
+                        for (DocumentSnapshot userWaterIntake: queryDocumentSnapshots.getDocuments()) {
+                            int day = ((Long) userWaterIntake.get("day")).intValue();
+                            int month = ((Long) userWaterIntake.get("month")).intValue();
+                            int year = ((Long) userWaterIntake.get("year")).intValue();
+                            int amount = ((Long) userWaterIntake.get("amount")).intValue();
+                            if (((int)newNote.get(KEY_YEAR) == year) && ((int)newNote.get(KEY_MONTH) == month) && ((int)newNote.get(KEY_DAY) == day)) {
+                                totalAmount += amount;
+                            }
+                        }
+
+                        // update achievements 1 (hydration novice)
+                        DocumentReference hydrationNovice = db.collection(achievementCollectionPath).document("1");
+                        int finalTotalAmount = totalAmount;
+                        hydrationNovice.get()
+                                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                        if (!documentSnapshot.exists()) {
+                                            Log.e("Water Intake Achievement Update", "hydrationNovice doc reference dne");
+                                        }
+                                        int currentProgress = ((Long) documentSnapshot.get("progress")).intValue();
+                                        if (currentProgress < finalTotalAmount) { // first we check to not overwrite if already progressed further (a different date)
+                                            hydrationNovice.update("progress", finalTotalAmount);
+                                            int progressNeeded = ((Long) documentSnapshot.get("criteria")).intValue();
+                                            if ((boolean) documentSnapshot.get("unlocked") == false) {
+                                                if (finalTotalAmount >= progressNeeded) {
+                                                    hydrationNovice.update("unlocked", true);
+                                                    // queue achievement popup
+                                                    Toast.makeText(Water_Intake_Activity.this, "Achievement Unlocked: Hydration Novice", Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+                                        }
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.e("Water Intake Achievement Update", "Hydration novice (1) not found");
+                                    }
+                                });
+                        // update achievements 2 (hydration enthusiast)
+                        DocumentReference hydrationEnthusiast = db.collection(achievementCollectionPath).document("2");
+                        hydrationEnthusiast.get()
+                                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                        if (!documentSnapshot.exists()) {
+                                            Log.e("Water Intake Achievement Update", "hydrationEnthusiast doc reference dne");
+                                        }
+                                        int currentProgress = ((Long) documentSnapshot.get("progress")).intValue();
+                                        if (currentProgress < finalTotalAmount) {
+                                            hydrationEnthusiast.update("progress", finalTotalAmount);
+                                            int progressNeeded = ((Long) documentSnapshot.get("criteria")).intValue();
+                                            if ((boolean) documentSnapshot.get("unlocked") == false) {
+                                                if (finalTotalAmount >= progressNeeded) {
+                                                    hydrationEnthusiast.update("unlocked", true);
+                                                    // queue achievement popup
+                                                    Toast.makeText(Water_Intake_Activity.this, "Achievement Unlocked: Hydration Enthusiast", Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+                                        }
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.e("Water Intake Achievement Update", "Hydration Enthusiast (2) not found");
+                                    }
+                                });
+                        // update achievements 4 (parched gym bro)
+                        DocumentReference parchedGymBro = db.collection(achievementCollectionPath).document("4");
+                        parchedGymBro.get()
+                                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                        if (!documentSnapshot.exists()) {
+                                            Log.d("Water Intake Achievement Update", "parchedGymBro doc reference dne");
+                                        }
+                                        parchedGymBro.update("progress", finalTotalAmount);
+                                        int progressNeeded = ((Long) documentSnapshot.get("criteria")).intValue();
+                                        if ((boolean) documentSnapshot.get("unlocked") == false) {
+                                            if (finalTotalAmount < progressNeeded) {
+                                                parchedGymBro.update("unlocked", true);
+                                                // queue achievement popup
+                                                Toast.makeText(Water_Intake_Activity.this, "Achievement Unlocked: Parched Gym Bro", Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.e("Water Intake Achievement Update", "Parched Gym Bro (4) not found");
+                                    }
+                                });
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e("Water Intake Achievement Update", "Error retrieving water intakes");
                     }
                 });
     }
