@@ -20,14 +20,27 @@ import com.gymhomie.tools.Achievement;
 
 import org.w3c.dom.Text;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AchievementAdapter extends RecyclerView.Adapter<AchievementAdapter.AchievementViewHolder> {
     private List<Achievement> achievements;
     private Context context;
+    private Map<String, Integer> imageResourceMap = new HashMap<>();
+
     public AchievementAdapter(Context context, List<Achievement> achievements) {
         this.context = context;
         this.achievements = achievements;
+        // setup image map
+        imageResourceMap.put("1 Unlocked", R.drawable.achievement_1_unlocked);
+        imageResourceMap.put("1 Locked", R.drawable.achievement_1_locked);
+        imageResourceMap.put("2 Unlocked", R.drawable.achievement_2_unlocked);
+        imageResourceMap.put("2 Locked", R.drawable.achievement_2_locked);
+        imageResourceMap.put("3 Unlocked", R.drawable.achievement_3_unlocked);
+        imageResourceMap.put("3 Locked", R.drawable.achievement_3_locked);
+        imageResourceMap.put("4 Unlocked", R.drawable.achievement_4_unlocked);
+        imageResourceMap.put("4 Locked", R.drawable.achievement_4_locked);
     }
 
     @NonNull
@@ -64,14 +77,25 @@ public class AchievementAdapter extends RecyclerView.Adapter<AchievementAdapter.
             // bind achievement data to UI
             achievementName.setText(achievement.getName());
             achievementDescription.setText(achievement.getDescription());
+            String achID = achievement.getAchievementID();
             int progress = achievement.getProgress();
             int criteria = achievement.getCriteria();
+            String achName = achievement.getName();
             boolean unlocked = achievement.getUnlocked();
             achievementProgressBar.setMax(criteria);
             achievementProgressBar.setProgress(progress);
             if (unlocked) {
                 achievementProgressBar.setProgressTintList(ColorStateList.valueOf(Color.GREEN));
-                achievementImage.setImageResource(R.drawable.trophy_unlocked);
+                String imageID = achID + " " + "Unlocked";
+                Log.d("Achievement imageID", imageID);
+                int resourceId = imageResourceMap.get(imageID);
+                achievementImage.setImageResource(resourceId);
+            }
+            else {
+                String imageID = achID + " " + "Locked";
+                Log.d("Achievement imageID", imageID);
+                int resourceId = imageResourceMap.get(imageID);
+                achievementImage.setImageResource(resourceId);
             }
 
         }
