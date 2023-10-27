@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.gymhomie.NameViewModel;
 import com.gymhomie.R;
+import com.gymhomie.events_finder.EventsLayoutActivity;
 import com.gymhomie.gymqr.gym_membership;
 
 
@@ -26,6 +27,8 @@ public class home_fragment extends Fragment {
     private TextView fullName;
 
     private FrameLayout access_gym_membership;
+
+    private FrameLayout events_finder;
 
     public interface HomeController
     {
@@ -48,7 +51,20 @@ public class home_fragment extends Fragment {
         fullName = view.findViewById(R.id.fullNameText);
 
 
-        access_gym_membership = view.findViewById(R.id.open_membershipID);
+        //button to open events finder page near your location
+
+        events_finder = view.findViewById(R.id.events_ID);
+
+        //Listener for events button
+        events_finder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), EventsLayoutActivity.class);
+                startActivity(i);
+            }
+        });
+
+        access_gym_membership = view.findViewById(R.id.opfen_membershipID);
         access_gym_membership.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

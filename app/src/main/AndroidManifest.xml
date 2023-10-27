@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 
@@ -20,6 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GymHomie"
         tools:targetApi="31">
+        <activity
+            android:name=".events_finder.EventsLayoutActivity"
+            android:exported="false" />
         <activity
             android:name=".ForgotPassword"
             android:exported="false" />
@@ -40,21 +43,19 @@
             android:exported="false" />
         <activity
             android:name=".GoalMenu_Activity"
-            android:exported="false"
-            />
+            android:exported="false" />
         <activity
             android:name=".popup_ManageHomies"
-            android:theme="@style/AppTheme.CustomTheme"
             android:exported="false"
-            />
+            android:theme="@style/AppTheme.CustomTheme" />
         <activity
             android:name=".Goal_Activity"
-            android:exported="false"
-            />
+            android:exported="false" />
         <activity
             android:name=".Water_Intake_Activity"
             android:exported="false" />
-        <activity android:name=".Gym_Reminder_Activity"
+        <activity
+            android:name=".Gym_Reminder_Activity"
             android:exported="false" />
         <activity
             android:name=".Activity_signup"
@@ -77,7 +78,8 @@
         <activity
             android:name=".CaloriesCalculator_Activity"
             android:exported="false" />
-        <activity android:name=".Achievement_Activity"
+        <activity
+            android:name=".Achievement_Activity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
@@ -89,7 +91,8 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".AlarmReceiver"/>
+        <receiver android:name=".AlarmReceiver" />
+
         <service android:name=".TimerService" />
     </application>
 
