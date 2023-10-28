@@ -64,7 +64,7 @@ public class home_fragment extends Fragment {
             }
         });
 
-        access_gym_membership = view.findViewById(R.id.opfen_membershipID);
+        access_gym_membership = view.findViewById(R.id.open_membershipID);
         access_gym_membership.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
