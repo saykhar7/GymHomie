@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.gymhomie.Achievement_Activity;
-import com.gymhomie.GoalMenu_Activity;
+import com.gymhomie.Goal_Activity;
 import com.gymhomie.R;
 
 
@@ -37,7 +37,7 @@ public class profile_fragment extends Fragment {
         btnGoals.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), GoalMenu_Activity.class);
+                Intent intent = new Intent(getActivity(), Goal_Activity.class);
                 startActivity(intent);
             }
         });
