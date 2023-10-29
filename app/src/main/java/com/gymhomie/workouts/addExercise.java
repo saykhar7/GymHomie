@@ -1,5 +1,6 @@
 package com.gymhomie.workouts;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.gymhomie.Water_Intake_Activity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,6 +49,10 @@ public class addExercise extends AppCompatActivity{
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     //String workoutName;
     boolean isTimed;
+    workout workoutObj;
+    workout.exercise e = new workout.exercise();
+
+    String workout;
 
     protected void onCreate (Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -70,6 +76,11 @@ public class addExercise extends AppCompatActivity{
         numReps.setMinValue(1);
         numReps.setMaxValue(30);
         numReps.setValue(10);
+
+
+        workout = getIntent().getStringExtra("workoutname");
+        ArrayList<String> mg = getIntent().getStringArrayListExtra("musclegroup");
+        workoutObj = getIntent().getParcelableExtra("myworkout");
 
         timed.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
@@ -101,34 +112,37 @@ public class addExercise extends AppCompatActivity{
         exerciseName.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
         saveExercise.setOnClickListener(new View.OnClickListener() {
-            //workout.exercise e = new workout.exercise(exerciseName, numSets, numReps, numWeight);
             @Override
             public void onClick(View view) {
-                workout.exercise e = new workout.exercise(exerciseName, numSets, numReps, numWeight);
-/*
+
                 e.setName(exerciseName);
-                e.setNumReps(numReps);
+                e.setNumSets(numSets);
                 e.setWeight(numWeight);
                 if(isTimed) {
-                    e.setNumSets(numSets);
-                    /*w.exercises.get(0).seconds = time;
-                    w.exercises.get(0).exerciseName = exerciseName;
-                    w.exercises.get(0).numSets = numSets;
-                    w.exercises.get(0).numReps = numReps;
-                    w.exercises.get(0).weight = numWeight;
-                    //saveNote(view);
-                }
-                else{
                     e.setSeconds(time);
                 }
-                workout w = new workout();
-                //w.myWorkout.exercises.set(-1, w.exercises.get(0));*/
-                //  workout w = new workout();
-                //w.myWorkout.exercises.set(-1, e);
+                else{
+                    e.setNumReps(numReps);
+                }
 
-                //  w.myWorkout.addexercise(e);
+                workoutObj.addExercise(e);
+                //savenote(view);
+                finish();
             }
         });
+    }
+
+    public void savenote(View v){
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        String userID = auth.getCurrentUser().getUid();
+        String collectionPath = "users/"+userID+"/Workouts";
+
+        Map<String, Object> workoutMap = new HashMap<>();
+        workoutMap.put("Exercises", e);
+
+        db.collection(collectionPath).document(workout)
+                .set(workoutMap);
     }
 
 

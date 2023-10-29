@@ -17,6 +17,7 @@ import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModel;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -40,6 +41,7 @@ public class Workout_Activity extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private workout obj = new workout();
 
+    private ViewModel viewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,8 +61,8 @@ public class Workout_Activity extends AppCompatActivity {
         Button addExerciseButton = findViewById(R.id.add_exercise_button);
         Button finish = findViewById(R.id.finish_button);
 
-
         obj.setName(workoutName.toString());
+
 
         arms.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,72 +151,18 @@ public class Workout_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                MultiAutoCompleteTextView exerciseName;
-                NumberPicker numSets, numReps;
-                EditText numWeight, time;
-                Switch timed;
-                TextView seconds, repsText;
-                Button saveExercise;
-                FirebaseFirestore db = FirebaseFirestore.getInstance();
-                //String workoutName;
-                final boolean[] isTimed = new boolean[1];
+                workout w = obj;
 
-                setContentView(R.layout.add_exercise);
+                String workout = workoutName.getText().toString();
+                ArrayList<String> mg = obj.getMuscleGroups();
 
-                exerciseName = findViewById(R.id.exercise_name);
-                numSets = findViewById(R.id.numSets);
-                numReps = findViewById(R.id.numReps);
-                numWeight = findViewById(R.id.weight);
-                timed = findViewById(R.id.time_switch);
-                saveExercise = findViewById(R.id.save_exercise_button);
-                time = findViewById(R.id.time);
-                seconds = findViewById(R.id.seconds_text);
-                repsText = findViewById(R.id.numreps_text);
-                numSets.setMinValue(1);
-                numSets.setMaxValue(20);
-                numSets.setValue(3);
-
-                numReps.setMinValue(1);
-                numReps.setMaxValue(30);
-                numReps.setValue(10);
+                Intent intent = new Intent(Workout_Activity.this, addExercise.class);
+                intent.putExtra("workoutname", workout);
+                intent.putExtra("musclegroup", mg);
+                intent.putExtra("myworkout", w);
+                startActivity(intent);
 
 
-
-                timed.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        //Log.v("Switch State=", ""+isChecked);
-                        if (isChecked)
-                        {
-                            isTimed[0] = true;
-                            time.setVisibility(View.VISIBLE);
-                            seconds.setVisibility(View.VISIBLE);
-                            numReps.setVisibility(View.GONE);
-                            repsText.setVisibility(View.GONE);
-                        }
-                        else
-                        {
-                            isTimed[0] = false;
-                            time.setVisibility(View.GONE);
-                            seconds.setVisibility(View.GONE);
-                            numReps.setVisibility(View.VISIBLE);
-                            repsText.setVisibility(View.VISIBLE);
-                        }
-                    }
-                });
-
-                exerciseName.setAdapter(adapter);
-                exerciseName.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
-
-                saveExercise.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        workout.exercise e = new workout.exercise(exerciseName, numSets, numReps, numWeight);
-                        obj.addExercise(e);
-                        //finish();
-                        setContentView(R.layout.add_workout);
-                    }
-                });
             }
         });
         finish.setOnClickListener(new View.OnClickListener() {
@@ -222,24 +170,11 @@ public class Workout_Activity extends AppCompatActivity {
             public void onClick(View view) {
 
                 saveNote(view, obj);
+                finish();
             }
         });
-        if (savedInstanceState != null)
-        {
-            String savedWorkoutName = savedInstanceState.getString(KEY_NAME);
-            workoutName.setText(savedWorkoutName);
-
-            //ArrayList<String> savedMuscles = savedInstanceState.getStringArrayList(KEY_MUSCLE_GROUPS);
-
-        }
     }
 
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outstate) {
-
-        outstate.putString(KEY_NAME, workoutName.getText().toString());
-        super.onSaveInstanceState(outstate);
-    }
     public void saveNote(View v, workout obj) {
 
         FirebaseAuth auth = FirebaseAuth.getInstance();

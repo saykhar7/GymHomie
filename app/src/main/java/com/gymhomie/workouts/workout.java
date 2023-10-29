@@ -1,6 +1,8 @@
 package com.gymhomie.workouts;
 
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -23,7 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class workout {
+public class workout implements Parcelable {
 
     static String name;
     private ArrayList<String> muscleGroups = new ArrayList<String>();
@@ -37,6 +39,22 @@ public class workout {
         this.exercises = exercises;
     }
 
+
+    protected workout(Parcel in) {
+        muscleGroups = in.createStringArrayList();
+    }
+
+    public static final Creator<workout> CREATOR = new Creator<workout>() {
+        @Override
+        public workout createFromParcel(Parcel in) {
+            return new workout(in);
+        }
+
+        @Override
+        public workout[] newArray(int size) {
+            return new workout[size];
+        }
+    };
 
     //gets name of the workout
     public String getName() {return name;}
@@ -80,8 +98,17 @@ public class workout {
         muscleGroups.remove(muscle);
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeStringList(muscleGroups);
+    }
+
     public static class exercise{
-        String workoutName;
         MultiAutoCompleteTextView exerciseName;
         NumberPicker numSets;
         int minutes;
@@ -131,23 +158,22 @@ public class workout {
 
 
 
-        public void setWorkoutName() {this.workoutName = name;}
         //sets name of the exercise
-        public void setName() {this.exerciseName = exerciseName;}
+        public void setName(MultiAutoCompleteTextView name) {this.exerciseName = name;}
 
         //sets number of sets for the exercise
-        public void setNumSets() {this.numSets = numSets;}
+        public void setNumSets(NumberPicker sets) {this.numSets = sets;}
 
         //sets amount of time for the exercise
-        public void setMinutes() {this.minutes = minutes;}
+        public void setMinutes(int min) {this.minutes = min;}
 
-        public void setSeconds() {this.seconds = seconds;}
+        public void setSeconds(EditText sec) {this.seconds = sec;}
 
         //sets number of reps in one set
-        public void setNumReps() {this.numReps = numReps;}
+        public void setNumReps(NumberPicker reps) {this.numReps = reps;}
 
         //sets amount of weight for each set
-        public void setWeight() {this.weight = weight;}
+        public void setWeight(EditText weight) {this.weight = weight;}
 
     }
 
