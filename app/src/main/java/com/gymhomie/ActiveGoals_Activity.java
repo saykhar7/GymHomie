@@ -21,89 +21,203 @@ public class ActiveGoals_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_active_goals);
         LinearLayout goalContainer = findViewById(R.id.goalContainer);
-        Button button = findViewById(R.id.yourButtonId);
-        goal = new Goal();
+
         // Retrieve the parameters sent from Goal_Activity
-        boolean stepCounterEnabled = getIntent().getBooleanExtra("stepcounter", false);
-        boolean waterIntakesEnabled = getIntent().getBooleanExtra("waterintakes", false);
-        boolean profileEnabled = getIntent().getBooleanExtra("profile", false);
-        boolean exerciseEnabled = getIntent().getBooleanExtra("exercise", false);
-        boolean workoutsEnabled = getIntent().getBooleanExtra("workouts", false);
-        button.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                processGoals(stepCounterEnabled, waterIntakesEnabled, profileEnabled, exerciseEnabled, workoutsEnabled);
-            }
-        });
-    }
-
-    private void processGoals(boolean stepCounterEnabled, boolean waterIntakesEnabled, boolean profileEnabled, boolean exerciseEnabled, boolean workoutsEnabled) {
-        LinearLayout goalContainer = findViewById(R.id.goalContainer);
-
-        if (stepCounterEnabled) {
-            // Query the Firestore collection related to Step Counter
-            String end_date = "";
-            String start_date = "";
-            for(Map<String, Object> map: goal.getStepGoals()) {
-                TextView textView = new TextView(this);
-                start_date = (String) map.get("start_month") + "/" + map.get("start_day") + "/" + map.get("start_year");
-                end_date = (String) map.get("end_month") + "/" + map.get("end_day") + "/" + map.get("end_year");
-                textView.setText("Goal Title: " + map.get("title") + ", Goal Type: " + map.get("type") + ", Target Steps: " + map.get("target") + ", Start Date: " + start_date + ", End Date: " + end_date);
-                goalContainer.addView(textView);
-            }
-        }
-        if (waterIntakesEnabled) {
-            // Query the Firestore collection related to Water Intakes
-            String end_date = "";
-            String start_date = "";
-            for(Map<String, Object> map: goal.getHydrationGoals()){
-                TextView textView = new TextView(this);
-                start_date = (String) map.get("start_month") + "/" + map.get("start_day") + "/" + map.get("start_year");
-                end_date = (String) map.get("end_month") + "/" + map.get("end_day") + "/" + map.get("end_year");
-                textView.setText("Goal Title: " + map.get("title") + ", Goal Type: " + map.get("type") + ", Target Ounces: " + map.get("target") + ", Start Date: " + start_date + ", End Date: " + end_date);
-                goalContainer.addView(textView);
-            }
-        }
-        if (profileEnabled) {
-            // Query the Firestore collection related to Profile
-            String end_date = "";
-            String start_date = "";
-            for(Map<String, Object> map: goal.getWeightGoals()){
-                TextView textView = new TextView(this);
-                start_date = (String) map.get("start_month") + "/" + map.get("start_day") + "/" + map.get("start_year");
-                end_date = (String) map.get("end_month") + "/" + map.get("end_day") + "/" + map.get("end_year");
-                textView.setText("Goal Title: " + map.get("title") + ", Target Weight: " + map.get("target") + ", Start Date: " + start_date + ", End Date: " + end_date);
-                goalContainer.addView(textView);
-            }
-        }
-        if (exerciseEnabled) {
-            // Query the Firestore collection related to Exercise
-            String end_date = "";
-            String start_date = "";
-            for(Map<String, Object> map: goal.getExerciseGoals()){
-                TextView textView = new TextView(this);
-                start_date = (String) map.get("start_month") + "/" + map.get("start_day") + "/" + map.get("start_year");
-                end_date = (String) map.get("end_month") + "/" + map.get("end_day") + "/" + map.get("end_year");
-                textView.setText("Goal Title: " + map.get("title") + ", Goal Type: " + map.get("type") + ", Target Weight: " + map.get("target") + ", Start Date: " + start_date + ", End Date: " + end_date);
-                goalContainer.addView(textView);
-            }
-        }
-        if (workoutsEnabled) {
-            // Query the Firestore collection related to Workouts
-            String end_date = "";
-            String start_date = "";
-            for(Map<String, Object> map: goal.getWorkoutGoals()){
-                TextView textView = new TextView(this);
-                start_date = (String) map.get("start_month") + "/" + map.get("start_day") + "/" + map.get("start_year");
-                end_date = (String) map.get("end_month") + "/" + map.get("end_day") + "/" + map.get("end_year");
-                if(map.get("type").toString().equalsIgnoreCase("weekly")) {
-                    textView.setText("Goal Title: " + map.get("title") + ", Goal Type: " + map.get("type") + ", Target Days: " + map.get("target") + ", Start Date: " + start_date + ", End Date: " + end_date);
+        String title = getIntent().getStringExtra("title");
+        Bundle extras = getIntent().getExtras();
+        String text = "";
+        String start_date = "";
+        String end_date = "";
+        String target = "";
+        String type = "";
+        if(title.equalsIgnoreCase("steps")){
+            TextView textView = new TextView(this);
+            int inner_count = 0;
+            for (String key : extras.keySet()){
+                if(key.equalsIgnoreCase("title")){
+                    // TODO: nothing to do here
+                } else {
+                    int count = Integer.parseInt(key);
+                    if(count == 0){
+                        // TODO: first goal entry
+                        start_date = getIntent().getStringExtra(String.valueOf(count));
+                        inner_count++;
+                    }
+                    else if(count % 4 == 0){
+                        // TODO: new goal entry
+                        inner_count = 0;
+                        start_date = getIntent().getStringExtra(String.valueOf(count));
+                        inner_count++;
+                    }
+                    else{
+                        // TODO: goal entry
+                        if(inner_count == 1){
+                            end_date = getIntent().getStringExtra(String.valueOf(count));
+                        }
+                        else if(inner_count == 2){
+                            type = getIntent().getStringExtra(String.valueOf(count));
+                        }
+                        else {
+                            target = getIntent().getStringExtra(String.valueOf(count));
+                            text = "Goal Type: " + type + ", Target Steps: " + target + ", Start Date: " + start_date + ", End Date: " + end_date;
+                            textView.setText(text);
+                            goalContainer.addView(textView);
+                        }
+                        inner_count++;
+                    }
                 }
-                else if (map.get("type").toString().equalsIgnoreCase("daily")) {
-                    textView.setText("Goal Title: " + map.get("title") + ", Goal Type: " + map.get("type") + ", Target Hours: " + map.get("target") + ", Start Date: " + start_date + ", End Date: " + end_date);
+            }
+        } else if (title.equalsIgnoreCase("hydration")) {
+            TextView textView = new TextView(this);
+            int inner_count = 0;
+            for (String key : extras.keySet()){
+                if(key.equalsIgnoreCase("title")){
+                    // TODO: nothing to do here
+                } else {
+                    int count = Integer.parseInt(key);
+                    if(count == 0){
+                        // TODO: first goal entry
+                        start_date = getIntent().getStringExtra(String.valueOf(count));
+                        inner_count++;
+                    }
+                    else if(count % 4 == 0){
+                        // TODO: new goal entry
+                        inner_count = 0;
+                        start_date = getIntent().getStringExtra(String.valueOf(count));
+                        inner_count++;
+                    }
+                    else{
+                        // TODO: goal entry
+                        if(inner_count == 1){
+                            end_date = getIntent().getStringExtra(String.valueOf(count));
+                        }
+                        else if(inner_count == 2){
+                            type = getIntent().getStringExtra(String.valueOf(count));
+                        }
+                        else {
+                            target = getIntent().getStringExtra(String.valueOf(count));
+                            text = "Goal Type: " + type + ", Target Ounces: " + target + ", Start Date: " + start_date + ", End Date: " + end_date;
+                            textView.setText(text);
+                            goalContainer.addView(textView);
+                        }
+                        inner_count++;
+                    }
                 }
-                goalContainer.addView(textView);
+            }
+        } else if (title.equalsIgnoreCase("weight")) {
+            TextView textView;
+            int inner_count = 0;
+            for (String key : extras.keySet()){
+                if(key.equalsIgnoreCase("title")){
+                    // TODO: nothing to do here
+                } else {
+                    int count = Integer.parseInt(key);
+                    if(count == 0){
+                        // TODO: first goal entry
+                        start_date = getIntent().getStringExtra(String.valueOf(count));
+                        inner_count++;
+                    }
+                    else if(count % 3 == 0){
+                        // TODO: new goal entry
+                        inner_count = 0;
+                        start_date = getIntent().getStringExtra(String.valueOf(count));
+                        inner_count++;
+                    }
+                    else{
+                        // TODO: goal entry
+                        if(inner_count == 1){
+                            end_date = getIntent().getStringExtra(String.valueOf(count));
+                        }
+                        else {
+                            target = getIntent().getStringExtra(String.valueOf(count));
+                            text = "Target Weight: " + target + ", Start Date: " + start_date + ", End Date: " + end_date;
+                            textView = new TextView(this);
+                            textView.setText(text);
+                            goalContainer.addView(textView);
+                        }
+                        inner_count++;
+                    }
+                }
+            }
+        } else if (title.equalsIgnoreCase("exercise")) {
+            TextView textView = new TextView(this);
+            int inner_count = 0;
+            for (String key : extras.keySet()){
+                if(key.equalsIgnoreCase("title")){
+                    // TODO: nothing to do here
+                } else {
+                    int count = Integer.parseInt(key);
+                    if(count == 0){
+                        // TODO: first goal entry
+                        start_date = getIntent().getStringExtra(String.valueOf(count));
+                        inner_count++;
+                    }
+                    else if(count % 4 == 0){
+                        // TODO: new goal entry
+                        inner_count = 0;
+                        start_date = getIntent().getStringExtra(String.valueOf(count));
+                        inner_count++;
+                    }
+                    else{
+                        // TODO: goal entry
+                        if(inner_count == 1){
+                            end_date = getIntent().getStringExtra(String.valueOf(count));
+                        }
+                        else if(inner_count == 2){
+                            type = getIntent().getStringExtra(String.valueOf(count));
+                        }
+                        else {
+                            target = getIntent().getStringExtra(String.valueOf(count));
+                            text = "Exercise Type: " + type + ", Target: " + target + ", Start Date: " + start_date + ", End Date: " + end_date;
+                            textView.setText(text);
+                            goalContainer.addView(textView);
+                        }
+                        inner_count++;
+                    }
+                }
+            }
+        } else if (title.equalsIgnoreCase("workouts")) {
+            TextView textView;
+            int inner_count = 0;
+            for (String key : extras.keySet()){
+                if(key.equalsIgnoreCase("title")){
+                    // TODO: nothing to do here
+                } else {
+                    int count = Integer.parseInt(key);
+                    if(count == 0){
+                        // TODO: first goal entry
+                        start_date = getIntent().getStringExtra(String.valueOf(count));
+                        inner_count++;
+                    }
+                    else if(count % 4 == 0){
+                        // TODO: new goal entry
+                        inner_count = 0;
+                        start_date = getIntent().getStringExtra(String.valueOf(count));
+                        inner_count++;
+                    }
+                    else{
+                        // TODO: goal entry
+                        if(inner_count == 1){
+                            end_date = getIntent().getStringExtra(String.valueOf(count));
+                        }
+                        else if(inner_count == 2){
+                            type = getIntent().getStringExtra(String.valueOf(count));
+                        }
+                        else {
+                            target = getIntent().getStringExtra(String.valueOf(count));
+                            if(type.equalsIgnoreCase("daily")) {
+                                text = "Goal Type: " + type + ", Target Hours: " + target + ", Start Date: " + start_date + ", End Date: " + end_date;
+                            }
+                            else{
+                                text = "Goal Type: " + type + ", Target Days: " + target + ", Start Date: " + start_date + ", End Date: " + end_date;
+                            }
+                            textView = new TextView(this);
+                            textView.setText(text);
+                            goalContainer.addView(textView);
+                        }
+                        inner_count++;
+                    }
+                }
             }
         }
     }

@@ -20,13 +20,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <!-- Goals will be dynamically added here -->
-
-            <!-- Add a Button -->
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Your Button Text"
-                android:id="@+id/yourButtonId" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
