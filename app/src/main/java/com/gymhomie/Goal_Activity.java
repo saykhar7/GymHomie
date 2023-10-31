@@ -16,15 +16,13 @@ public class Goal_Activity extends AppCompatActivity {
 
     private ImageView artImageView;
     private TextView title;
-    private TextView summary;
     private int currentImageIndex = 0;
     private int[] imageResources = {
             R.drawable.jogging,
             R.drawable.water_bottle,
             R.drawable.body_scan,
-            R.drawable.weights,
-            R.drawable.stopwatch_icon
-
+            R.drawable.barbell,
+            R.drawable.health
     };
     private String[] titleResources = {
             "Step Goals",
