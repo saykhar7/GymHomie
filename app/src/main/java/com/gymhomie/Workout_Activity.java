@@ -3,6 +3,7 @@ package com.gymhomie;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -25,6 +26,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.gymhomie.workouts.AddWorkout;
 import com.gymhomie.workouts.addExercise;
+import com.gymhomie.workouts.exercise;
 import com.gymhomie.workouts.workout;
 
 import java.util.ArrayList;
@@ -35,6 +37,7 @@ public class Workout_Activity extends AppCompatActivity {
     private static final String KEY_NAME = "Workout Name";
     private static final String KEY_MUSCLE_GROUPS = "Muscle Groups";
     private static final String KEY_EXERCISES = "Exercises";
+    private static final int REQUEST_CODE_CUSTOMIZE_EXERCISE = 99;
 
     private EditText workoutName;
     private ToggleButton arms, legs, glutes, chest, back, cardio, other;
@@ -151,17 +154,8 @@ public class Workout_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                workout w = obj;
-
-                String workout = workoutName.getText().toString();
-                ArrayList<String> mg = obj.getMuscleGroups();
-
                 Intent intent = new Intent(Workout_Activity.this, addExercise.class);
-                intent.putExtra("workoutname", workout);
-                intent.putExtra("musclegroup", mg);
-                intent.putExtra("myworkout", w);
-                startActivity(intent);
-
+                startActivityForResult(intent, REQUEST_CODE_CUSTOMIZE_EXERCISE);
 
             }
         });
@@ -200,5 +194,19 @@ public class Workout_Activity extends AppCompatActivity {
                         Toast.makeText(Workout_Activity.this, "Error saving note!", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_CUSTOMIZE_EXERCISE && resultCode == RESULT_OK) {
+            exercise newExercise = data.getParcelableExtra("newExercise");
+            if (newExercise != null) {
+                obj.addExercise(newExercise);
+            }
+            else {
+                Log.e("Workout Activity addExercise", "Got null new exercise");
+            }
+            // Use the exercise object in your Workout Activity
+        }
     }
 }

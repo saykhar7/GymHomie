@@ -6,11 +6,11 @@ public class AddWorkout {
     public ArrayList<String> muscleGroup;
     public workout myWorkout;
     public String name;
-    public ArrayList<workout.exercise> exercises;
+    public ArrayList<exercise> exercises;
 
     public AddWorkout(){
         muscleGroup = new ArrayList<String>();
-        exercises = new ArrayList<workout.exercise>();
+        exercises = new ArrayList<exercise>();
         myWorkout = new workout(name, muscleGroup, exercises);
     }
 }

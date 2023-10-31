@@ -49,15 +49,16 @@ public class addExercise extends AppCompatActivity{
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     //String workoutName;
     boolean isTimed;
-    workout workoutObj;
-    workout.exercise e = new workout.exercise();
+    exercise e;
 
-    String workout;
+    String workoutName;
 
     protected void onCreate (Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.add_exercise);
+
+        e = new exercise();
 
         exerciseName = findViewById(R.id.exercise_name);
         numSets = findViewById(R.id.numSets);
@@ -77,10 +78,7 @@ public class addExercise extends AppCompatActivity{
         numReps.setMaxValue(30);
         numReps.setValue(10);
 
-
-        workout = getIntent().getStringExtra("workoutname");
-        ArrayList<String> mg = getIntent().getStringArrayListExtra("musclegroup");
-        workoutObj = getIntent().getParcelableExtra("myworkout");
+        //  getIntent().putExtra("newWorkout", workoutObj);
 
         timed.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
@@ -115,18 +113,21 @@ public class addExercise extends AppCompatActivity{
             @Override
             public void onClick(View view) {
 
-                e.setName(exerciseName);
-                e.setNumSets(numSets);
-                e.setWeight(numWeight);
+                e.setExerciseName(exerciseName.getText().toString());
+                e.setNumSets(numSets.getValue());
+                e.setWeight((numWeight.getText().toString()));
                 if(isTimed) {
-                    e.setSeconds(time);
+                    e.setSeconds(time.getText().toString());
                 }
                 else{
-                    e.setNumReps(numReps);
+                    e.setNumReps(numReps.getValue());
                 }
 
-                workoutObj.addExercise(e);
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("newExercise", e);
+                Log.d("addExercise name", e.getExerciseName());
                 //savenote(view);
+                setResult(RESULT_OK, resultIntent);
                 finish();
             }
         });
@@ -141,7 +142,7 @@ public class addExercise extends AppCompatActivity{
         Map<String, Object> workoutMap = new HashMap<>();
         workoutMap.put("Exercises", e);
 
-        db.collection(collectionPath).document(workout)
+        db.collection(collectionPath).document()
                 .set(workoutMap);
     }
 
