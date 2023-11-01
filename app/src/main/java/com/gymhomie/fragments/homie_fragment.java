@@ -29,7 +29,7 @@ public class homie_fragment extends Fragment {
 
     FirebaseAuth auth = FirebaseAuth.getInstance();
     String userID = auth.getCurrentUser().getUid();
-    String collectionPath = "users/" + userID + "/homies"; //path for the water intakes on firestore
+    String collectionPath = "users/" + userID + "/Homies"; //path for the water intakes on firestore
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,7 +51,7 @@ public class homie_fragment extends Fragment {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
-                            DocumentReference homiesDocument = (DocumentReference) document.get("homie");
+                            DocumentReference homiesDocument = (DocumentReference) document.get("homieID");
                             homiesDocument.get().addOnCompleteListener(task -> {
                                 if(task.isSuccessful()){
                                     DocumentSnapshot names = task.getResult();
