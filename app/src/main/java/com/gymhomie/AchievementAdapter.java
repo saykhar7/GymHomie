@@ -25,9 +25,9 @@ import java.util.List;
 import java.util.Map;
 
 public class AchievementAdapter extends RecyclerView.Adapter<AchievementAdapter.AchievementViewHolder> {
-    private List<Achievement> achievements;
-    private Context context;
-    private Map<String, Integer> imageResourceMap = new HashMap<>();
+    private final List<Achievement> achievements;
+    private final Context context;
+    private final Map<String, Integer> imageResourceMap = new HashMap<>();
 
     public AchievementAdapter(Context context, List<Achievement> achievements) {
         this.context = context;
@@ -62,10 +62,10 @@ public class AchievementAdapter extends RecyclerView.Adapter<AchievementAdapter.
     }
 
     public class AchievementViewHolder extends RecyclerView.ViewHolder {
-        private TextView achievementName;
-        private TextView achievementDescription;
-        private ProgressBar achievementProgressBar;
-        private ImageView achievementImage;
+        private final TextView achievementName;
+        private final TextView achievementDescription;
+        private final ProgressBar achievementProgressBar;
+        private final ImageView achievementImage;
         public AchievementViewHolder(@NonNull View itemView) {
             super(itemView);
             achievementName = itemView.findViewById(R.id.achievementTitleTextView);

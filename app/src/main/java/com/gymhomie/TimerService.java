@@ -12,8 +12,8 @@ public class TimerService extends Service {
     private long startTime;
     private long elapsedTime;
     private boolean isRunning;
-    private Handler handler = new Handler();
-    private Runnable runnable = new Runnable() {
+    private final Handler handler = new Handler();
+    private final Runnable runnable = new Runnable() {
         @Override
         public void run() {
             elapsedTime = System.currentTimeMillis() - startTime;

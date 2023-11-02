@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context=".ActiveGoals_Activity"
+    tools:context=".GoalHistory_Activity"
     android:stretchColumns="1">
 
     <TableRow
@@ -23,12 +23,4 @@
         android:gravity="center"
         android:paddingTop="16dp"
         android:paddingBottom="8dp" />
-    <!-- Add the PieChart below the TableRow entries and above the title TextView -->
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/pieChart"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_below="@id/tableLayout"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="16dp" />
 </TableLayout>

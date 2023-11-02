@@ -50,7 +50,7 @@ public class Water_Intake_Activity extends AppCompatActivity{
 
     private Button currentMonthIntake;
     //db variables for storing and retrieval
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     FirebaseAuth auth = FirebaseAuth.getInstance();
     String userID = auth.getCurrentUser().getUid();
@@ -247,7 +247,7 @@ public class Water_Intake_Activity extends AppCompatActivity{
                                         if (currentProgress < finalTotalAmount) { // first we check to not overwrite if already progressed further (a different date)
                                             hydrationNovice.update("progress", finalTotalAmount);
                                             int progressNeeded = ((Long) documentSnapshot.get("criteria")).intValue();
-                                            if ((boolean) documentSnapshot.get("unlocked") == false) {
+                                            if (!((boolean) documentSnapshot.get("unlocked"))) {
                                                 if (finalTotalAmount >= progressNeeded) {
                                                     hydrationNovice.update("unlocked", true);
                                                     // queue achievement popup
@@ -276,7 +276,7 @@ public class Water_Intake_Activity extends AppCompatActivity{
                                         if (currentProgress < finalTotalAmount) {
                                             hydrationEnthusiast.update("progress", finalTotalAmount);
                                             int progressNeeded = ((Long) documentSnapshot.get("criteria")).intValue();
-                                            if ((boolean) documentSnapshot.get("unlocked") == false) {
+                                            if (!((boolean) documentSnapshot.get("unlocked"))) {
                                                 if (finalTotalAmount >= progressNeeded) {
                                                     hydrationEnthusiast.update("unlocked", true);
                                                     // queue achievement popup
@@ -303,7 +303,7 @@ public class Water_Intake_Activity extends AppCompatActivity{
                                         }
                                         parchedGymBro.update("progress", finalTotalAmount);
                                         int progressNeeded = ((Long) documentSnapshot.get("criteria")).intValue();
-                                        if ((boolean) documentSnapshot.get("unlocked") == false) {
+                                        if (!((boolean) documentSnapshot.get("unlocked"))) {
                                             if (finalTotalAmount < progressNeeded) {
                                                 parchedGymBro.update("unlocked", true);
                                                 // queue achievement popup

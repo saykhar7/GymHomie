@@ -29,7 +29,7 @@ public class Achievement_Activity extends AppCompatActivity {
     private ArrayList<Achievement> achievementList;
     private int updatesNeeded;
     private int updatesMade;
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseAuth auth = FirebaseAuth.getInstance();
     String userID = auth.getCurrentUser().getUid();
     String baseAchievementsPath = "achievements";

@@ -25,7 +25,7 @@ import com.gymhomie.R;
 import com.gymhomie.popup_ManageHomies;
 
 public class homie_fragment extends Fragment {
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     FirebaseAuth auth = FirebaseAuth.getInstance();
     String userID = auth.getCurrentUser().getUid();

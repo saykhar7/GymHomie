@@ -3,6 +3,7 @@ package com.gymhomie.tools;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -26,16 +27,152 @@ public class Goal {
         return completedGoalCollection;
     }
 
+    private String user_id;
+    private ArrayList<Boolean> goalCollection;
+    private ArrayList<Boolean> completedGoalCollection;
+    private int current_steps;
+    private int current_ounces;
+    private int current_weight;
+    private int current_max;
+    private int current_streak;
+    private ArrayList<Map<String, Object>> activeStepGoals;
+    private ArrayList<Map<String, Object>> nonActiveStepGoals;
+    private ArrayList<Map<String, Object>> completedStepGoals;
+    private ArrayList<Map<String, Object>> activeHydrationGoals;
+    private ArrayList<Map<String, Object>> nonActiveHydrationGoals;
+    private ArrayList<Map<String, Object>> completedHydrationGoals;
+    private ArrayList<Map<String, Object>> activeWeightGoals;
+    private ArrayList<Map<String, Object>> nonActiveWeightGoals;
+    private ArrayList<Map<String, Object>> completedWeightGoals;
+    private ArrayList<Map<String, Object>> activeExerciseGoals;
+    private ArrayList<Map<String, Object>> nonActiveExerciseGoals;
+    private ArrayList<Map<String, Object>> completedExerciseGoals;
+    private ArrayList<Map<String, Object>> activeWorkoutGoals;
+    private ArrayList<Map<String, Object>> nonActiveWorkoutGoals;
+    private ArrayList<Map<String, Object>> completedWorkoutGoals;
+
+    public ArrayList<Map<String, Object>> getStepGoals() {
+        return activeStepGoals;
+    }
+
+    public void setStepGoals(ArrayList<Map<String, Object>> stepGoals) {
+        this.activeStepGoals = stepGoals;
+    }
+
+    public ArrayList<Map<String, Object>> getHydrationGoals() {
+        return activeHydrationGoals;
+    }
+
+    public void setHydrationGoals(ArrayList<Map<String, Object>> hydrationGoals) {
+        this.activeHydrationGoals = hydrationGoals;
+    }
+
+    public ArrayList<Map<String, Object>> getWeightGoals() {
+        return activeWeightGoals;
+    }
+
+    public void setWeightGoals(ArrayList<Map<String, Object>> weightGoals) {
+        this.activeWeightGoals = weightGoals;
+    }
+
+    public ArrayList<Map<String, Object>> getExerciseGoals() {
+        return activeExerciseGoals;
+    }
+
+    public void setExerciseGoals(ArrayList<Map<String, Object>> exerciseGoals) {
+        this.activeExerciseGoals = exerciseGoals;
+    }
+
+    public ArrayList<Map<String, Object>> getWorkoutGoals() {
+        return activeWorkoutGoals;
+    }
+
+    public void setWorkoutGoals(ArrayList<Map<String, Object>> workoutGoals) {
+        this.activeWorkoutGoals = workoutGoals;
+    }
+    public ArrayList<Boolean> getGoalCollection() {
+        return goalCollection;
+    }
+
     public void setCompletedGoalCollection(ArrayList<Boolean> completedGoalCollection) {
         this.completedGoalCollection = completedGoalCollection;
     }
 
-    public String getCurrent_status() {
-        return current_status;
+    public int getCurrent_steps() {
+        return current_steps;
+    }
+    public void getTodaysHydrationData(){
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        LocalDate currentDate = LocalDate.now();
+
+        firestore.collection("users")
+                .document(auth.getUid())
+                .collection("WaterIntakes")
+                .whereEqualTo("day", currentDate.getDayOfMonth())
+                .whereEqualTo("month", currentDate.getMonthValue())
+                .whereEqualTo("year", currentDate.getYear())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                            // get the number of steps for the day
+                            Long amount = document.getLong("amount");
+                            if (amount != null) {
+                                current_ounces += amount.intValue();
+                            }
+                        }
+                    }
+                });
+    }
+    public void getCurrentWeight(){
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        LocalDate currentDate = LocalDate.now();
+
+        firestore.collection("users")
+                .document(auth.getUid())
+                .collection("Profile")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                            // get the number of steps for the day
+                            Long weight = document.getLong("weight");
+                            if (weight != null) {
+                                current_weight = weight.intValue();
+                            }
+                        }
+                    }
+                });
     }
 
-    public void setCurrent_status(String current_status) {
-        this.current_status = current_status;
+    public void getTodaysStepData(){
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        LocalDate currentDate = LocalDate.now();
+
+        firestore.collection("users")
+                .document(auth.getUid())
+                .collection("StepCounter")
+                .whereEqualTo("day", currentDate.getDayOfMonth())
+                .whereEqualTo("month", currentDate.getMonthValue())
+                .whereEqualTo("year", currentDate.getYear())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                            // get the number of steps for the day
+                            Long stepsValue = document.getLong("steps");
+                            if (stepsValue != null) {
+                                current_steps += stepsValue.intValue();
+                            }
+                        }
+                    }
+                });
     }
 
     public ArrayList<Map<String, Object>> getNonActiveStepGoals() {
@@ -118,71 +255,44 @@ public class Goal {
         this.completedWorkoutGoals = completedWorkoutGoals;
     }
 
-    private String user_id;
-    private ArrayList<Boolean> goalCollection;
-    private ArrayList<Boolean> completedGoalCollection;
-    private String current_status;
-    private ArrayList<Map<String, Object>> activeStepGoals;
-    private ArrayList<Map<String, Object>> nonActiveStepGoals;
-    private ArrayList<Map<String, Object>> completedStepGoals;
-    private ArrayList<Map<String, Object>> activeHydrationGoals;
-    private ArrayList<Map<String, Object>> nonActiveHydrationGoals;
-    private ArrayList<Map<String, Object>> completedHydrationGoals;
-    private ArrayList<Map<String, Object>> activeWeightGoals;
-    private ArrayList<Map<String, Object>> nonActiveWeightGoals;
-    private ArrayList<Map<String, Object>> completedWeightGoals;
-    private ArrayList<Map<String, Object>> activeExerciseGoals;
-    private ArrayList<Map<String, Object>> nonActiveExerciseGoals;
-    private ArrayList<Map<String, Object>> completedExerciseGoals;
-    public ArrayList<Map<String, Object>> getStepGoals() {
-        return activeStepGoals;
-    }
-
-    public void setStepGoals(ArrayList<Map<String, Object>> stepGoals) {
-        this.activeStepGoals = stepGoals;
-    }
-
-    public ArrayList<Map<String, Object>> getHydrationGoals() {
-        return activeHydrationGoals;
-    }
-
-    public void setHydrationGoals(ArrayList<Map<String, Object>> hydrationGoals) {
-        this.activeHydrationGoals = hydrationGoals;
-    }
-
-    public ArrayList<Map<String, Object>> getWeightGoals() {
-        return activeWeightGoals;
-    }
-
-    public void setWeightGoals(ArrayList<Map<String, Object>> weightGoals) {
-        this.activeWeightGoals = weightGoals;
-    }
-
-    public ArrayList<Map<String, Object>> getExerciseGoals() {
-        return activeExerciseGoals;
-    }
-
-    public void setExerciseGoals(ArrayList<Map<String, Object>> exerciseGoals) {
-        this.activeExerciseGoals = exerciseGoals;
-    }
-
-    public ArrayList<Map<String, Object>> getWorkoutGoals() {
-        return activeWorkoutGoals;
-    }
-
-    public void setWorkoutGoals(ArrayList<Map<String, Object>> workoutGoals) {
-        this.activeWorkoutGoals = workoutGoals;
-    }
-
-    private ArrayList<Map<String, Object>> activeWorkoutGoals;
-    private ArrayList<Map<String, Object>> nonActiveWorkoutGoals;
-    private ArrayList<Map<String, Object>> completedWorkoutGoals;
-    public ArrayList<Boolean> getGoalCollection() {
-        return goalCollection;
-    }
-
     public void setGoalCollection(ArrayList<Boolean> goalCollection) {
         this.goalCollection = goalCollection;
+    }
+
+    public void setCurrent_steps(int current_steps) {
+        this.current_steps = current_steps;
+    }
+
+    public int getCurrent_ounces() {
+        return current_ounces;
+    }
+
+    public void setCurrent_ounces(int current_ounces) {
+        this.current_ounces = current_ounces;
+    }
+
+    public int getCurrent_weight() {
+        return current_weight;
+    }
+
+    public void setCurrent_weight(int current_weight) {
+        this.current_weight = current_weight;
+    }
+
+    public int getCurrent_max() {
+        return current_max;
+    }
+
+    public void setCurrent_max(int current_max) {
+        this.current_max = current_max;
+    }
+
+    public int getCurrent_streak() {
+        return current_streak;
+    }
+
+    public void setCurrent_streak(int current_streak) {
+        this.current_streak = current_streak;
     }
 
     public Goal() {
@@ -197,6 +307,11 @@ public class Goal {
         nonActiveWeightGoals = new ArrayList<>();
         nonActiveExerciseGoals = new ArrayList<>();
         nonActiveWorkoutGoals = new ArrayList<>();
+        completedStepGoals = new ArrayList<>();
+        completedHydrationGoals = new ArrayList<>();
+        completedWeightGoals = new ArrayList<>();
+        completedExerciseGoals = new ArrayList<>();
+        completedWorkoutGoals = new ArrayList<>();
         firestore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
         user_id = auth.getUid();
@@ -213,7 +328,11 @@ public class Goal {
         queryExerciseGoals();
         queryWeightGoals();
         queryHydrationGoals();
+        getTodaysStepData();
+        getTodaysHydrationData();
+        getCurrentWeight();
     }
+
     public boolean hasGoals() {
         return true;
     }
@@ -242,7 +361,7 @@ public class Goal {
         this.user_id = user_id;
     }
 
-    public void queryStepCounterGoals(){
+    public void queryStepCounterGoals() {
         CollectionReference goalCollection = FirebaseFirestore.getInstance().collection("users/" + user_id + "/Goal");
         goalCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -256,19 +375,16 @@ public class Goal {
                         // Get the current date
                         LocalDate currentDate = LocalDate.now();
 
-                        Object end_year = document.getLong("end_year");
-                        Object end_month = document.getLong("end_month");
-                        Object end_day = document.getLong("end_day");
+                        Long end_year = document.getLong("end_year");
+                        Long end_month = document.getLong("end_month");
+                        Long end_day = document.getLong("end_day");
 
-                        LocalDate endDate = LocalDate.of((Integer) end_year, (Integer) end_month, (Integer) end_day);
-                        if (currentDate.isBefore(endDate) || currentDate.isEqual(endDate)) {
+                        LocalDate endDate = LocalDate.of(end_year.intValue(), end_month.intValue(), end_day.intValue());
                         if (title != null && title.equals("steps")) {
-                            // 'title' field is equal to 'exercise' in this document
-                            Map<String, Object> documentData = document.getData();
-                            activeStepGoals.add(documentData);
-                        }
-                    }else {
-                            if (title != null && title.equals("steps")) {
+                        if (currentDate.isBefore(endDate) || currentDate.isEqual(endDate)) {
+                                Map<String, Object> documentData = document.getData();
+                                activeStepGoals.add(documentData);
+                        } else {
                                 Map<String, Object> documentData = document.getData();
                                 Map<String, Object> completedMap = (Map<String, Object>) completedField;
                                 boolean flag = true; // Initialize the flag to true
@@ -281,10 +397,10 @@ public class Goal {
                                         }
                                     }
                                 }
-                                if (flag == false)
-                                    nonActiveWorkoutGoals.add(documentData);
+                                if (!flag)
+                                    nonActiveStepGoals.add(documentData);
                                 else
-                                    completedWorkoutGoals.add(documentData);
+                                    completedStepGoals.add(documentData);
                             }
                         }
                     }
@@ -298,6 +414,7 @@ public class Goal {
             }
         });
     }
+
     public void queryHydrationGoals() {
         CollectionReference goalCollection = FirebaseFirestore.getInstance().collection("users/" + user_id + "/Goal");
         goalCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -310,18 +427,17 @@ public class Goal {
                         // Get the current date
                         LocalDate currentDate = LocalDate.now();
 
-                        Object end_year = document.getLong("end_year");
-                        Object end_month = document.getLong("end_month");
-                        Object end_day = document.getLong("end_day");
+                        Long end_year = document.getLong("end_year");
+                        Long end_month = document.getLong("end_month");
+                        Long end_day = document.getLong("end_day");
 
-                        LocalDate endDate = LocalDate.of((Integer) end_year, (Integer) end_month, (Integer) end_day);
+                        LocalDate endDate = LocalDate.of(end_year.intValue(), end_month.intValue(), end_day.intValue());
+                        if (title != null && title.equals("hydration")) {
                         if (currentDate.isBefore(endDate) || currentDate.isEqual(endDate)) {
-                            if (title != null && title.equals("hydration")) {
                                 // 'title' field is equal to 'exercise' in this document
                                 Map<String, Object> documentData = document.getData();
                                 activeHydrationGoals.add(documentData);
                             } else {
-                                if (title != null && title.equals("hydration")) {
                                     Map<String, Object> documentData = document.getData();
                                     Map<String, Object> completedMap = (Map<String, Object>) completedField;
                                     boolean flag = true; // Initialize the flag to true
@@ -334,25 +450,25 @@ public class Goal {
                                             }
                                         }
                                     }
-                                    if (flag == false)
-                                        nonActiveWorkoutGoals.add(documentData);
+                                    if (!flag)
+                                        nonActiveHydrationGoals.add(documentData);
                                     else
-                                        completedWorkoutGoals.add(documentData);
+                                        completedHydrationGoals.add(documentData);
                                 }
                             }
-                        } else {
-                            // Handle the error
-                            Exception e = task.getException();
-                            if (e != null) {
-                                // Handle the exception
-                            }
-                        }
+                    }
+                }else {
+                    // Handle the error
+                    Exception e = task.getException();
+                    if (e != null) {
+                        // Handle the exception
                     }
                 }
             }
         });
     }
-    public void queryWeightGoals(){
+
+    public void queryWeightGoals() {
         CollectionReference goalCollection = FirebaseFirestore.getInstance().collection("users/" + user_id + "/Goal");
         goalCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -364,26 +480,20 @@ public class Goal {
                         // Get the current date
                         LocalDate currentDate = LocalDate.now();
 
-                        Object end_year = document.getLong("end_year");
-                        Object end_month = document.getLong("end_month");
-                        Object end_day = document.getLong("end_day");
+                        Long end_year = document.getLong("end_year");
+                        Long end_month = document.getLong("end_month");
+                        Long end_day = document.getLong("end_day");
 
-                        LocalDate endDate = LocalDate.of((Integer) end_year, (Integer) end_month, (Integer) end_day);
-                        if((Boolean)completedField){
-                            if (title != null && title.equals("weight")) {
+                        LocalDate endDate = LocalDate.of(end_year.intValue(), end_month.intValue(), end_day.intValue());
+                        if (title != null && title.equals("weight")) {
+                            if ((Boolean) completedField) {
                                 Map<String, Object> documentData = document.getData();
                                 completedWeightGoals.add(documentData);
-                            }
-                        }
-                        else if ((currentDate.isBefore(endDate) || currentDate.isEqual(endDate)) && !((Boolean)completedField)) {
-                            if (title != null && title.equals("weight")) {
+                            } else if ((currentDate.isBefore(endDate) || currentDate.isEqual(endDate)) && !((Boolean) completedField)) {
                                 // 'title' field is equal to 'exercise' in this document
                                 Map<String, Object> documentData = document.getData();
                                 activeWeightGoals.add(documentData);
-                            }
-                        }
-                        else if (currentDate.isAfter(endDate)){
-                            if (title != null && title.equals("weight")) {
+                            } else if (currentDate.isAfter(endDate)) {
                                 Map<String, Object> documentData = document.getData();
                                 nonActiveWeightGoals.add(documentData);
                             }
@@ -399,7 +509,8 @@ public class Goal {
             }
         });
     }
-    public void queryExerciseGoals(){
+
+    public void queryExerciseGoals() {
         CollectionReference goalCollection = FirebaseFirestore.getInstance().collection("users/" + user_id + "/Goal");
         goalCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -412,26 +523,20 @@ public class Goal {
                         // Get the current date
                         LocalDate currentDate = LocalDate.now();
 
-                        Object end_year = document.getLong("end_year");
-                        Object end_month = document.getLong("end_month");
-                        Object end_day = document.getLong("end_day");
+                        Long end_year = document.getLong("end_year");
+                        Long end_month = document.getLong("end_month");
+                        Long end_day = document.getLong("end_day");
 
-                        LocalDate endDate = LocalDate.of((Integer) end_year, (Integer) end_month, (Integer) end_day);
-                        if((Boolean)completedField){
-                            if (title != null && title.equals("weight")) {
+                        LocalDate endDate = LocalDate.of(end_year.intValue(), end_month.intValue(), end_day.intValue());
+                        if (title != null && title.equals("exercise")) {
+                            if ((Boolean) completedField) {
                                 Map<String, Object> documentData = document.getData();
                                 completedExerciseGoals.add(documentData);
-                            }
-                        }
-                        else if ((currentDate.isBefore(endDate) || currentDate.isEqual(endDate)) && !((Boolean)completedField)) {
-                            if (title != null && title.equals("weight")) {
+                            } else if ((currentDate.isBefore(endDate) || currentDate.isEqual(endDate)) && !((Boolean) completedField)) {
                                 // 'title' field is equal to 'exercise' in this document
                                 Map<String, Object> documentData = document.getData();
                                 activeExerciseGoals.add(documentData);
-                            }
-                        }
-                        else if (currentDate.isAfter(endDate)){
-                            if (title != null && title.equals("weight")) {
+                            } else if (currentDate.isAfter(endDate)) {
                                 Map<String, Object> documentData = document.getData();
                                 nonActiveExerciseGoals.add(documentData);
                             }
@@ -447,7 +552,8 @@ public class Goal {
             }
         });
     }
-    public void queryWorkoutGoals(){
+
+    public void queryWorkoutGoals() {
         CollectionReference goalCollection = FirebaseFirestore.getInstance().collection("users/" + user_id + "/Goal");
         goalCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -460,19 +566,17 @@ public class Goal {
                         // Get the current date
                         LocalDate currentDate = LocalDate.now();
 
-                        Object end_year = document.getLong("end_year");
-                        Object end_month = document.getLong("end_month");
-                        Object end_day = document.getLong("end_day");
+                        Long end_year = document.getLong("end_year");
+                        Long end_month = document.getLong("end_month");
+                        Long end_day = document.getLong("end_day");
 
-                        LocalDate endDate = LocalDate.of((Integer) end_year, (Integer) end_month, (Integer) end_day);
-                        if (currentDate.isBefore(endDate) || currentDate.isEqual(endDate)) {
-                            if (title != null && title.equals("workout")) {
+                        LocalDate endDate = LocalDate.of(end_year.intValue(), end_month.intValue(), end_day.intValue());
+                        if (title != null && title.equals("workout")) {
+                            if (currentDate.isBefore(endDate) || currentDate.isEqual(endDate)) {
                                 // 'title' field is equal to 'exercise' in this document
                                 Map<String, Object> documentData = document.getData();
                                 activeWorkoutGoals.add(documentData);
-                            }
-                        }else {
-                            if (title != null && title.equals("workout")) {
+                            } else {
                                 Map<String, Object> documentData = document.getData();
                                 Map<String, Object> completedMap = (Map<String, Object>) completedField;
                                 boolean flag = true; // Initialize the flag to true
@@ -485,7 +589,7 @@ public class Goal {
                                         }
                                     }
                                 }
-                                if (flag == false)
+                                if (!flag)
                                     nonActiveWorkoutGoals.add(documentData);
                                 else
                                     completedWorkoutGoals.add(documentData);
@@ -532,5 +636,6 @@ public class Goal {
             });
         }
     }
+
 
 }

@@ -59,8 +59,8 @@ public class Step_Activity extends AppCompatActivity implements SensorEventListe
     private static final String STEP_COUNT_KEY = "stepCount";
     private static final String LAST_RESET_KEY = "lastResetTime";
     private Date today;
-    private float[] gravity = new float[3];
-    private float[] linearAcceleration = new float[3];
+    private final float[] gravity = new float[3];
+    private final float[] linearAcceleration = new float[3];
     private static final float ALPHA = 0.8f;
     // variable for our bar chart
 

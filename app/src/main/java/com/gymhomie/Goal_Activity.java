@@ -17,14 +17,14 @@ public class Goal_Activity extends AppCompatActivity {
     private ImageView artImageView;
     private TextView title;
     private int currentImageIndex = 0;
-    private int[] imageResources = {
+    private final int[] imageResources = {
             R.drawable.jogging,
             R.drawable.water_bottle,
             R.drawable.body_scan,
             R.drawable.barbell,
             R.drawable.health
     };
-    private String[] titleResources = {
+    private final String[] titleResources = {
             "Step Goals",
             "Hydration Goals",
             "Weight Goals",
@@ -32,7 +32,7 @@ public class Goal_Activity extends AppCompatActivity {
             "Workout Goals"
     };
     Goal goal = new Goal();
-    private boolean[] hasGoals = new boolean[imageResources.length];
+    private final boolean[] hasGoals = new boolean[imageResources.length];
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,12 +55,13 @@ public class Goal_Activity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Goal_Activity.this, ActiveGoals_Activity.class);
                 if(currentImageIndex == 0) {
-                    if(goal.getGoalCollection().get(0) == true){
+                    if(goal.getGoalCollection().get(0)){
                         // start active goals intent
                         intent.putExtra("title", "steps");
                         String start_date = "";
                         String end_date = "";
                         String target_steps = "";
+                        String current_steps = "";
                         String type = "";
                         Integer counter = 0;
                         for(Map<String, Object> map: goal.getStepGoals()) {
@@ -68,6 +69,7 @@ public class Goal_Activity extends AppCompatActivity {
                             end_date = map.get("end_month").toString() + "/" + map.get("end_day").toString() + "/" + map.get("end_year").toString();
                             type =  map.get("type").toString();
                             target_steps = map.get("target").toString();
+                            current_steps = String.valueOf(goal.getCurrent_steps());
                             intent.putExtra(counter.toString(), start_date);
                             counter++;
                             intent.putExtra(counter.toString(), end_date);
@@ -76,13 +78,15 @@ public class Goal_Activity extends AppCompatActivity {
                             counter++;
                             intent.putExtra(counter.toString(), target_steps);
                             counter++;
+                            intent.putExtra(counter.toString(), current_steps);
+                            counter++;
                         }
-                    } else if (goal.getGoalCollection().get(0) == false) {
+                    } else if (!goal.getGoalCollection().get(0)) {
                         // TODO: Setup no goals screen
 
                     }
                 }else if(currentImageIndex == 1){
-                    if(goal.getGoalCollection().get(1) == true){
+                    if(goal.getGoalCollection().get(1)){
                         // start active goals intent
                         intent.putExtra("title", "hydration");
                         String start_date = "";
@@ -104,11 +108,11 @@ public class Goal_Activity extends AppCompatActivity {
                             intent.putExtra(counter.toString(), target_steps);
                             counter++;
                         }
-                    } else if (goal.getGoalCollection().get(1) == false) {
+                    } else if (!goal.getGoalCollection().get(1)) {
                         // TODO: Setup no goals screen
                     }
                 } else if(currentImageIndex == 2){
-                    if(goal.getGoalCollection().get(2) == true){
+                    if(goal.getGoalCollection().get(2)){
                         // start active goals intent
                         intent.putExtra("title", "weight");
                         String start_date = "";
@@ -126,11 +130,11 @@ public class Goal_Activity extends AppCompatActivity {
                             intent.putExtra(counter.toString(), target_steps);
                             counter++;
                         }
-                    } else if (goal.getGoalCollection().get(2) == false) {
+                    } else if (!goal.getGoalCollection().get(2)) {
                         // TODO: Setup no goals screen
                     }
                 } else if(currentImageIndex == 3){
-                    if(goal.getGoalCollection().get(3) == true){
+                    if(goal.getGoalCollection().get(3)){
                         // start active goals intent
                         intent.putExtra("title", "exercise");
                         String start_date = "";
@@ -148,13 +152,13 @@ public class Goal_Activity extends AppCompatActivity {
                             intent.putExtra(counter.toString(), target_steps);
                             counter++;
                         }
-                    } else if (goal.getGoalCollection().get(3) == false) {
+                    } else if (!goal.getGoalCollection().get(3)) {
                         // TODO: Setup no goals screen
                     }
                 } else if(currentImageIndex == 4){
-                    if(goal.getGoalCollection().get(4) == true){
+                    if(goal.getGoalCollection().get(4)){
                         // start active goals intent
-                        intent.putExtra("title", "workouts");
+                        intent.putExtra("title", "workout");
                         String start_date = "";
                         String end_date = "";
                         String target_steps = "";
@@ -174,7 +178,7 @@ public class Goal_Activity extends AppCompatActivity {
                             intent.putExtra(counter.toString(), target_steps);
                             counter++;
                         }
-                    } else if (goal.getGoalCollection().get(4) == false) {
+                    } else if (!goal.getGoalCollection().get(4)) {
                         // TODO: Setup no goals screen
                     }
                 }
@@ -186,46 +190,241 @@ public class Goal_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Goal_Activity.this, GoalHistory_Activity.class);
-                for (int i = 0; i < goal.getGoalCollection().size(); i++){
-                    if(i == 0 && goal.getGoalCollection().get(i) == true){
-                        // Step Counter collection exists
-                        intent.putExtra("stepcounter", true);
+                if(currentImageIndex == 0) {
+                    if(goal.getGoalCollection().get(0)){
+                        // start active goals intent
+                        intent.putExtra("title", "steps");
+                        if (goal.getCompletedStepGoals().size() > 0){
+                            String start_date = "";
+                            String end_date = "";
+                            String target_steps = "";
+                            String type = "";
+                            Integer counter = 0;
+                            for(Map<String, Object> map: goal.getCompletedStepGoals()) {
+                                start_date = map.get("start_month").toString() + "/" + map.get("start_day").toString() + "/" + map.get("start_year").toString();
+                                end_date = map.get("end_month").toString() + "/" + map.get("end_day").toString() + "/" + map.get("end_year").toString();
+                                type =  map.get("type").toString();
+                                target_steps = map.get("target").toString();
+                                intent.putExtra(counter.toString(), start_date);
+                                counter++;
+                                intent.putExtra(counter.toString(), end_date);
+                                counter++;
+                                intent.putExtra(counter.toString(), type);
+                                counter++;
+                                intent.putExtra(counter.toString(), target_steps);
+                                counter++;
+                            }
+                        }
+                        if(goal.getNonActiveStepGoals().size() > 0){
+                            String start_date = "";
+                            String end_date = "";
+                            String target_steps = "";
+                            String type = "";
+                            Integer counter = 0;
+                            for(Map<String, Object> map: goal.getCompletedStepGoals()) {
+                                start_date = map.get("start_month").toString() + "/" + map.get("start_day").toString() + "/" + map.get("start_year").toString();
+                                end_date = map.get("end_month").toString() + "/" + map.get("end_day").toString() + "/" + map.get("end_year").toString();
+                                type =  map.get("type").toString();
+                                target_steps = map.get("target").toString();
+                                intent.putExtra(counter.toString(), start_date);
+                                counter++;
+                                intent.putExtra(counter.toString(), end_date);
+                                counter++;
+                                intent.putExtra(counter.toString(), type);
+                                counter++;
+                                intent.putExtra(counter.toString(), target_steps);
+                                counter++;
+                            }
+                        }
+                    } else if (!goal.getGoalCollection().get(0)) {
+                        // TODO: Setup no goals screen
+
                     }
-                    else if(i == 0 && goal.getGoalCollection().get(i) == false){
-                        // Step Counter collection does not exist
-                        intent.putExtra("stepcounter", false);
+                }else if(currentImageIndex == 1){
+                    // start active goals intent
+                    intent.putExtra("title", "hydration");
+                    if (goal.getCompletedHydrationGoals().size() > 0){
+                        String start_date = "";
+                        String end_date = "";
+                        String target_ounces = "";
+                        String type = "";
+                        Integer counter = 0;
+                        for(Map<String, Object> map: goal.getCompletedHydrationGoals()) {
+                            start_date = map.get("start_month").toString() + "/" + map.get("start_day").toString() + "/" + map.get("start_year").toString();
+                            end_date = map.get("end_month").toString() + "/" + map.get("end_day").toString() + "/" + map.get("end_year").toString();
+                            type =  map.get("type").toString();
+                            target_ounces = map.get("target").toString();
+                            intent.putExtra(counter.toString(), start_date);
+                            counter++;
+                            intent.putExtra(counter.toString(), end_date);
+                            counter++;
+                            intent.putExtra(counter.toString(), type);
+                            counter++;
+                            intent.putExtra(counter.toString(), target_ounces);
+                            counter++;
+                        }
                     }
-                    if(i == 1 && goal.getGoalCollection().get(i) == true){
-                        // Water Intakes collection exists
-                        intent.putExtra("waterintakes", true);
+                    if(goal.getCompletedHydrationGoals().size() > 0){
+                        String start_date = "";
+                        String end_date = "";
+                        String target_ounces = "";
+                        String type = "";
+                        Integer counter = 0;
+                        for(Map<String, Object> map: goal.getCompletedHydrationGoals()) {
+                            start_date = map.get("start_month").toString() + "/" + map.get("start_day").toString() + "/" + map.get("start_year").toString();
+                            end_date = map.get("end_month").toString() + "/" + map.get("end_day").toString() + "/" + map.get("end_year").toString();
+                            type =  map.get("type").toString();
+                            target_ounces = map.get("target").toString();
+                            intent.putExtra(counter.toString(), start_date);
+                            counter++;
+                            intent.putExtra(counter.toString(), end_date);
+                            counter++;
+                            intent.putExtra(counter.toString(), type);
+                            counter++;
+                            intent.putExtra(counter.toString(), target_ounces);
+                            counter++;
+                        }
+                    }else if (!goal.getGoalCollection().get(1)) {
+                        // TODO: Setup no goals screen
                     }
-                    else if(i == 1 && goal.getGoalCollection().get(i) == false){
-                        // Water Intakes collection exists
-                        intent.putExtra("waterintakes", false);
+                } else if(currentImageIndex == 2){
+                    if(goal.getGoalCollection().get(2)){
+                        // start active goals intent
+                        intent.putExtra("title", "weight");
+                        if (goal.getCompletedWeightGoals().size() > 0){
+                            String start_date = "";
+                            String end_date = "";
+                            String target_weight = "";
+                            Integer counter = 0;
+                            for(Map<String, Object> map: goal.getCompletedWeightGoals()) {
+                                start_date = map.get("start_month").toString() + "/" + map.get("start_day").toString() + "/" + map.get("start_year").toString();
+                                end_date = map.get("end_month").toString() + "/" + map.get("end_day").toString() + "/" + map.get("end_year").toString();
+                                target_weight = map.get("target").toString();
+                                intent.putExtra(counter.toString(), start_date);
+                                counter++;
+                                intent.putExtra(counter.toString(), end_date);
+                                counter++;
+                                intent.putExtra(counter.toString(), target_weight);
+                                counter++;
+                            }
+                        }
+                        if(goal.getNonActiveWeightGoals().size() > 0){
+                            String start_date = "";
+                            String end_date = "";
+                            String target_weight = "";
+                            Integer counter = 0;
+                            for(Map<String, Object> map: goal.getNonActiveWeightGoals()) {
+                                start_date = map.get("start_month").toString() + "/" + map.get("start_day").toString() + "/" + map.get("start_year").toString();
+                                end_date = map.get("end_month").toString() + "/" + map.get("end_day").toString() + "/" + map.get("end_year").toString();
+                                target_weight = map.get("target").toString();
+                                intent.putExtra(counter.toString(), start_date);
+                                counter++;
+                                intent.putExtra(counter.toString(), end_date);
+                                counter++;
+                                intent.putExtra(counter.toString(), target_weight);
+                                counter++;
+                            }
+                        }
+                    } else if (!goal.getGoalCollection().get(2)) {
+                        // TODO: Setup no goals screen
                     }
-                    if(i == 2 && goal.getGoalCollection().get(i) == true){
-                        // Profile collection exists
-                        intent.putExtra("profile", true);
+                } else if(currentImageIndex == 3){
+                    if(goal.getGoalCollection().get(3)){
+                        // start active goals intent
+                        intent.putExtra("title", "exercise");
+                        if (goal.getCompletedExerciseGoals().size() > 0){
+                            String start_date = "";
+                            String end_date = "";
+                            String target = "";
+                            String type = "";
+                            Integer counter = 0;
+                            for(Map<String, Object> map: goal.getCompletedExerciseGoals()) {
+                                start_date = map.get("start_month").toString() + "/" + map.get("start_day").toString() + "/" + map.get("start_year").toString();
+                                end_date = map.get("end_month").toString() + "/" + map.get("end_day").toString() + "/" + map.get("end_year").toString();
+                                target = map.get("target").toString();
+                                type = map.get("type").toString();
+                                intent.putExtra(counter.toString(), start_date);
+                                counter++;
+                                intent.putExtra(counter.toString(), end_date);
+                                counter++;
+                                intent.putExtra(counter.toString(), target);
+                                counter++;
+                                intent.putExtra(counter.toString(), type);
+                                counter++;
+                            }
+                        }
+                        if(goal.getNonActiveExerciseGoals().size() > 0){
+                            String start_date = "";
+                            String end_date = "";
+                            String target = "";
+                            String type = "";
+                            Integer counter = 0;
+                            for(Map<String, Object> map: goal.getNonActiveExerciseGoals()) {
+                                start_date = map.get("start_month").toString() + "/" + map.get("start_day").toString() + "/" + map.get("start_year").toString();
+                                end_date = map.get("end_month").toString() + "/" + map.get("end_day").toString() + "/" + map.get("end_year").toString();
+                                target = map.get("target").toString();
+                                type = map.get("type").toString();
+                                intent.putExtra(counter.toString(), start_date);
+                                counter++;
+                                intent.putExtra(counter.toString(), end_date);
+                                counter++;
+                                intent.putExtra(counter.toString(), target);
+                                counter++;
+                                intent.putExtra(counter.toString(), type);
+                                counter++;
+                            }
+                        }
+                    } else if (!goal.getGoalCollection().get(3)) {
+                        // TODO: Setup no goals screen
                     }
-                    else if(i == 2 && goal.getGoalCollection().get(i) == false){
-                        // Profile collection exists
-                        intent.putExtra("profile", false);
-                    }
-                    if(i == 3 && goal.getGoalCollection().get(i) == true){
-                        // Exercise collection exists
-                        intent.putExtra("exercise", true);
-                    }
-                    else if(i == 3 && goal.getGoalCollection().get(i) == false){
-                        // Exercise collection exists
-                        intent.putExtra("exercise", false);
-                    }
-                    if(i == 4 && goal.getGoalCollection().get(i) == true){
-                        // Workouts collection exists
-                        intent.putExtra("workouts", true);
-                    }
-                    else if(i == 4 && goal.getGoalCollection().get(i) == false){
-                        // Workouts collection exists
-                        intent.putExtra("workouts", false);
+                } else if(currentImageIndex == 4){
+                    if(goal.getGoalCollection().get(4)){
+                        // start active goals intent
+                        intent.putExtra("title", "workout");
+                        if (goal.getCompletedWorkoutGoals().size() > 0){
+                            String start_date = "";
+                            String end_date = "";
+                            String target= "";
+                            String type = "";
+                            Integer counter = 0;
+                            for(Map<String, Object> map: goal.getCompletedWorkoutGoals()) {
+                                start_date = map.get("start_month").toString() + "/" + map.get("start_day").toString() + "/" + map.get("start_year").toString();
+                                end_date = map.get("end_month").toString() + "/" + map.get("end_day").toString() + "/" + map.get("end_year").toString();
+                                target = map.get("target").toString();
+                                type = map.get("type").toString();
+                                intent.putExtra(counter.toString(), start_date);
+                                counter++;
+                                intent.putExtra(counter.toString(), end_date);
+                                counter++;
+                                intent.putExtra(counter.toString(), target);
+                                counter++;
+                                intent.putExtra(counter.toString(), type);
+                                counter++;
+                            }
+                        }
+                        if(goal.getNonActiveWorkoutGoals().size() > 0){
+                            String start_date = "";
+                            String end_date = "";
+                            String target = "";
+                            String type = "";
+                            Integer counter = 0;
+                            for(Map<String, Object> map: goal.getNonActiveWorkoutGoals()) {
+                                start_date = map.get("start_month").toString() + "/" + map.get("start_day").toString() + "/" + map.get("start_year").toString();
+                                end_date = map.get("end_month").toString() + "/" + map.get("end_day").toString() + "/" + map.get("end_year").toString();
+                                target = map.get("target").toString();
+                                type = map.get("type").toString();
+                                intent.putExtra(counter.toString(), start_date);
+                                counter++;
+                                intent.putExtra(counter.toString(), end_date);
+                                counter++;
+                                intent.putExtra(counter.toString(), target);
+                                counter++;
+                                intent.putExtra(counter.toString(), type);
+                                counter++;
+                            }
+                        }
+                    } else if (!goal.getGoalCollection().get(4)) {
+                        // TODO: Setup no goals screen
                     }
                 }
                 startActivity(intent);

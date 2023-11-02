@@ -48,6 +48,10 @@
             android:exported="false"
             />
         <activity
+            android:name=".GoalHistory_Activity"
+            android:exported="false"
+            />
+        <activity
             android:name=".ActiveGoals_Activity"
             android:exported="false"
             />
