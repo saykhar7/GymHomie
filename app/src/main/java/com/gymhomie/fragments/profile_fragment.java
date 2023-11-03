@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -31,6 +32,7 @@ public class profile_fragment extends Fragment {
     private Button btnLogout;
     private Button btnGoals;
     private Button btnAchievements;
+    private ImageView pickAchievement;
     private TextView profileName;
     private TextView profileEmail;
     private OnLogoutClickListener onLogoutClickListener;
@@ -69,8 +71,10 @@ public class profile_fragment extends Fragment {
         String email = auth.getCurrentUser().getEmail();
         profileEmail.setText(email);
 
+        pickAchievement = view.findViewById(R.id.profileBadge);
         btnLogout = view.findViewById(R.id.logoutBtn);
         btnGoals = view.findViewById(R.id.goalsBtn);
+
         btnGoals.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,7 +97,14 @@ public class profile_fragment extends Fragment {
                 startActivity(intent);
             }
         });
-
+        pickAchievement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Open the achievements so the user can pick their favorite badge
+                Intent intent = new Intent(getActivity(), Achievement_Activity.class);
+                startActivity(intent);
+            }
+        });
         return view;
     }
 
