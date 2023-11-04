@@ -17,7 +17,7 @@
             android:id="@+id/profilePicture"
             android:layout_width="140dp"
             android:layout_height="140dp"
-            android:src="@drawable/profile" />
+            android:src="@drawable/default_profile" />
 
         <ImageView
             android:id="@+id/profileBadge"

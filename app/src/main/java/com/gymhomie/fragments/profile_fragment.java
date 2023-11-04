@@ -129,20 +129,23 @@ public class profile_fragment extends Fragment {
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        String achID = documentSnapshot.get("badge").toString();
-                        if (achID == null) {
+                        String achID;
+                        if (!documentSnapshot.contains("badge")) {
                             // badge has not been set for current user, set to -1 for default
                             achID = "-1";
                             docRef.update("badge", achID);
                             profileBadge.setImageResource(R.drawable.trophy_unlocked);
                         }
-                        else if (achID == "-1") {
-                            profileBadge.setImageResource(R.drawable.trophy_unlocked);
-                        }
                         else {
-                            // dynamically set their badge
-                            //  Toast.makeText(getContext(), "showcasing " + achID, Toast.LENGTH_SHORT).show();
-                            profileBadge.setImageResource(imageResourceMap.get(achID));
+                            achID = documentSnapshot.get("badge").toString();
+                            if (achID.equals("-1")) {
+                                profileBadge.setImageResource(R.drawable.trophy_unlocked);
+                            }
+                            else {
+                                // dynamically set their badge
+                                Log.d("Profile Achievement Update", achID);
+                                profileBadge.setImageResource(imageResourceMap.get(achID));
+                            }
                         }
                     }
                 });
