@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -25,6 +26,9 @@ import com.gymhomie.Achievement_Activity;
 import com.gymhomie.GoalMenu_Activity;
 import com.gymhomie.R;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class profile_fragment extends Fragment {
 
@@ -32,13 +36,15 @@ public class profile_fragment extends Fragment {
     private Button btnLogout;
     private Button btnGoals;
     private Button btnAchievements;
-    private ImageView pickAchievement;
+    private ImageView profileBadge;
     private TextView profileName;
     private TextView profileEmail;
     private OnLogoutClickListener onLogoutClickListener;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseAuth auth = FirebaseAuth.getInstance();
     String userID = auth.getCurrentUser().getUid();
+    private static final int achReqCode = 100;
+    private View view;
 
     public profile_fragment() {
     }
@@ -46,8 +52,7 @@ public class profile_fragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
-
+        view = inflater.inflate(R.layout.fragment_profile, container, false);
         profileName = view.findViewById(R.id.profileName);
         profileEmail = view.findViewById(R.id.profileEmail);
         FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -71,9 +76,11 @@ public class profile_fragment extends Fragment {
         String email = auth.getCurrentUser().getEmail();
         profileEmail.setText(email);
 
-        pickAchievement = view.findViewById(R.id.profileBadge);
+        profileBadge = view.findViewById(R.id.profileBadge);
         btnLogout = view.findViewById(R.id.logoutBtn);
         btnGoals = view.findViewById(R.id.goalsBtn);
+
+        updateBadge(view);
 
         btnGoals.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,7 +104,7 @@ public class profile_fragment extends Fragment {
                 startActivity(intent);
             }
         });
-        pickAchievement.setOnClickListener(new View.OnClickListener() {
+        profileBadge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Open the achievements so the user can pick their favorite badge
@@ -106,6 +113,41 @@ public class profile_fragment extends Fragment {
             }
         });
         return view;
+    }
+
+    private void updateBadge(View view) {
+        // let's update the badge icon on the users profile
+
+        Map<String, Integer> imageResourceMap = new HashMap<>();
+        imageResourceMap.put("1", R.drawable.achievement_1_unlocked);
+        imageResourceMap.put("2", R.drawable.achievement_2_unlocked);
+        imageResourceMap.put("3", R.drawable.achievement_3_unlocked);
+        imageResourceMap.put("4", R.drawable.achievement_4_unlocked);
+
+        DocumentReference docRef = db.collection("users").document(userID);
+        docRef.get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        String achID = documentSnapshot.get("badge").toString();
+                        if (achID == null) {
+                            // badge has not been set for current user, set to -1 for default
+                            achID = "-1";
+                            docRef.update("badge", achID);
+                            profileBadge.setImageResource(R.drawable.trophy_unlocked);
+                        }
+                        else if (achID == "-1") {
+                            profileBadge.setImageResource(R.drawable.trophy_unlocked);
+                        }
+                        else {
+                            // dynamically set their badge
+                            //  Toast.makeText(getContext(), "showcasing " + achID, Toast.LENGTH_SHORT).show();
+                            profileBadge.setImageResource(imageResourceMap.get(achID));
+                        }
+                    }
+                });
+
+
     }
 
     public void setOnLogoutClickListener(OnLogoutClickListener listener) {
