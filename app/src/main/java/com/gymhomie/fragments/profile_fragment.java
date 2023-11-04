@@ -157,4 +157,10 @@ public class profile_fragment extends Fragment {
     public interface OnLogoutClickListener {
         void onLogout();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateBadge(view);
+    }
 }
