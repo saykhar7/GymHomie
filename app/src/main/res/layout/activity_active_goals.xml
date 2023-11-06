@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/tableLayout"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context=".ActiveGoals_Activity"
-    android:stretchColumns="1">
+    tools:context=".ActiveGoals_Activity">
 
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </TableRow>
-
-    <!-- Add a title TextView above the table -->
+    <!-- Add the title TextView above the chart -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,14 +15,32 @@
         android:id="@+id/textView"
         android:textSize="20sp"
         android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
         android:paddingTop="16dp"
         android:paddingBottom="8dp" />
-    <!-- Add the PieChart below the TableRow entries and above the title TextView -->
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/pieChart"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_below="@id/tableLayout"
-        android:layout_centerInParent="true"
+
+    <!-- Add the dynamic chart container above the TableLayout -->
+    <FrameLayout
+        android:id="@+id/chartContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp" />
-</TableLayout>
+
+    <!-- Add a TableLayout below the dynamic chart container -->
+    <TableLayout
+        android:id="@+id/tableLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/chartContainer"
+        android:layout_centerHorizontal="true"
+        android:stretchColumns="1">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </TableRow>
+    </TableLayout>
+</RelativeLayout>

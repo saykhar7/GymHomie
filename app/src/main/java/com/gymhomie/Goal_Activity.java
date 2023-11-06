@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.gymhomie.tools.Goal;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 
@@ -91,21 +92,25 @@ public class Goal_Activity extends AppCompatActivity {
                         intent.putExtra("title", "hydration");
                         String start_date = "";
                         String end_date = "";
-                        String target_steps = "";
+                        String target_ounces = "";
+                        String current_ounces = "";
                         String type = "";
                         Integer counter = 0;
                         for(Map<String, Object> map: goal.getHydrationGoals()) {
                             start_date = map.get("start_month").toString() + "/" + map.get("start_day").toString() + "/" + map.get("start_year").toString();
                             end_date = map.get("end_month").toString() + "/" + map.get("end_day").toString() + "/" + map.get("end_year").toString();
                             type =  map.get("type").toString();
-                            target_steps = map.get("target").toString();
+                            target_ounces = map.get("target").toString();
+                            current_ounces = String.valueOf(goal.getCurrent_ounces());
                             intent.putExtra(counter.toString(), start_date);
                             counter++;
                             intent.putExtra(counter.toString(), end_date);
                             counter++;
                             intent.putExtra(counter.toString(), type);
                             counter++;
-                            intent.putExtra(counter.toString(), target_steps);
+                            intent.putExtra(counter.toString(), target_ounces);
+                            counter++;
+                            intent.putExtra(counter.toString(), current_ounces);
                             counter++;
                         }
                     } else if (!goal.getGoalCollection().get(1)) {
@@ -117,17 +122,21 @@ public class Goal_Activity extends AppCompatActivity {
                         intent.putExtra("title", "weight");
                         String start_date = "";
                         String end_date = "";
-                        String target_steps = "";
+                        String target_weight = "";
+                        String current_weight = "";
                         Integer counter = 0;
                         for(Map<String, Object> map: goal.getWeightGoals()) {
                             start_date = map.get("start_month").toString() + "/" + map.get("start_day").toString() + "/" + map.get("start_year").toString();
                             end_date = map.get("end_month").toString() + "/" + map.get("end_day").toString() + "/" + map.get("end_year").toString();
-                            target_steps = map.get("target").toString();
+                            target_weight = map.get("target").toString();
+                            current_weight = String.valueOf(goal.getCurrent_weight());
                             intent.putExtra(counter.toString(), start_date);
                             counter++;
                             intent.putExtra(counter.toString(), end_date);
                             counter++;
-                            intent.putExtra(counter.toString(), target_steps);
+                            intent.putExtra(counter.toString(), target_weight);
+                            counter++;
+                            intent.putExtra(counter.toString(), current_weight);
                             counter++;
                         }
                     } else if (!goal.getGoalCollection().get(2)) {
@@ -139,17 +148,24 @@ public class Goal_Activity extends AppCompatActivity {
                         intent.putExtra("title", "exercise");
                         String start_date = "";
                         String end_date = "";
-                        String target_steps = "";
+                        String type = "bench press";
+                        String target_max = "";
+                        String current_max = "";
                         Integer counter = 0;
                         for(Map<String, Object> map: goal.getExerciseGoals()) {
                             start_date = map.get("start_month").toString() + "/" + map.get("start_day").toString() + "/" + map.get("start_year").toString();
                             end_date = map.get("end_month").toString() + "/" + map.get("end_day").toString() + "/" + map.get("end_year").toString();
-                            target_steps = map.get("target").toString();
+                            target_max = map.get("target").toString();
+                            current_max = String.valueOf(goal.getCurrent_max());
                             intent.putExtra(counter.toString(), start_date);
                             counter++;
                             intent.putExtra(counter.toString(), end_date);
                             counter++;
-                            intent.putExtra(counter.toString(), target_steps);
+                            intent.putExtra(counter.toString(), type);
+                            counter++;
+                            intent.putExtra(counter.toString(), target_max);
+                            counter++;
+                            intent.putExtra(counter.toString(), current_max);
                             counter++;
                         }
                     } else if (!goal.getGoalCollection().get(3)) {
@@ -161,21 +177,25 @@ public class Goal_Activity extends AppCompatActivity {
                         intent.putExtra("title", "workout");
                         String start_date = "";
                         String end_date = "";
-                        String target_steps = "";
+                        String target = "";
+                        ArrayList<Boolean> current;
                         String type = "";
                         Integer counter = 0;
                         for(Map<String, Object> map: goal.getWorkoutGoals()) {
                             start_date = map.get("start_month").toString() + "/" + map.get("start_day").toString() + "/" + map.get("start_year").toString();
                             end_date = map.get("end_month").toString() + "/" + map.get("end_day").toString() + "/" + map.get("end_year").toString();
                             type =  map.get("type").toString();
-                            target_steps = map.get("target").toString();
+                            target = map.get("target").toString();
+                            current = goal.getCurrent_streak();
                             intent.putExtra(counter.toString(), start_date);
                             counter++;
                             intent.putExtra(counter.toString(), end_date);
                             counter++;
                             intent.putExtra(counter.toString(), type);
                             counter++;
-                            intent.putExtra(counter.toString(), target_steps);
+                            intent.putExtra(counter.toString(), target);
+                            counter++;
+                            intent.putExtra(counter.toString(), current);
                             counter++;
                         }
                     } else if (!goal.getGoalCollection().get(4)) {

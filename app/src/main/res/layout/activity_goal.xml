@@ -30,7 +30,7 @@
         android:id="@+id/previousButton"
         android:layout_width="wrap_content"
         android:layout_height="75dp"
-        android:layout_centerVertical="true"
+        android:layout_centerInParent="true"
         android:layout_marginStart="16dp"
         android:layout_toStartOf="@id/artImageView"
         android:background="@drawable/leftarrow"

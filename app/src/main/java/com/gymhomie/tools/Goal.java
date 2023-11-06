@@ -3,10 +3,12 @@ package com.gymhomie.tools;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -14,8 +16,13 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class Goal {
@@ -34,7 +41,7 @@ public class Goal {
     private int current_ounces;
     private int current_weight;
     private int current_max;
-    private int current_streak;
+    private ArrayList<Boolean> current_streak;
     private ArrayList<Map<String, Object>> activeStepGoals;
     private ArrayList<Map<String, Object>> nonActiveStepGoals;
     private ArrayList<Map<String, Object>> completedStepGoals;
@@ -287,11 +294,11 @@ public class Goal {
         this.current_max = current_max;
     }
 
-    public int getCurrent_streak() {
+    public ArrayList<Boolean> getCurrent_streak() {
         return current_streak;
     }
 
-    public void setCurrent_streak(int current_streak) {
+    public void setCurrent_streak(ArrayList<Boolean> current_streak) {
         this.current_streak = current_streak;
     }
 
@@ -312,6 +319,7 @@ public class Goal {
         completedWeightGoals = new ArrayList<>();
         completedExerciseGoals = new ArrayList<>();
         completedWorkoutGoals = new ArrayList<>();
+        current_streak = new ArrayList<>();
         firestore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
         user_id = auth.getUid();
@@ -319,7 +327,7 @@ public class Goal {
                 "users/" + user_id + "/StepCounter",
                 "users/" + user_id + "/WaterIntakes",
                 "users/" + user_id + "/Profile",
-                "users/" + user_id + "/Exercise",
+                "users/" + user_id + "/Workouts",
                 "users/" + user_id + "/Workouts"
         };
         setActiveCollections(collectionPaths);
@@ -331,6 +339,113 @@ public class Goal {
         getTodaysStepData();
         getTodaysHydrationData();
         getCurrentWeight();
+        ArrayList<String> titles = getExerciseTitles();
+        getCurrentExerciseMax("bench press");
+        getWeeklyWorkoutData();
+    }
+    public ArrayList<String> getLastSevenDates() {
+        // Get the current date
+        Calendar calendar = Calendar.getInstance();
+        Date currentDate = calendar.getTime();
+
+        // Create a SimpleDateFormat to format the dates
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd", Locale.US);
+
+        // Create a list to store the dates
+        ArrayList<String> dateList = new ArrayList<>();
+
+        // Add the current date to the list
+        dateList.add(dateFormat.format(currentDate));
+
+        // Calculate the dates of the last seven days
+        for (int i = 1; i < 7; i++) {
+            calendar.add(Calendar.DATE, -1); // Subtract one day
+            Date previousDate = calendar.getTime();
+            dateList.add(dateFormat.format(previousDate));
+        }
+        return dateList;
+    }
+    public void getWeeklyWorkoutData() {
+        // Example code for Firestore update (make sure to replace with your Firestore logic)
+        DocumentReference documentRef = FirebaseFirestore.getInstance().document("users/" + user_id +"/GymMembership/QrData");
+        documentRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                ArrayList<String> getDates = getLastSevenDates();
+                if (documentSnapshot.exists()) {
+                    Map<String, Object> data = documentSnapshot.getData();
+                    if (data != null && data.containsKey("streak") && data.get("streak") instanceof Map) {
+                        Map<String, Object> streakMap = (Map<String, Object>) data.get("streak");
+                        boolean flag = false;
+                        for (int i = 0; i < getDates.size(); i++){
+                            streakMap.containsKey(getDates.get(i));
+                            flag = true;
+                            break;
+                        }
+                        if (flag == true) {
+                            current_streak.add(true);
+                        }
+                        else {
+                            current_streak.add(false);
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    public void getCurrentExerciseMax(String exercise) {
+        CollectionReference colRef = FirebaseFirestore.getInstance().collection("users/" + user_id + "/Workouts");
+        colRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    int max = 0;
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        if (document.contains("Workout")) {
+                            // The 'exercises' field exists in this document
+                            Map<String, Object> obj = document.getData();
+                            Map<String,Object> workouts = (Map<String, Object>) obj.get("Workout");
+                            //Map<String, Object> exercises = workouts.get("");
+                            if (workouts.containsKey("exercises")) {
+                                // 'exercises' is an array in this document
+                                List<Map<String, Object>> exercises = (List<Map<String, Object>>) workouts.get("exercises");
+                                if(exercises.isEmpty()){
+                                    // TODO: do nothing
+                                }else{
+                                    for (int i = 0; i < exercises.size(); i++){
+                                        if(exercises.get(i).get("exerciseName").equals(exercise)){
+                                            if(max == 0){
+                                                max = Integer.valueOf(String.valueOf(exercises.get(i).get("weight")));
+                                            }
+                                            else if(max < Integer.valueOf(String.valueOf(exercises.get(i).get("weight")))){
+                                                max = Integer.valueOf(String.valueOf(exercises.get(i).get("weight")));
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    current_max = max;
+                } else {
+                    // Handle the error
+                    Exception e = task.getException();
+                    if (e != null) {
+                        // Handle the exception
+                    }
+                }
+            }
+        });
+    }
+
+    public ArrayList<String> getExerciseTitles() {
+        ArrayList<String> list = new ArrayList<>();
+        for(int i = 0; i < activeExerciseGoals.size(); i++){
+            String title = (String) activeExerciseGoals.get(i).get("type");
+            list.add(title);
+        }
+        return list;
     }
 
     public boolean hasGoals() {
@@ -609,31 +724,68 @@ public class Goal {
 
     public void setActiveCollections(String[] paths) {
         for (int i = 0; i < paths.length; i++) {
-            CollectionReference colRef = FirebaseFirestore.getInstance().collection(paths[i]);
-
-            Query query = colRef.orderBy(FieldPath.documentId(), Query.Direction.ASCENDING).limit(1);
-
-            query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        QuerySnapshot querySnapshot = task.getResult();
-                        if (querySnapshot != null && !querySnapshot.isEmpty()) {
-                            // The collection at the specified path exists and is not empty
-                            goalCollection.add(true);
+            if(i == 3){
+                CollectionReference colRef = FirebaseFirestore.getInstance().collection(paths[i]);
+                colRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            boolean flag = false;
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                if (document.contains("Workout")) {
+                                    // The 'exercises' field exists in this document
+                                    Map<String, Object> workout = document.getData();
+                                    if (workout.containsKey("exercises")) {
+                                        // 'exercises' is an array in this document
+                                        List<Object> exercises = (List<Object>) workout.get("exercises");
+                                        if(!exercises.isEmpty()){
+                                            flag = true;
+                                        }
+                                    }
+                                }
+                            }
+                            if(flag == true){
+                                goalCollection.add(true);
+                            }else{
+                                goalCollection.add(false);
+                            }
                         } else {
-                            // The collection does not exist at the specified path or is empty
-                            goalCollection.add(false);
-                        }
-                    } else {
-                        // Handle the error
-                        Exception e = task.getException();
-                        if (e != null) {
-                            // Handle the exception
+                            // Handle the error
+                            Exception e = task.getException();
+                            if (e != null) {
+                                // Handle the exception
+                            }
                         }
                     }
-                }
-            });
+                });
+            }
+            else {
+                CollectionReference colRef = FirebaseFirestore.getInstance().collection(paths[i]);
+
+                Query query = colRef.orderBy(FieldPath.documentId(), Query.Direction.ASCENDING).limit(1);
+
+                query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            QuerySnapshot querySnapshot = task.getResult();
+                            if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                                // The collection at the specified path exists and is not empty
+                                goalCollection.add(true);
+                            } else {
+                                // The collection does not exist at the specified path or is empty
+                                goalCollection.add(false);
+                            }
+                        } else {
+                            // Handle the error
+                            Exception e = task.getException();
+                            if (e != null) {
+                                // Handle the exception
+                            }
+                        }
+                    }
+                });
+            }
         }
     }
 
