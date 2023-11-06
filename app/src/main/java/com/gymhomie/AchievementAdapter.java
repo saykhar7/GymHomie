@@ -12,10 +12,17 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.gymhomie.tools.Achievement;
 
 import org.w3c.dom.Text;
@@ -25,9 +32,13 @@ import java.util.List;
 import java.util.Map;
 
 public class AchievementAdapter extends RecyclerView.Adapter<AchievementAdapter.AchievementViewHolder> {
-    private final List<Achievement> achievements;
-    private final Context context;
-    private final Map<String, Integer> imageResourceMap = new HashMap<>();
+    private List<Achievement> achievements;
+    private Context context;
+    private Map<String, Integer> imageResourceMap = new HashMap<>();
+    FirebaseAuth auth = FirebaseAuth.getInstance();
+    String userID = auth.getCurrentUser().getUid();
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
 
     public AchievementAdapter(Context context, List<Achievement> achievements) {
         this.context = context;
@@ -62,16 +73,17 @@ public class AchievementAdapter extends RecyclerView.Adapter<AchievementAdapter.
     }
 
     public class AchievementViewHolder extends RecyclerView.ViewHolder {
-        private final TextView achievementName;
-        private final TextView achievementDescription;
-        private final ProgressBar achievementProgressBar;
-        private final ImageView achievementImage;
+        private TextView achievementName;
+        private TextView achievementDescription;
+        private ProgressBar achievementProgressBar;
+        private ImageView achievementImage;
         public AchievementViewHolder(@NonNull View itemView) {
             super(itemView);
             achievementName = itemView.findViewById(R.id.achievementTitleTextView);
             achievementDescription = itemView.findViewById(R.id.achievementDescriptionTextView);
             achievementProgressBar = itemView.findViewById(R.id.achievementProgressBar);
             achievementImage = itemView.findViewById(R.id.achievementBadgeImageView);
+
         }
         public void bind(Achievement achievement) {
             // bind achievement data to UI
@@ -97,7 +109,36 @@ public class AchievementAdapter extends RecyclerView.Adapter<AchievementAdapter.
                 int resourceId = imageResourceMap.get(imageID);
                 achievementImage.setImageResource(resourceId);
             }
+            achievementImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    handleAchievementImageClick(achievement);
+                }
+            });
+        }
+        public void handleAchievementImageClick(Achievement achievement) {
+            if (achievement.getUnlocked() == false) {
+                Toast.makeText(context, "Can't Showcase Locked Achievement", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                // need to update the db to showcase achievement
+                DocumentReference docRef = db.collection("users").document(userID);
+                docRef.get()
+                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                docRef.update("badge", achievement.getAchievementID());
+                                Toast.makeText(context, "Achievement Showcased!", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.e("Achievement Adapter", "Could not get user doc for badge showcase update");
+                            }
+                        });
 
+            }
         }
     }
 }
