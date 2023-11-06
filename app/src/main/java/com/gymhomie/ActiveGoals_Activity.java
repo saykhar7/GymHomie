@@ -54,8 +54,6 @@ public class ActiveGoals_Activity extends AppCompatActivity {
 
         TextView tv = findViewById(R.id.textView);
 
-        //PieChart pieChart = new PieChart(this);
-        //HorizontalBarChart bulletChart = new HorizontalBarChart(this);
         FrameLayout chartContainer = findViewById(R.id.chartContainer);
         Chart chart;
 
