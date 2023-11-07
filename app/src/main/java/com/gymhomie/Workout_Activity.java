@@ -150,6 +150,8 @@ public class Workout_Activity extends AppCompatActivity {
         };
         ArrayAdapter<String> adapter = new ArrayAdapter<String>
                 (this, android.R.layout.simple_dropdown_item_1line, EXERCISES);
+
+        //button listener that changes the view to addExercise
         addExerciseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -159,6 +161,8 @@ public class Workout_Activity extends AppCompatActivity {
 
             }
         });
+
+        //button listener to save the workout to the user profile and database
         finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -169,6 +173,8 @@ public class Workout_Activity extends AppCompatActivity {
         });
     }
 
+    // saves workout in the database in the Workouts collection with the
+    // workoutName as the name of the collection
     public void saveNote(View v, workout obj) {
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -181,7 +187,7 @@ public class Workout_Activity extends AppCompatActivity {
         Map<String, Object> note = new HashMap<>();
         note.put("Workout", newWorkout);
 
-        db.collection(collectionPath).document().set(note)
+        db.collection(collectionPath).document(workoutName.getText().toString()).set(note)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
