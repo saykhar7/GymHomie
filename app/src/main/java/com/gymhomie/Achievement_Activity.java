@@ -25,7 +25,7 @@ public class Achievement_Activity extends AppCompatActivity {
     private ArrayList<Achievement> achievementList;
     private int updatesNeeded;
     private int updatesMade;
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseAuth auth = FirebaseAuth.getInstance();
     String userID = auth.getCurrentUser().getUid();
     String baseAchievementsPath = "achievements";
@@ -51,7 +51,7 @@ public class Achievement_Activity extends AppCompatActivity {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
-                            String id = (String) documentSnapshot.get("id");
+                            String id = documentSnapshot.getId();
                             int criteria = ((Long) documentSnapshot.get("criteria")).intValue();
                             int progress = ((Long) documentSnapshot.get("progress")).intValue();
                             String description = (String) documentSnapshot.get("description");

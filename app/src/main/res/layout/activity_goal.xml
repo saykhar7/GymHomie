@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Goal_Activity">
+
+    <!-- Title TextView -->
+    <TextView
+        android:id="@+id/titleAboveImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="Your Title Above ImageView"
+        android:textSize="24sp" />
+
+    <ImageView
+        android:id="@+id/artImageView"
+        android:layout_width="300dp"
+        android:layout_height="400dp"
+        android:layout_below="@id/titleAboveImageView"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/white"></ImageView>
+
+    <!-- Previous Button -->
+    <Button
+        android:id="@+id/previousButton"
+        android:layout_width="wrap_content"
+        android:layout_height="75dp"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="16dp"
+        android:layout_toStartOf="@id/artImageView"
+        android:background="@drawable/leftarrow"
+        android:padding="0dp"></Button>
+    <!-- Next Button -->
+    <Button
+        android:id="@+id/nextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="75dp"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="16dp"
+        android:layout_toEndOf="@id/artImageView"
+        android:background="@drawable/rightarrow"
+        android:padding="0dp"></Button>
+
+    <!-- Active Goals Button -->
+    <Button
+        android:id="@+id/activeGoalsButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/artImageView"
+        android:layout_alignLeft="@id/artImageView"
+        android:layout_alignRight="@id/artImageView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/neon"
+        android:background="@drawable/button_border"
+        android:text="Active Goals"
+        android:textSize="32sp" />
+
+    <!-- Goal History Button -->
+    <Button
+        android:id="@+id/goalHistoryButton"
+        android:background="@drawable/button_border"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/activeGoalsButton"
+        android:layout_alignLeft="@id/artImageView"
+        android:layout_alignRight="@id/artImageView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/neon"
+        android:text="Goal History"
+        android:textSize="32sp" />
+
+</RelativeLayout>

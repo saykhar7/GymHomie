@@ -14,9 +14,9 @@ import java.net.ProtocolException;
 import java.net.URL;
 
 public class CaloriesBurned {
-    private static String apiUrl = "https://trackapi.nutritionix.com/v2/natural/exercise";
-    private String appId = "5a866100";
-    private String appKey = "913c786b68207e89ef1013d9a7dbcf3b";
+    private static final String apiUrl = "https://trackapi.nutritionix.com/v2/natural/exercise";
+    private final String appId = "5a866100";
+    private final String appKey = "913c786b68207e89ef1013d9a7dbcf3b";
     // Set the request parameters
     private String exerciseQuery;
     private String gender;
@@ -138,7 +138,7 @@ public class CaloriesBurned {
                     response.append(line);
                 }
                 reader.close();
-                System.out.println(response.toString());
+                System.out.println(response);
                 res = response.toString();
             } else {
                 System.out.println("Request failed with response code: " + responseCode);
@@ -179,7 +179,7 @@ public class CaloriesBurned {
                     response.append(line);
                 }
                 reader.close();
-                System.out.println(response.toString());
+                System.out.println(response);
                 res = response.toString();
             } else {
                 System.out.println("Request failed with response code: " + responseCode);
