@@ -58,14 +58,14 @@ public class workout_fragment extends Fragment {
                             ArrayList<exercise> exercises = (ArrayList<exercise>) documentSnapshot.get("exercises");
 
                             workout currentWorkout = new workout(name, mg, exercises);
-                            workoutList.add(currentWorkout);
+                            //  workoutList.add(currentWorkout);
 
                         }
                         // update UI
                         RecyclerView recyclerView = view.findViewById(R.id.workout_recycler_view);
-                        WorkoutAdapter adapter = new WorkoutAdapter(getApplicationContext(), workoutList);
-                        recyclerView.setAdapter(adapter);
-                        recyclerView.setLayoutManager(new LinearLayoutManager((getApplicationContext())));
+                        //  WorkoutAdapter adapter = new WorkoutAdapter(getApplicationContext(), workoutList);
+                        // recyclerView.setAdapter(adapter);
+                        // recyclerView.setLayoutManager(new LinearLayoutManager((getApplicationContext())));
                     }
                 })
 
