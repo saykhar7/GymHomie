@@ -39,7 +39,7 @@ public class popup_ManageHomies extends Activity {
 
 
         Button addHomieBtn =  findViewById(R.id.addHomieButton);
-        TextView resultMessage = findViewById(R.id.homieSearchResult);
+
         TextInputEditText homiesEmailText = findViewById(R.id.emailEditText);
 
 
@@ -61,20 +61,32 @@ public class popup_ManageHomies extends Activity {
                                 for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                                     String currentEmail = document.getString("email");
                                     if(currentEmail.equals(homiesEmail)){//compares textfield to document's email
-                                        String thisUserPathtoHomies = "users/"+userID+"/Homies";; //This is the path to the person's searchings collection
-                                        String homiesUserPathtoHomies = document.getReference().getPath()+"/Homies";//This is t he path to the person that is being searched
-                                        CollectionReference collectionReferenceUser  = db.collection(thisUserPathtoHomies);
-
-                                        CollectionReference collectionReferenceHomie = db.collection(homiesUserPathtoHomies);
-                                        //for both these methods we pass the collection reference of the intended target and the docRef for the one being attached so
-                                        //the user is the person sending request
-                                        //the receiver is the person who has to accept request.
-                                        DocumentReference senderDocRef = db.collection("users").document(userID);
-
-                                        addCollectionToUser(collectionReferenceUser, document);
-                                        addCollectionToReceiver(collectionReferenceHomie, senderDocRef);
+                                        if (userID.equals(document.getId())) {
+                                            Toast.makeText(popup_ManageHomies.this, "You cant add yourself silly!", Toast.LENGTH_SHORT).show();
+                                        } else {
 
 
+                                            String thisUserPathtoHomies = "users/" + userID + "/Homies";
+                                            db.collection(thisUserPathtoHomies).get()
+                                                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                                        @Override
+                                                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                                                        }
+                                                    }); //This is the path to the person's searchings collection
+                                            String homiesUserPathtoHomies = document.getReference().getPath() + "/Homies";//This is t he path to the person that is being searched
+                                            CollectionReference collectionReferenceUser = db.collection(thisUserPathtoHomies);
+
+                                            CollectionReference collectionReferenceHomie = db.collection(homiesUserPathtoHomies);
+                                            //for both these methods we pass the collection reference of the intended target and the docRef for the one being attached so
+                                            //the user is the person sending request
+                                            //the receiver is the person who has to accept request.
+                                            DocumentReference senderDocRef = db.collection("users").document(userID);
+
+                                            addCollectionToUser(collectionReferenceUser, document);
+                                            addCollectionToReceiver(collectionReferenceHomie, senderDocRef);
+
+                                        }
                                     }
                                 }
                             }
@@ -84,7 +96,7 @@ public class popup_ManageHomies extends Activity {
     }
     public void addCollectionToUser(CollectionReference collectionReference, DocumentSnapshot homieDocSnap){
         String userID = auth.getCurrentUser().getUid();
-   //     QuerySnapshot collectionSnapshot = collectionReference.get;
+        //     QuerySnapshot collectionSnapshot = collectionReference.get;
         DocumentReference homieDocRef = homieDocSnap.getReference();
         String documentPath = homieDocSnap.getReference().getPath()+"/"; // Path to the document where you want to create a subcollection
         String subcollectionName = "Homies";
@@ -93,15 +105,15 @@ public class popup_ManageHomies extends Activity {
 
 
 
-            DocumentReference documentReference = db.document(documentPath);
-            CollectionReference subcollectionReference = documentReference.collection(subcollectionName);
-            Map<String, Object> homieCollectionMap = new HashMap<>();
+        DocumentReference documentReference = db.document(documentPath);
+        CollectionReference subcollectionReference = documentReference.collection(subcollectionName);
+        Map<String, Object> homieCollectionMap = new HashMap<>();
 
 
-            homieCollectionMap.put("HomieID", homieDocRef);
-            homieCollectionMap.put("isHomie", true);
-            homieCollectionMap.put("isSender", true);
-            subcollectionReference.add(homieCollectionMap);
+        homieCollectionMap.put("HomieID", homieDocRef);
+        homieCollectionMap.put("isHomie", true);
+        homieCollectionMap.put("isSender", true);
+        subcollectionReference.add(homieCollectionMap);
 //            DocumentReference newHomieDocRef = db.collection(fullPath).document();
 //            db.collection(fullPath).document().set(homieCollectionMap)
 //                    .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -123,7 +135,7 @@ public class popup_ManageHomies extends Activity {
     public void addCollectionToReceiver(CollectionReference collectionReference, DocumentReference senderDocRef){
         String userID = auth.getCurrentUser().getUid();
         //QuerySnapshot collectionSnapshot = collectionReference.get().getResult();
-       // DocumentReference senderDocRef = senderDocSnap.getReference();
+        // DocumentReference senderDocRef = senderDocSnap.getReference();
         String documentPath = senderDocRef.getPath(); // Path to the document where you want to create a subcollection
         String subcollectionName = "Homies";
         String fullPath = collectionReference.getPath();

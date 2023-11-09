@@ -63,9 +63,9 @@ public class workout_fragment extends Fragment {
                         }
                         // update UI
                         RecyclerView recyclerView = view.findViewById(R.id.workout_recycler_view);
-                        WorkoutAdapter adapter = new WorkoutAdapter(getApplicationContext(), workoutList);
-                        recyclerView.setAdapter(adapter);
-                        recyclerView.setLayoutManager(new LinearLayoutManager((getApplicationContext())));
+//                        WorkoutAdapter adapter = new WorkoutAdapter(getApplicationContext(), workoutList);
+                      //  recyclerView.setAdapter(adapter);
+                     //   recyclerView.setLayoutManager(new LinearLayoutManager((getApplicationContext())));
                     }
                 })
 
