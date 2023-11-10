@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -22,23 +24,52 @@ import android.widget.TextView;
 
 import com.gymhomie.MainActivity;
 import com.gymhomie.R;
+import com.gymhomie.events_finder.client.APICleint;
+import com.gymhomie.events_finder.client.APInterface;
 
 import org.w3c.dom.Text;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class EventsLayoutActivity extends AppCompatActivity implements LocationListener {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class EventsLayoutActivity extends AppCompatActivity implements LocationListener{
 
 
+
+    RecyclerView events_list;
+    EventsListAdapter eventsListAdapter;
+
+    //After API Fetch
+    ArrayList<EventsList> eventsLists;
     private TextView zipcode;
     LocationManager locationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.events_layout);
+
+
+        //initializing recycleview for events
+        eventsLists = new ArrayList<>();
+
+        events_list = findViewById(R.id.eventsRecycleViewID);
+        events_list.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        eventsListAdapter = new EventsListAdapter(EventsLayoutActivity.this, eventsLists);
+        events_list.setAdapter(eventsListAdapter);
+        populateServices();
+
+
+
+
 
         grantPermission();
 
@@ -49,6 +80,23 @@ public class EventsLayoutActivity extends AppCompatActivity implements LocationL
         zipcode = findViewById(R.id.currentzipcodeID);
 
 
+    }
+
+    public void populateServices(){
+        APICleint.getClient().create(APInterface.class).geteventsList().enqueue(new Callback<EventsListApiResponse>() {
+            @Override
+            public void onResponse(Call<EventsListApiResponse> call, Response<EventsListApiResponse> response) {
+                if (response.code()==200){
+                    eventsLists.addAll(response.body().getData());
+                    eventsListAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EventsListApiResponse> call, Throwable t) {
+
+            }
+        });
     }
 
 
