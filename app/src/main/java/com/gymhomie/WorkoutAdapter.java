@@ -21,6 +21,7 @@ import java.util.List;
 
 public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutViewHolder>{
 
+    private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
     private List<workout> workouts;
     private Context context;
     public WorkoutAdapter(Context context, List<workout> workouts) {
@@ -32,13 +33,14 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
     @Override
     public WorkoutAdapter.WorkoutViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.workout_item, parent, false);
-        return new WorkoutAdapter.WorkoutViewHolder(view);
+        return new WorkoutViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull WorkoutAdapter.WorkoutViewHolder holder, int position) {
         workout currentWorkout = workouts.get(position);
         holder.bind(currentWorkout);
+
     }
 
     @Override

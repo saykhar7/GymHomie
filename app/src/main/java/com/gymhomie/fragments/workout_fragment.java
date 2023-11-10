@@ -36,7 +36,9 @@ import java.util.ArrayList;
 public class workout_fragment extends Fragment {
 
     Button add_workout_button;
-    private ArrayList<workout> workoutList;
+    Button workout_history_button;
+    private ArrayList<workout> workoutList = new ArrayList<workout>();
+    private RecyclerView recyclerView;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseAuth auth = FirebaseAuth.getInstance();
     String userID = auth.getCurrentUser().getUid();
@@ -48,35 +50,12 @@ public class workout_fragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_workout, container, false);
 
-        db.collection(userWorkoutsPath).get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
-                            String name = (String) documentSnapshot.get("name");
-                            ArrayList<String> mg = (ArrayList<String>) documentSnapshot.get("muscleGroups");
-                            ArrayList<exercise> exercises = (ArrayList<exercise>) documentSnapshot.get("exercises");
 
-                            workout currentWorkout = new workout(name, mg, exercises);
-                            workoutList.add(currentWorkout);
-
-                        }
-                        // update UI
-                        RecyclerView recyclerView = view.findViewById(R.id.workout_recycler_view);
-                        WorkoutAdapter adapter = new WorkoutAdapter(getApplicationContext(), workoutList);
-                        recyclerView.setAdapter(adapter);
-                        recyclerView.setLayoutManager(new LinearLayoutManager((getApplicationContext())));
-                    }
-                })
-
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.e("Workout Viewing Retrieval", "Failure to retrieve user Workouts");
-                    }
-                });
 
         add_workout_button = view.findViewById(R.id.add_workout_button);
+        recyclerView = view.findViewById(R.id.workout_recycler_view);
+
+        listWorkouts();
 
         add_workout_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,8 +66,42 @@ public class workout_fragment extends Fragment {
                 //new addWorkout();
             }
         });
+
         return view;
 
+    }
+    private void listWorkouts()
+    {
+        db.collection(userWorkoutsPath).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    //check if workouts exist
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
+                            if (!documentSnapshot.exists()){
+                                continue;
+                            }
+                            String name = (String) documentSnapshot.get("name");
+                            ArrayList<String> mg = (ArrayList<String>) documentSnapshot.get("muscleGroups");
+                            ArrayList<exercise> exercises = (ArrayList<exercise>) documentSnapshot.get("exercises");
 
+                            workout currentWorkout = new workout(name, mg, exercises);
+                            workoutList.add(currentWorkout);
+
+                        }
+                        // update UI
+                        WorkoutAdapter adapter = new WorkoutAdapter(getActivity(), workoutList);
+
+                        recyclerView.setLayoutManager(new LinearLayoutManager((getActivity())));
+                        recyclerView.setAdapter(adapter);
+                    }
+                })
+
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e("Workout Viewing Retrieval", "Failure to retrieve user Workouts");
+                    }
+                });
     }
 }
