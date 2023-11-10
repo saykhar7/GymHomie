@@ -18,8 +18,8 @@ import org.w3c.dom.Text;
 import java.util.List;
 
 public class GymReminderAdapter extends RecyclerView.Adapter<GymReminderAdapter.GymReminderViewHolder> {
-    private List<GymReminder> gymReminders;
-    private Context context;
+    private final List<GymReminder> gymReminders;
+    private final Context context;
     private OnCancelClickListener onCancelClickListener;
 
     public GymReminderAdapter(Context context, List<GymReminder> gymReminders) {
@@ -49,9 +49,9 @@ public class GymReminderAdapter extends RecyclerView.Adapter<GymReminderAdapter.
         this.onCancelClickListener = listener;
     }
     public class GymReminderViewHolder extends RecyclerView.ViewHolder {
-        private TextView reminderTitle;
-        private TextView reminderDay;
-        private TextView reminderTime;
+        private final TextView reminderTitle;
+        private final TextView reminderDay;
+        private final TextView reminderTime;
         public GymReminderViewHolder(@NonNull View itemView) {
             super(itemView);
             reminderTitle = itemView.findViewById(R.id.gym_reminder_title);

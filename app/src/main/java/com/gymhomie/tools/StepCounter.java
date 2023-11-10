@@ -112,6 +112,7 @@ public class StepCounter {
         return list;
 
     }
+
     public ArrayList<Float> getDates(ArrayList<ArrayList<String>> list){
         ArrayList<Float> res = new ArrayList<>();
         for (int i = 0; i < list.size(); i++){
@@ -145,31 +146,31 @@ public class StepCounter {
     }
     public String extractDay(){
         String res = "";
-        Integer wrap = new Integer(this.day);
+        Integer wrap = Integer.valueOf(this.day);
         res = wrap.toString();
         return res;
     }
     public String extractMonth(){
         String res = "";
-        Integer wrap = new Integer(this.month);
+        Integer wrap = Integer.valueOf(this.month);
         res = wrap.toString();
         return res;
     }
     public String extractDay(int day){
         String res = "";
-        Integer wrap = new Integer(day);
+        Integer wrap = Integer.valueOf(day);
         res = wrap.toString();
         return res;
     }
     public String extractMonth(int month){
         String res = "";
-        Integer wrap = new Integer(month);
+        Integer wrap = Integer.valueOf(month);
         res = wrap.toString();
         return res;
     }
     public String extractYear(int year){
         String res = "";
-        Integer wrap = new Integer(year);
+        Integer wrap = Integer.valueOf(year);
         // Get last 2 from year
         res = wrap.toString().substring(2,3);
         return res;

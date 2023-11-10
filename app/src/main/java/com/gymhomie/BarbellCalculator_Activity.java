@@ -33,12 +33,12 @@ public class BarbellCalculator_Activity extends AppCompatActivity {
 
 
 
-    private double fortyFive = 45;
-    private double thirtyFive = 35;
-    private double twentyFive = 25;
-    private double ten = 10;
-    private double five = 5;
-    private double twoPointFive = 2.5;
+    private final double fortyFive = 45;
+    private final double thirtyFive = 35;
+    private final double twentyFive = 25;
+    private final double ten = 10;
+    private final double five = 5;
+    private final double twoPointFive = 2.5;
 
     private TextView countTextFortyFive;
     private TextView countTextThirtyFive;
@@ -167,12 +167,12 @@ public class BarbellCalculator_Activity extends AppCompatActivity {
     public void add(double val){
         val = val * 2;
         total += val;
-        totalText.setText(Double.toString(total)+ "lbs");
+        totalText.setText(total + "lbs");
     }
     public void sub(double val){
         val = val * 2;
         total -= val;
-        totalText.setText(Double.toString(total)+ "lbs");
+        totalText.setText(total + "lbs");
     }
     //Updates text inside barbell displaying amount of plates
     public void addCount(TextView current){

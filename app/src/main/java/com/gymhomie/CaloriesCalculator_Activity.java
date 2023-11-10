@@ -131,8 +131,8 @@ public class CaloriesCalculator_Activity extends AppCompatActivity {
 
             try {
                 String response = cb.calculate();
-                caloriesBurned = cb.getCaloriesBurned(response);
-                respDuration = cb.getDuration(response);
+                caloriesBurned = CaloriesBurned.getCaloriesBurned(response);
+                respDuration = CaloriesBurned.getDuration(response);
                 double ratio = 0;
                 // ratio = expected value / observed value
                 ratio = duration / respDuration;

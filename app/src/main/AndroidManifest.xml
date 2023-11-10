@@ -43,15 +43,20 @@
             android:name=".Step_Activity"
             android:exported="false" />
         <activity
-            android:name=".GoalMenu_Activity"
-            android:exported="false" />
-        <activity
             android:name=".popup_ManageHomies"
             android:exported="false"
             android:theme="@style/AppTheme.CustomTheme" />
         <activity
             android:name=".Goal_Activity"
             android:exported="false" />
+        <activity
+            android:name=".GoalHistory_Activity"
+            android:exported="false"
+            />
+        <activity
+            android:name=".ActiveGoals_Activity"
+            android:exported="false"
+            />
         <activity
             android:name=".Water_Intake_Activity"
             android:exported="false" />
@@ -68,6 +73,14 @@
             android:name=".GymFinder_Activity"
             android:exported="false" />
         <activity
+            android:name=".workouts.AddWorkout"
+            android:exported="false"
+            />
+        <activity
+            android:name=".Workout_Activity"
+            android:exported="false"
+            />
+        <activity
             android:name=".Login_activity"
             android:exported="false" />
         <activity
@@ -81,6 +94,12 @@
             android:exported="false" />
         <activity
             android:name=".Achievement_Activity"
+            android:exported="false" />
+        <activity
+            android:name=".workouts.addExercise"
+            android:exported="false" />
+        <activity
+            android:name=".Body_Measurement_Activity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

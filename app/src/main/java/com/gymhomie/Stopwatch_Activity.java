@@ -17,11 +17,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Stopwatch_Activity extends AppCompatActivity {
-    private Handler handler = new Handler();
+    private final Handler handler = new Handler();
     private TimerService timerService;
     private boolean isBound = false;
     private boolean isRunning = false;
-    private ServiceConnection serviceConnection = new ServiceConnection() {
+    private final ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
             TimerService.LocalBinder binder = (TimerService.LocalBinder) iBinder;

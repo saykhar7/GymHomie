@@ -53,7 +53,7 @@ public class Gym_Reminder_Activity extends AppCompatActivity implements GymRemin
     private Button deleteRemindersButton;
     private GymReminder gymReminder;
     private ArrayList<GymReminder> gymReminderList;
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseAuth auth = FirebaseAuth.getInstance();
     String userID = auth.getCurrentUser().getUid();
     String collectionPath = "users/"+userID+"/GymReminders";

@@ -1,74 +1,104 @@
 package com.gymhomie.workouts;
 
-import android.widget.MultiAutoCompleteTextView;
-import android.widget.NumberPicker;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class exercise{
+import androidx.annotation.NonNull;
 
-    MultiAutoCompleteTextView name;
-    NumberPicker numSets;
-    int minutes;
-    int seconds;
-    NumberPicker numReps;
-    NumberPicker weight;
+import com.gymhomie.workouts.workout;
 
+public class exercise implements Parcelable {
+    private String exerciseName;
+    private String minutes;
+    private String seconds;
+    private String weight;
+    private int numReps;
+    private int numSets;
 
-    public exercise(MultiAutoCompleteTextView name, NumberPicker numSets, NumberPicker numReps, NumberPicker weight)
-    {
-        this.name = name;
-        this.numSets = numSets;
-        this.numReps = numReps;
-        this.weight = weight;
+    public exercise() {
+
     }
 
-    public exercise(MultiAutoCompleteTextView name, NumberPicker numSets, int minutes, int seconds, NumberPicker weight)
-    {
-        this.name = name;
-        this.numSets = numSets;
+    protected exercise(Parcel in) {
+        exerciseName = in.readString();
+        minutes = in.readString();
+        seconds = in.readString();
+        weight = in.readString();
+        numReps = in.readInt();
+        numSets = in.readInt();
+    }
+
+    public static final Creator<exercise> CREATOR = new Creator<exercise>() {
+        @Override
+        public exercise createFromParcel(Parcel in) {
+            return new exercise(in);
+        }
+
+        @Override
+        public exercise[] newArray(int size) {
+            return new exercise[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeString(exerciseName);
+        parcel.writeString(minutes);
+        parcel.writeString(seconds);
+        parcel.writeString(weight);
+        parcel.writeInt(numReps);
+        parcel.writeInt(numSets);
+    }
+
+    public String getExerciseName() {
+        return exerciseName;
+    }
+
+    public void setExerciseName(String exerciseName) {
+        this.exerciseName = exerciseName;
+    }
+
+    public String getMinutes() {
+        return minutes;
+    }
+
+    public void setMinutes(String minutes) {
         this.minutes = minutes;
+    }
+
+    public String getSeconds() {
+        return seconds;
+    }
+
+    public void setSeconds(String seconds) {
         this.seconds = seconds;
+    }
+
+    public String getWeight() {
+        return weight;
+    }
+
+    public void setWeight(String weight) {
         this.weight = weight;
     }
 
-    //gets name of the exercise
-    public MultiAutoCompleteTextView getName() {return name;}
+    public int getNumReps() {
+        return numReps;
+    }
 
-    //gets number of sets for the exercise
-    public NumberPicker getNumSets() {return numSets;}
+    public void setNumReps(int numReps) {
+        this.numReps = numReps;
+    }
+    public int getNumSets() {
+        return numSets;
+    }
 
-    //gets amount of time for the exercise
-    public int getTime() {return minutes;}
-
-    public int getSeconds() {return this.seconds;}
-
-    //gets number of reps in one set
-    public NumberPicker getReps() {return numReps;}
-
-    //gets amount of weight for each set
-    public NumberPicker getWeight() {return weight;}
-
-
-
-    //sets name of the exercise
-    public void setName() {this.name = name;}
-
-    //sets number of sets for the exercise
-    public void setNumSets() {this.numSets = numSets;}
-
-    //sets amount of time for the exercise
-    public void setMinutes() {this.minutes = minutes;}
-
-    public void setSeconds() {this.seconds = seconds;}
-
-    //sets number of reps in one set
-    public void setNumReps() {this.numReps = numReps;}
-
-    //sets amount of weight for each set
-    public void setWeight() {this.weight = weight;}
-
-
-
-
-
-
+    public void setNumSets(int numSets) {
+        this.numSets = numSets;
+    }
 }
