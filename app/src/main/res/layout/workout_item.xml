@@ -5,25 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-<!--    <androidx.recyclerview.widget.RecyclerView-->
-<!--        android:id="@+id/exercises_recycler_view"-->
-<!--        android:layout_width="353dp"-->
-<!--        android:layout_height="202dp"-->
-<!--        android:layout_margin="8dp"-->
-<!--        android:scrollbars="vertical"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.737"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/muscleGroupsTitle"-->
-<!--        app:layout_constraintVertical_bias="1.0" />-->
-
-    <TextView
-        android:id="@+id/exercises_text_view_placeholder"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/exerciseRecycler"
         android:layout_width="353dp"
         android:layout_height="202dp"
         android:layout_margin="8dp"
-        android:text="Exercise Text View"
+        android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.737"

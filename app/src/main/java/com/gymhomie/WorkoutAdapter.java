@@ -40,7 +40,9 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
     public void onBindViewHolder(@NonNull WorkoutAdapter.WorkoutViewHolder holder, int position) {
         workout currentWorkout = workouts.get(position);
         holder.bind(currentWorkout);
-
+        ExerciseAdapter exerciseAdapter = new ExerciseAdapter(context, currentWorkout.getExercises());
+        holder.exerciseRecycler.setAdapter(exerciseAdapter);
+        holder.exerciseRecycler.setLayoutManager(new LinearLayoutManager(context));
     }
 
     @Override
@@ -51,24 +53,18 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
     public class WorkoutViewHolder extends RecyclerView.ViewHolder {
         private TextView workoutName;
         private TextView muscleGroups;
-        private TextView exerciseList;
-        //private List exerciseList;
+        private RecyclerView exerciseRecycler;
         public WorkoutViewHolder(@NonNull View itemView) {
             super(itemView);
+            exerciseRecycler = itemView.findViewById(R.id.exerciseRecycler);
             workoutName = itemView.findViewById(R.id.workoutTitle);
             muscleGroups = itemView.findViewById(R.id.muscleGroupsTitle);
-            exerciseList = itemView.findViewById(R.id.exercises_text_view_placeholder);
+            //exerciseList = itemView.findViewById(R.id.exercises_text_view_placeholder);
         }
         public void bind(workout workout) {
             // bind achievement data to UI
             workoutName.setText(workout.getName());
             muscleGroups.setText(workout.getMuscleGroups().toString());
-            ArrayList<exercise> exercises = (ArrayList<exercise>) workout.getExercises();
-            exerciseList.setText("Exercise TextView Placeholder");
-            //RecyclerView recyclerView = view.findViewById(R.id.exercise_recycler_view);
-            //ExerciseAdapter exercises = new ExerciseAdapter(getApplicationContext(), exerciseList);
-            //recyclerView.setAdapter(exercises);
-            //recyclerView.setLayoutManager(new LinearLayoutManager((getApplicationContext())));
         }
     }
 }

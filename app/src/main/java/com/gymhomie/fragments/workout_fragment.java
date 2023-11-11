@@ -85,7 +85,22 @@ public class workout_fragment extends Fragment {
                                 continue;
                             }
                             Map<String, Object> workoutData = (Map<String, Object>) documentSnapshot.get("Workout");
-                            workout currentWorkout = new workout((String) workoutData.get("name"), (ArrayList<String>) workoutData.get("muscleGroups"), (ArrayList<exercise>) workoutData.get("exercises"));
+                            ArrayList<exercise> exercisesData = (ArrayList<exercise>) workoutData.get("exercises");
+                            ArrayList<exercise> exercises = new ArrayList<>();
+                            if (exercisesData != null) {
+                                for (int i = 0; i < exercisesData.size(); i++) {
+                                    Map<String, Object> exerciseData = (Map<String, Object>) exercisesData.get(i);
+                                    exercise currentExercise = new exercise();
+                                    currentExercise.setExerciseName((String) exerciseData.get("exerciseName"));
+                                    currentExercise.setMinutes((String) exerciseData.get("minutes"));
+                                    currentExercise.setNumReps(((Long) exerciseData.get("numReps")).intValue());
+                                    currentExercise.setSeconds((String) exerciseData.get("seconds"));
+                                    currentExercise.setNumSets(((Long) exerciseData.get("numSets")).intValue());
+                                    currentExercise.setWeight((String) exerciseData.get("weight"));
+                                    exercises.add(currentExercise);
+                                }
+                            }
+                            workout currentWorkout = new workout((String) workoutData.get("name"), (ArrayList<String>) workoutData.get("muscleGroups"), exercises);
                             workoutList.add(currentWorkout);
                         }
                         // update UI
