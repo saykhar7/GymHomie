@@ -30,7 +30,10 @@ import com.gymhomie.tools.Achievement;
 import com.gymhomie.workouts.exercise;
 import com.gymhomie.workouts.workout;
 
+import org.checkerframework.checker.units.qual.A;
+
 import java.util.ArrayList;
+import java.util.Map;
 
 
 public class workout_fragment extends Fragment {
@@ -81,13 +84,9 @@ public class workout_fragment extends Fragment {
                             if (!documentSnapshot.exists()){
                                 continue;
                             }
-                            String name = (String) documentSnapshot.get("name");
-                            ArrayList<String> mg = (ArrayList<String>) documentSnapshot.get("muscleGroups");
-                            ArrayList<exercise> exercises = (ArrayList<exercise>) documentSnapshot.get("exercises");
-
-                            workout currentWorkout = new workout(name, mg, exercises);
+                            Map<String, Object> workoutData = (Map<String, Object>) documentSnapshot.get("Workout");
+                            workout currentWorkout = new workout((String) workoutData.get("name"), (ArrayList<String>) workoutData.get("muscleGroups"), (ArrayList<exercise>) workoutData.get("exercises"));
                             workoutList.add(currentWorkout);
-
                         }
                         // update UI
                         WorkoutAdapter adapter = new WorkoutAdapter(getActivity(), workoutList);
