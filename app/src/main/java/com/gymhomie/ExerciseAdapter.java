@@ -34,7 +34,6 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
     @Override
     public void onBindViewHolder(@NonNull ExerciseAdapter.ExerciseViewHolder holder, int position) {
         exercise currentExercise = exercise.get(position);
-        ExerciseViewHolder.exerciseName.setText(currentExercise.getExerciseName());
         holder.bind(currentExercise);
     }
 
@@ -44,26 +43,24 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
     }
 
     public class ExerciseViewHolder extends RecyclerView.ViewHolder {
-        private static TextView exerciseName;
-        private TextView numSets;
-        private TextView numReps;
-        private TextView numWeight;
+        private TextView exerciseName;
+        private TextView exerciseNumSets;
+        private TextView exerciseWeight;
+        private TextView exerciseNumReps;
+
         public ExerciseViewHolder(@NonNull View itemView) {
             super(itemView);
-
             exerciseName = itemView.findViewById(R.id.exerciseTitle);
-            numSets = itemView.findViewById(R.id.numberSets);
-            numReps = itemView.findViewById(R.id.numberReps);
-            numWeight = itemView.findViewById(R.id.weightNumber);
+            exerciseNumSets = itemView.findViewById(R.id.setsText);
+            exerciseWeight = itemView.findViewById(R.id.weightNumber);
+            exerciseNumReps = itemView.findViewById(R.id.repsText);
         }
         public void bind(exercise exercise) {
             // bind achievement data to UI
             exerciseName.setText(exercise.getExerciseName());
-            numSets.setText(exercise.getNumSets());
-            numReps.setText(exercise.getNumReps());
-            numWeight.setText(exercise.getWeight());
-
-
+            exerciseNumSets.setText(String.valueOf(exercise.getNumSets()));
+            exerciseWeight.setText(exercise.getWeight());
+            exerciseNumReps.setText(String.valueOf(exercise.getNumReps()));
         }
     }
 }

@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/workout_recycler_view"
+        android:id="@+id/exerciseRecycler"
         android:layout_width="353dp"
         android:layout_height="239dp"
         android:layout_margin="8dp"

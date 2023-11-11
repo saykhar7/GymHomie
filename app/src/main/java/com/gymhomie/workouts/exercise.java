@@ -68,7 +68,12 @@ public class exercise implements Parcelable {
     }
 
     public void setMinutes(String minutes) {
-        this.minutes = minutes;
+        if (minutes == null) {
+            this.minutes = "NA";
+        }
+        else {
+            this.minutes = minutes;
+        }
     }
 
     public String getSeconds() {
@@ -76,7 +81,12 @@ public class exercise implements Parcelable {
     }
 
     public void setSeconds(String seconds) {
-        this.seconds = seconds;
+        if (seconds == null) {
+            this.seconds = "NA";
+        }
+        else {
+            this.seconds = seconds;
+        }
     }
 
     public String getWeight() {
@@ -84,7 +94,12 @@ public class exercise implements Parcelable {
     }
 
     public void setWeight(String weight) {
-        this.weight = weight;
+        if (weight == null) {
+            this.weight = "NA";
+        }
+        else {
+            this.weight = weight;
+        }
     }
 
     public int getNumReps() {

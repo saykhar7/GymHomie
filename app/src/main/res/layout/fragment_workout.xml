@@ -9,8 +9,6 @@
     android:orientation="vertical"
     tools:context=".fragments.workout_fragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
@@ -24,7 +22,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/workout_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="473dp"
+        android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:scrollbars="vertical" />
 

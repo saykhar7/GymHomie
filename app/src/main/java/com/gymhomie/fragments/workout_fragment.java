@@ -30,7 +30,10 @@ import com.gymhomie.tools.Achievement;
 import com.gymhomie.workouts.exercise;
 import com.gymhomie.workouts.workout;
 
+import org.checkerframework.checker.units.qual.A;
+
 import java.util.ArrayList;
+import java.util.Map;
 
 
 public class workout_fragment extends Fragment {
@@ -85,13 +88,24 @@ public class workout_fragment extends Fragment {
                             if (!documentSnapshot.exists()){
                                 continue;
                             }
-                            String name = (String) documentSnapshot.get("name");
-                            ArrayList<String> mg = (ArrayList<String>) documentSnapshot.get("muscleGroups");
-                            ArrayList<exercise> exercises = (ArrayList<exercise>) documentSnapshot.get("exercises");
-
-                            workout currentWorkout = new workout(name, mg, exercises);
+                            Map<String, Object> workoutData = (Map<String, Object>) documentSnapshot.get("Workout");
+                            ArrayList<exercise> exercisesData = (ArrayList<exercise>) workoutData.get("exercises");
+                            ArrayList<exercise> exercises = new ArrayList<>();
+                            if (exercisesData != null) {
+                                for (int i = 0; i < exercisesData.size(); i++) {
+                                    Map<String, Object> exerciseData = (Map<String, Object>) exercisesData.get(i);
+                                    exercise currentExercise = new exercise();
+                                    currentExercise.setExerciseName((String) exerciseData.get("exerciseName"));
+                                    currentExercise.setMinutes((String) exerciseData.get("minutes"));
+                                    currentExercise.setNumReps(((Long) exerciseData.get("numReps")).intValue());
+                                    currentExercise.setSeconds((String) exerciseData.get("seconds"));
+                                    currentExercise.setNumSets(((Long) exerciseData.get("numSets")).intValue());
+                                    currentExercise.setWeight((String) exerciseData.get("weight"));
+                                    exercises.add(currentExercise);
+                                }
+                            }
+                            workout currentWorkout = new workout((String) workoutData.get("name"), (ArrayList<String>) workoutData.get("muscleGroups"), exercises);
                             workoutList.add(currentWorkout);
-
                         }
                         // update UI
                         WorkoutAdapter adapter = new WorkoutAdapter(getActivity(), workoutList);
