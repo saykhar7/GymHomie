@@ -34,6 +34,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
     @Override
     public void onBindViewHolder(@NonNull ExerciseAdapter.ExerciseViewHolder holder, int position) {
         exercise currentExercise = exercise.get(position);
+        ExerciseViewHolder.exerciseName.setText(currentExercise.getExerciseName());
         holder.bind(currentExercise);
     }
 
@@ -43,18 +44,24 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
     }
 
     public class ExerciseViewHolder extends RecyclerView.ViewHolder {
-        private TextView exerciseName;
-        private TextView muscleGroups;
-        private TextView exerciseList;
+        private static TextView exerciseName;
+        private TextView numSets;
+        private TextView numReps;
+        private TextView numWeight;
         public ExerciseViewHolder(@NonNull View itemView) {
             super(itemView);
-            exerciseName = itemView.findViewById(R.id.achievementTitleTextView);
-            muscleGroups = itemView.findViewById(R.id.achievementDescriptionTextView);
-            exerciseList = itemView.findViewById(R.id.achievementProgressBar);
+
+            exerciseName = itemView.findViewById(R.id.exerciseTitle);
+            numSets = itemView.findViewById(R.id.numberSets);
+            numReps = itemView.findViewById(R.id.numberReps);
+            numWeight = itemView.findViewById(R.id.weightNumber);
         }
         public void bind(exercise exercise) {
             // bind achievement data to UI
             exerciseName.setText(exercise.getExerciseName());
+            numSets.setText(exercise.getNumSets());
+            numReps.setText(exercise.getNumReps());
+            numWeight.setText(exercise.getWeight());
 
 
         }

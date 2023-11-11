@@ -50,6 +50,10 @@ public class workout_fragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_workout, container, false);
 
+        ArrayList<String> mg = new ArrayList<String>();
+        mg.add("arms");
+        exercise e = new exercise("e1", 3, 4, 34);
+        workout w = new workout("hardcode", mg, )
 
 
         add_workout_button = view.findViewById(R.id.add_workout_button);

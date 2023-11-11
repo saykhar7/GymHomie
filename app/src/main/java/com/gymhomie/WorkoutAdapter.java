@@ -16,15 +16,18 @@ import com.gymhomie.tools.Achievement;
 import com.gymhomie.workouts.exercise;
 import com.gymhomie.workouts.workout;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutViewHolder>{
 
     private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
-    private List<workout> workouts;
+    private ArrayList<workout> workouts = new ArrayList<workout>();
+
+
     private Context context;
-    public WorkoutAdapter(Context context, List<workout> workouts) {
+    public WorkoutAdapter(Context context, ArrayList<workout> workouts) {
         this.context = context;
         this.workouts = workouts;
     }
@@ -39,6 +42,15 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
     @Override
     public void onBindViewHolder(@NonNull WorkoutAdapter.WorkoutViewHolder holder, int position) {
         workout currentWorkout = workouts.get(position);
+        //LinearLayoutManager layoutManager = new LinearLayoutManager
+                //(WorkoutViewHolder.exerciseList.getContext(),
+                        //LinearLayoutManager.VERTICAL,
+                        //false);
+        //layoutManager.setInitialPrefetchItemCount(currentWorkout.getExercises().size());
+        //ExerciseAdapter exerciseAdapter = new ExerciseAdapter(getApplicationContext(), currentWorkout.getExercises());
+        //WorkoutViewHolder.exerciseList.setLayoutManager(layoutManager);
+        //WorkoutViewHolder.exerciseList.setAdapter(exerciseAdapter);
+        //WorkoutViewHolder.exerciseList.setRecycledViewPool(viewPool);
         holder.bind(currentWorkout);
 
     }
@@ -51,7 +63,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
     public class WorkoutViewHolder extends RecyclerView.ViewHolder {
         private TextView workoutName;
         private TextView muscleGroups;
-        private TextView exerciseList;
+        private static RecyclerView exerciseList;
         //private List exerciseList;
         public WorkoutViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -60,10 +72,10 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
             exerciseList = itemView.findViewById(R.id.workout_recycler_view);
         }
         public void bind(workout workout) {
-            // bind achievement data to UI
+            // bind workout data to UI
             workoutName.setText(workout.getName());
             muscleGroups.setText((CharSequence) workout.getMuscleGroups());
-            exerciseList.setText((CharSequence) workout.getExercises());
+            //exerciseList.setText((CharSequence) workout.getExercises());
             //RecyclerView recyclerView = view.findViewById(R.id.exercise_recycler_view);
             //ExerciseAdapter exercises = new ExerciseAdapter(getApplicationContext(), exerciseList);
             //recyclerView.setAdapter(exercises);
