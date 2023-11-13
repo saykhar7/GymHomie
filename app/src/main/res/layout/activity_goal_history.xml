@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context=".GoalHistory_Activity"
     android:stretchColumns="1">
 
     <TableRow

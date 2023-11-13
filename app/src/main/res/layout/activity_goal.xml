@@ -28,7 +28,7 @@
     android:layout_centerInParent="true"
     android:layout_marginTop="10dp"
     android:layout_marginBottom="10dp"
-    app:cardElevation="8dp">
+    app:cardElevation="25dp">
     <ImageView
         android:id="@+id/artImageView"
         android:layout_width="match_parent"
