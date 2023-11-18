@@ -1,12 +1,19 @@
 package com.gymhomie.fragments;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +33,7 @@ import com.gymhomie.Achievement_Activity;
 import com.gymhomie.Goal_Activity;
 import com.gymhomie.R;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,6 +45,7 @@ public class profile_fragment extends Fragment {
     private Button btnGoals;
     private Button btnAchievements;
     private ImageView profileBadge;
+    private ImageView profilePicture;
     private TextView profileName;
     private TextView profileEmail;
     private OnLogoutClickListener onLogoutClickListener;
@@ -77,11 +86,14 @@ public class profile_fragment extends Fragment {
         profileEmail.setText(email);
 
         profileBadge = view.findViewById(R.id.profileBadge);
+        profilePicture = view.findViewById(R.id.profilePicture);
         btnLogout = view.findViewById(R.id.logoutBtn);
         btnGoals = view.findViewById(R.id.goalsBtn);
 
         updateBadge(view);
-
+        if(checkFilesPermission()) {
+            loadProfilePicture();
+        }
         btnGoals.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,7 +126,19 @@ public class profile_fragment extends Fragment {
         });
         return view;
     }
-
+    private void loadProfilePicture() {
+        // Currently only loads "Shrek.png" from users files app under downloads
+        profilePicture.setImageResource(R.drawable.trophy_unlocked);
+        File internalStorageDir = getContext().getFilesDir();
+        File downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        String fileName = "Shrek.png";
+        String imagePath = downloadsDir.getAbsolutePath() + File.separator + fileName;
+        Log.d("Profile Fragment Picture Path", imagePath);
+        Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+        if (bitmap != null) {
+            profilePicture.setImageBitmap(bitmap);
+        }
+    }
     private void updateBadge(View view) {
         // let's update the badge icon on the users profile
 
@@ -165,5 +189,14 @@ public class profile_fragment extends Fragment {
     public void onResume() {
         super.onResume();
         updateBadge(view);
+    }
+    private boolean checkFilesPermission() {
+        // TODO: when accepted, does not return true
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_MEDIA_IMAGES)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.READ_MEDIA_IMAGES}, 1);
+            return false;
+        }
+        return true;
     }
 }
