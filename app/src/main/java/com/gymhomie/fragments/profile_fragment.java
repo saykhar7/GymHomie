@@ -34,6 +34,7 @@ import com.gymhomie.Goal_Activity;
 import com.gymhomie.R;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -88,9 +89,11 @@ public class profile_fragment extends Fragment {
         btnGoals = view.findViewById(R.id.goalsBtn);
 
         updateBadge(view);
-        if(checkFilesPermission()) {
-            openFilePicker();
+        Bitmap profilePictureBitmap = loadProfilePicture();
+        if (profilePictureBitmap != null){
+            profilePicture.setImageBitmap(profilePictureBitmap);
         }
+
         btnGoals.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,26 +124,48 @@ public class profile_fragment extends Fragment {
                 startActivity(intent);
             }
         });
+        profilePicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(checkFilesPermission()) {
+                    openFilePicker();
+                }
+            }
+        });
         return view;
     }
-    private void loadProfilePicture() {
-        // Currently only loads "Shrek.png" from users files app under downloads
-        profilePicture.setImageResource(R.drawable.trophy_unlocked);
-        File internalStorageDir = getContext().getFilesDir();
-        File downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-        String fileName = "Shrek.png";
-        String imagePath = downloadsDir.getAbsolutePath() + File.separator + fileName;
-        Log.d("Profile Fragment Picture Path", imagePath);
-        Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
-        if (bitmap != null) {
-            profilePicture.setImageBitmap(bitmap);
+    private Bitmap loadProfilePicture() {
+        // loads profile picture that was previously saved
+        try {
+            // Currently only loads "Shrek.png" from users files app under downloads
+            File internalStorageDir = getActivity().getFilesDir();
+            File profilePictureFile = new File(internalStorageDir, "profile_picture.png");
+            if (profilePictureFile.exists()) {
+                return BitmapFactory.decodeFile(profilePictureFile.getAbsolutePath());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    }
+        return null;
+
+     }
     private void handleSelectedProfilePicture(Uri profilePictureData) {
         // handles a passed uri (from user selection in openFilePicker()), displays on profile
         Bitmap bitmap = loadBitmapFromUri(profilePictureData);
         if (bitmap != null) {
             profilePicture.setImageBitmap(bitmap);
+            saveProfilePicture(bitmap);
+        }
+    }
+    private void saveProfilePicture(Bitmap bitmap) {
+        // saves a profile picture that was selected by the user
+        try {
+            File internalStorageDir = getActivity().getFilesDir();
+            File profilePictureFile = new File(internalStorageDir, "profile_picture.png");
+            FileOutputStream outputStream = new FileOutputStream(profilePictureFile);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
     private Bitmap loadBitmapFromUri(Uri uri) {
@@ -171,7 +196,6 @@ public class profile_fragment extends Fragment {
     }
     private void updateBadge(View view) {
         // let's update the badge icon on the users profile
-
         Map<String, Integer> imageResourceMap = new HashMap<>();
         imageResourceMap.put("1", R.drawable.achievement_1_unlocked);
         imageResourceMap.put("2", R.drawable.achievement_2_unlocked);
