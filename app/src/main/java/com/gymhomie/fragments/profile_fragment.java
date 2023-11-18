@@ -137,7 +137,6 @@ public class profile_fragment extends Fragment {
     private Bitmap loadProfilePicture() {
         // loads profile picture that was previously saved
         try {
-            // Currently only loads "Shrek.png" from users files app under downloads
             File internalStorageDir = getActivity().getFilesDir();
             File profilePictureFile = new File(internalStorageDir, "profile_picture.png");
             if (profilePictureFile.exists()) {
