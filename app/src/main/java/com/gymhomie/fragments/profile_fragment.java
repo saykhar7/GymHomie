@@ -1,15 +1,16 @@
 package com.gymhomie.fragments;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
@@ -21,7 +22,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -39,8 +39,6 @@ import java.util.Map;
 
 
 public class profile_fragment extends Fragment {
-
-
     private Button btnLogout;
     private Button btnGoals;
     private Button btnAchievements;
@@ -53,10 +51,9 @@ public class profile_fragment extends Fragment {
     FirebaseAuth auth = FirebaseAuth.getInstance();
     String userID = auth.getCurrentUser().getUid();
     private static final int achReqCode = 100;
+    private static final int PICK_IMAGE_REQUEST = 2;
     private View view;
-
-    public profile_fragment() {
-    }
+    public profile_fragment() {}
 
     @Nullable
     @Override
@@ -92,7 +89,7 @@ public class profile_fragment extends Fragment {
 
         updateBadge(view);
         if(checkFilesPermission()) {
-            loadProfilePicture();
+            openFilePicker();
         }
         btnGoals.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,6 +134,39 @@ public class profile_fragment extends Fragment {
         Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
         if (bitmap != null) {
             profilePicture.setImageBitmap(bitmap);
+        }
+    }
+    private void handleSelectedProfilePicture(Uri profilePictureData) {
+        // handles a passed uri (from user selection in openFilePicker()), displays on profile
+        Bitmap bitmap = loadBitmapFromUri(profilePictureData);
+        if (bitmap != null) {
+            profilePicture.setImageBitmap(bitmap);
+        }
+    }
+    private Bitmap loadBitmapFromUri(Uri uri) {
+        // uri mapping into image resource
+        try {
+            // Use the content resolver to open the stream for the specified URI
+            getActivity().getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            Bitmap bitmap = BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(uri));
+            return bitmap;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    private void openFilePicker() {
+        // opens files for user to choose a profile picture
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/*");
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
+            handleSelectedProfilePicture(data.getData());
         }
     }
     private void updateBadge(View view) {
