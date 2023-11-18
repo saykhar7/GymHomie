@@ -47,6 +47,7 @@ public class profile_fragment extends Fragment {
     private ImageView profilePicture;
     private TextView profileName;
     private TextView profileEmail;
+    private TextView profileBadgeName;
     private OnLogoutClickListener onLogoutClickListener;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -84,6 +85,7 @@ public class profile_fragment extends Fragment {
         profileEmail.setText(email);
 
         profileBadge = view.findViewById(R.id.profileBadge);
+        profileBadgeName = view.findViewById(R.id.profileBadgeLabel);
         profilePicture = view.findViewById(R.id.profilePicture);
         btnLogout = view.findViewById(R.id.logoutBtn);
         btnGoals = view.findViewById(R.id.goalsBtn);
@@ -207,14 +209,21 @@ public class profile_fragment extends Fragment {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         String achID;
+                        String achName;
                         if (!documentSnapshot.contains("badge")) {
                             // badge has not been set for current user, set to -1 for default
                             achID = "-1";
                             docRef.update("badge", achID);
+                            docRef.update("achName", "Achievement");
+                            profileBadge.setImageResource(R.drawable.trophy_unlocked);
+                        }
+                        else if (!documentSnapshot.contains("achName")) {
+                            docRef.update("achName", "Achievement");
                             profileBadge.setImageResource(R.drawable.trophy_unlocked);
                         }
                         else {
                             achID = documentSnapshot.get("badge").toString();
+                            achName = documentSnapshot.get("achName").toString();
                             if (achID.equals("-1")) {
                                 profileBadge.setImageResource(R.drawable.trophy_unlocked);
                             }
@@ -222,12 +231,11 @@ public class profile_fragment extends Fragment {
                                 // dynamically set their badge
                                 Log.d("Profile Achievement Update", achID);
                                 profileBadge.setImageResource(imageResourceMap.get(achID));
+                                profileBadgeName.setText(achName);
                             }
                         }
                     }
                 });
-
-
     }
 
     public void setOnLogoutClickListener(OnLogoutClickListener listener) {

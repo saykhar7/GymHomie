@@ -128,6 +128,7 @@ public class AchievementAdapter extends RecyclerView.Adapter<AchievementAdapter.
                             @Override
                             public void onSuccess(DocumentSnapshot documentSnapshot) {
                                 docRef.update("badge", achievement.getAchievementID());
+                                docRef.update("achName", achievement.getName());
                                 Toast.makeText(context, "Achievement Showcased!", Toast.LENGTH_SHORT).show();
                             }
                         })
