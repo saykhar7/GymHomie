@@ -58,7 +58,7 @@ public class workout_fragment extends Fragment {
                             ArrayList<exercise> exercises = (ArrayList<exercise>) documentSnapshot.get("exercises");
 
                             workout currentWorkout = new workout(name, mg, exercises);
-                            workoutList.add(currentWorkout);
+                            //  workoutList.add(currentWorkout);
 
                         }
                         // update UI
