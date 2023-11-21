@@ -51,9 +51,9 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
         public ExerciseViewHolder(@NonNull View itemView) {
             super(itemView);
             exerciseName = itemView.findViewById(R.id.exerciseTitle);
-            exerciseNumSets = itemView.findViewById(R.id.setsText);
+            exerciseNumSets = itemView.findViewById(R.id.numberSets);
             exerciseWeight = itemView.findViewById(R.id.weightNumber);
-            exerciseNumReps = itemView.findViewById(R.id.repsText);
+            exerciseNumReps = itemView.findViewById(R.id.numberReps);
         }
         public void bind(exercise exercise) {
             // bind achievement data to UI

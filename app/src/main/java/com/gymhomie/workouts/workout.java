@@ -11,6 +11,7 @@ public class workout implements Parcelable {
     private String name;
     private ArrayList<String> muscleGroups = new ArrayList<String>();
     private ArrayList<exercise> exercises = new ArrayList<exercise>();
+    private boolean isExpandable;
 
     public workout(){};
     public workout(String name, ArrayList<String> muscleGroups, ArrayList<exercise> exercises)
@@ -18,6 +19,7 @@ public class workout implements Parcelable {
         this.name = name;
         this.muscleGroups = muscleGroups;
         this.exercises = exercises;
+        this.isExpandable = false;
     }
 
 
@@ -55,6 +57,14 @@ public class workout implements Parcelable {
 
     //sets list of exercises to the workout
     public void setExercise(ArrayList<exercise> exercises) {this.exercises = exercises;}
+
+    public boolean isExpandable() {
+        return isExpandable;
+    }
+
+    public void setExpandable(boolean expandable) {
+        isExpandable = expandable;
+    }
 
     //adds exercise to exercise list
     public void addExercise(exercise e)

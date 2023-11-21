@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -33,6 +34,7 @@ import com.gymhomie.workouts.workout;
 import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -52,17 +54,9 @@ public class workout_fragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_workout, container, false);
-
-        ArrayList<String> mg = new ArrayList<String>();
-        mg.add("arms");
-        exercise e = new exercise("e1", 3, 4, 34);
-        workout w = new workout("hardcode", mg, )
-
-
+        listWorkouts();
         add_workout_button = view.findViewById(R.id.add_workout_button);
         recyclerView = view.findViewById(R.id.workout_recycler_view);
-
-        listWorkouts();
 
         add_workout_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,7 +98,8 @@ public class workout_fragment extends Fragment {
                                     exercises.add(currentExercise);
                                 }
                             }
-                            workout currentWorkout = new workout((String) workoutData.get("name"), (ArrayList<String>) workoutData.get("muscleGroups"), exercises);
+                            workout currentWorkout = new workout((String) workoutData.get("name"),
+                                    (ArrayList<String>) workoutData.get("muscleGroups"), exercises);
                             workoutList.add(currentWorkout);
                         }
                         // update UI
