@@ -1,6 +1,8 @@
 package com.gymhomie.events_finder;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,6 +78,20 @@ public class EventsListAdapter extends RecyclerView.Adapter<EventsListAdapter.Vi
             city.setText(eventsList.getCity());
             name.setText(eventsList.getName());
             link.setText(eventsList.getLink());
+
+
+            link.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    openLink(eventsList.getLink());
+                }
+            });
+        }
+
+        private void openLink(String url){
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(url));
+            context.startActivity(intent);
         }
     }
 }
