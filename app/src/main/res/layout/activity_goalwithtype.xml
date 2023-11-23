@@ -21,20 +21,20 @@
         android:textStyle="bold" />
 
     <androidx.cardview.widget.CardView
-    android:id="@+id/cardView"
-    android:layout_width="300dp"
-    android:layout_height="400dp"
-    android:layout_below="@id/titleAboveImageView"
-    android:layout_centerInParent="true"
-    android:layout_marginTop="10dp"
-    android:layout_marginBottom="10dp"
-    app:cardElevation="25dp">
-    <ImageView
-        android:id="@+id/artImageView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/cardview_light_background"></ImageView>
-</androidx.cardview.widget.CardView>
+        android:id="@+id/cardView"
+        android:layout_width="300dp"
+        android:layout_height="400dp"
+        android:layout_below="@id/titleAboveImageView"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        app:cardElevation="8dp">
+        <ImageView
+            android:id="@+id/artImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/cardview_light_background"></ImageView>
+    </androidx.cardview.widget.CardView>
 
 
     <!-- Previous Button -->
@@ -58,28 +58,47 @@
         android:background="@drawable/rightarrow"
         android:padding="0dp"></Button>
 
-    <!-- Active Goals Button -->
-    <Button
-        android:id="@+id/activeGoalsButton"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_below="@id/cardView"
         android:layout_alignLeft="@id/cardView"
         android:layout_alignRight="@id/cardView"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/neon"
-        android:background="@drawable/button_border"
-        android:text="Active Goals"
-        android:textSize="32sp" />
+        android:id="@+id/buttons"
+        android:layout_marginTop="16dp">
 
-    <!-- Goal History Button -->
+        <!-- Daily Goals Button -->
+        <Button
+            android:id="@+id/dailyGoalsButton"
+            android:background="@drawable/button_border"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/neon"
+            android:text="Daily Goals"
+            android:textSize="32sp" />
+
+        <!-- Weekly Goals Button -->
+        <Button
+            android:id="@+id/weeklyGoalsButton"
+            android:background="@drawable/button_border"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/neon"
+            android:text="Weekly Goals"
+            android:textSize="32sp" />
+
+    </LinearLayout>
+
     <Button
         android:id="@+id/goalHistoryButton"
         android:background="@drawable/button_border"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/activeGoalsButton"
+        android:layout_below="@id/buttons"
         android:layout_alignLeft="@id/cardView"
         android:layout_alignRight="@id/cardView"
         android:layout_centerHorizontal="true"
@@ -87,5 +106,6 @@
         android:fontFamily="@font/neon"
         android:text="Goal History"
         android:textSize="32sp" />
+
 
 </RelativeLayout>
