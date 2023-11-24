@@ -1,5 +1,6 @@
 package com.gymhomie;
 
+import android.annotation.SuppressLint;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,17 @@ import java.util.Map;
 
 public class HomieProfileViewAdapter extends RecyclerView.Adapter<HomieProfileViewAdapter.ViewHolder> {
     private List<Map<String, Object>> workouts;
+    // Define a listener interface
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    private OnItemClickListener listener;
+
+    // Set the listener
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
 
     public HomieProfileViewAdapter(List<Map<String, Object>> workouts) {
         this.workouts = workouts;
@@ -27,9 +39,19 @@ public class HomieProfileViewAdapter extends RecyclerView.Adapter<HomieProfileVi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Map<String, Object> workout = workouts.get(position);
         holder.bind(workout);
+        // Set an OnClickListener for the item
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Check if the listener is set
+                if (listener != null) {
+                    listener.onItemClick(position);
+                }
+            }
+        });
     }
 
     @Override
