@@ -47,6 +47,10 @@
             android:exported="false"
             android:theme="@style/AppTheme.CustomTheme" />
         <activity
+            android:name=".popup_ListHomies"
+            android:exported="false"
+            android:theme="@style/AppTheme.CustomTheme" />
+        <activity
             android:name=".Goal_Activity"
             android:exported="false" />
         <activity
