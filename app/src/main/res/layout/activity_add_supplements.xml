@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#caf0f8"
+    android:padding="20dp"
+    tools:context=".supplements.AddSupplementsActivity">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/page_titleID"
+            android:text="Suggest Supplements you use daily:"
+            android:textSize="20sp"
+            android:fontFamily="@font/neon"
+            />
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="30dp"
+            android:id="@+id/save_supplement_btnID"
+            android:src="@drawable/baseline_done_24"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"/>
+
+
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_marginVertical="26dp"
+        android:backgroundTint="@color/white"
+        android:background="@drawable/rounded_bg">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/supplements_name_btnID"
+            android:hint="Supplement Name"
+            android:textSize="15sp"
+            android:layout_marginVertical="10sp"
+            android:padding="10dp"
+            android:textColor="@color/black"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/supplements_description_btnID"
+            android:hint="Short description"
+            android:minLines="10"
+            android:gravity="top"
+            android:textSize="15sp"
+            android:layout_marginVertical="10sp"
+            android:padding="10dp"
+            android:textColor="@color/black"/>
+
+
+
+
+    </LinearLayout>
+
+</RelativeLayout>
