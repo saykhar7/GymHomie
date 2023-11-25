@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#dedbd2">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Supplement Name"
+        android:fontFamily="@font/sans"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:id="@+id/supplement_nameID"        />
+
+    <TextView
+        android:layout_marginTop="5sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Supplement Description"
+        android:fontFamily="@font/sans"
+        android:minLines="3"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:id="@+id/supplement_desID"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8sp"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Posted By: "
+            android:fontFamily="@font/gravo"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:textSize="18sp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="User Name"
+            android:id="@+id/usernameID"
+            android:textStyle="bold"
+            android:fontFamily="@font/gravo"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" at"
+            android:fontFamily="@font/gravo"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" Time AM"
+            android:id="@+id/timeID"
+            android:textStyle="bold"
+            android:fontFamily="@font/gravo"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            />
+
+    </LinearLayout>
+
+
+</LinearLayout>

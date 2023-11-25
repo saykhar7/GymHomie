@@ -2,6 +2,7 @@ package com.gymhomie.supplements;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,11 +21,16 @@ import com.gymhomie.R;
 public class Supplements extends AppCompatActivity {
 
 
+
+
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseAuth auth = FirebaseAuth.getInstance();
     String userID = auth.getCurrentUser().getUid();
 
     FloatingActionButton addSupplementsBtn;
+
+    RecyclerView recyclerView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +39,9 @@ public class Supplements extends AppCompatActivity {
 
 
         addSupplementsBtn = findViewById(R.id.addSupplement_btnID);
+        recyclerView = findViewById(R.id.supp_recyclev_ID);
+
+        setupRecyclerView();
         addSupplementsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -45,40 +54,10 @@ public class Supplements extends AppCompatActivity {
 
     }
 
+    private void setupRecyclerView() {
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }
 
 
 }
