@@ -52,12 +52,26 @@ public class WorkoutHistoryAdapter extends RecyclerView.Adapter<WorkoutHistoryAd
             publicIdentifier = itemView.findViewById(R.id.public_identifier);
         }
         public void bind(Map<String, Object> workout) {
-            // Bind data to your TextViews
-            nameTextView.setText("Workout Name: " + workout.get("name"));
+            // Check if the workout map is null
+            if (workout == null) {
+                return;
+            }
 
-            List<String> muscleGroups = (List<String>) workout.get("muscleGroups");
-            muscleGroupsTextView.setText("Muscle Groups: " + TextUtils.join(", ", muscleGroups));
-            publicIdentifier.setText("Public: " + workout.get("public"));
+            // Bind data to your TextViews
+            Object nameObject = workout.get("name");
+            nameTextView.setText("Workout Name: " + (nameObject != null ? nameObject.toString() : ""));
+
+            Object muscleGroupsObject = workout.get("muscleGroups");
+            if (muscleGroupsObject instanceof List) {
+                List<String> muscleGroups = (List<String>) muscleGroupsObject;
+                muscleGroupsTextView.setText("Muscle Groups: " + TextUtils.join(", ", muscleGroups));
+            } else {
+                muscleGroupsTextView.setText("Muscle Groups: N/A");
+            }
+
+            Object publicObject = workout.get("public");
+            publicIdentifier.setText("Public: " + (publicObject != null ? publicObject.toString() : "N/A"));
         }
+
     }
 }

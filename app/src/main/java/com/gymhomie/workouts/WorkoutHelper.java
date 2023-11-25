@@ -25,10 +25,10 @@ public class WorkoutHelper {
     String userWorkoutsPath = "users/" + userID + "/Workouts";
 
     public WorkoutHelper(){
-        workouts = new ArrayList<>();
         setWorkouts();
     }
     public void setWorkouts(){
+        workouts = new ArrayList<>();
         // Assuming "workouts" is the name of your collection
         db.collection(userWorkoutsPath)
                 .get()
