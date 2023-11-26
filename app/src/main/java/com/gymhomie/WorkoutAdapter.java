@@ -6,6 +6,9 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,24 +24,44 @@ import java.util.List;
 
 public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutViewHolder>{
 
+    private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
     private List<workout> workouts;
+    private List<exercise> exercises;
     private Context context;
+
     public WorkoutAdapter(Context context, List<workout> workouts) {
         this.context = context;
         this.workouts = workouts;
+
     }
 
     @NonNull
     @Override
     public WorkoutAdapter.WorkoutViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.workout_item, parent, false);
-        return new WorkoutAdapter.WorkoutViewHolder(view);
+        return new WorkoutViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull WorkoutAdapter.WorkoutViewHolder holder, int position) {
         workout currentWorkout = workouts.get(position);
         holder.bind(currentWorkout);
+
+        boolean isExpandable = currentWorkout.isExpandable();
+        holder.expandableLayout.setVisibility(isExpandable ? View.VISIBLE : View.GONE);
+
+        holder.linearLayout.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                currentWorkout.setExpandable(!currentWorkout.isExpandable());
+                exercises = currentWorkout.getExercises();
+                notifyItemChanged(holder.getAdapterPosition());
+            }
+        });
+        ExerciseAdapter exerciseAdapter = new ExerciseAdapter(context, currentWorkout.getExercises());
+        holder.exerciseRecycler.setLayoutManager(new LinearLayoutManager(context));
+        holder.exerciseRecycler.setHasFixedSize(true);
+        holder.exerciseRecycler.setAdapter(exerciseAdapter);
     }
 
     @Override
@@ -49,24 +72,22 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
     public class WorkoutViewHolder extends RecyclerView.ViewHolder {
         private TextView workoutName;
         private TextView muscleGroups;
-        private TextView exerciseList;
-        //private List exerciseList;
+        private RecyclerView exerciseRecycler;
+        private LinearLayout linearLayout;
+        private RelativeLayout expandableLayout;
         public WorkoutViewHolder(@NonNull View itemView) {
             super(itemView);
-            workoutName = itemView.findViewById(R.id.exerciseTitle);
+
+            linearLayout = itemView.findViewById(R.id.linear_layout);
+            expandableLayout = itemView.findViewById(R.id.expandable_layout);
+            exerciseRecycler = itemView.findViewById(R.id.exerciseRecycler);
+            workoutName = itemView.findViewById(R.id.workoutTitle);
             muscleGroups = itemView.findViewById(R.id.muscleGroupsTitle);
-            exerciseList = itemView.findViewById(R.id.workout_recycler_view);
         }
         public void bind(workout workout) {
             // bind achievement data to UI
             workoutName.setText(workout.getName());
-            muscleGroups.setText((CharSequence) workout.getMuscleGroups());
-            exerciseList.setText((CharSequence) workout.getExercises());
-            //RecyclerView recyclerView = view.findViewById(R.id.exercise_recycler_view);
-            //ExerciseAdapter exercises = new ExerciseAdapter(getApplicationContext(), exerciseList);
-            //recyclerView.setAdapter(exercises);
-            //recyclerView.setLayoutManager(new LinearLayoutManager((getApplicationContext())));
-
+            muscleGroups.setText(workout.getMuscleGroups().toString());
         }
     }
 }
