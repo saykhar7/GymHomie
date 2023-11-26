@@ -25,6 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.gymhomie.Achievement_Activity;
 import com.gymhomie.Goal_Activity;
 import com.gymhomie.R;
+import com.gymhomie.supplements.Supplements;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +34,7 @@ import java.util.Map;
 public class profile_fragment extends Fragment {
 
 
-    private Button btnLogout;
+    private Button btnLogout, btnSupplements;
     private Button btnGoals;
     private Button btnAchievements;
     private ImageView profileBadge;
@@ -55,6 +56,14 @@ public class profile_fragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_profile, container, false);
         profileName = view.findViewById(R.id.profileName);
         profileEmail = view.findViewById(R.id.profileEmail);
+        btnSupplements = view.findViewById(R.id.supplementsbtnID);
+        btnSupplements.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), Supplements.class);
+                startActivity(i);
+            }
+        });
         FirebaseAuth auth = FirebaseAuth.getInstance();
         DocumentReference userDoc = db.collection("users").document(userID);
         userDoc.get()
