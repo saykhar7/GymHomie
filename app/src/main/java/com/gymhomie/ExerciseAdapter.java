@@ -44,19 +44,23 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
 
     public class ExerciseViewHolder extends RecyclerView.ViewHolder {
         private TextView exerciseName;
-        private TextView muscleGroups;
-        private TextView exerciseList;
+        private TextView exerciseNumSets;
+        private TextView exerciseWeight;
+        private TextView exerciseNumReps;
+
         public ExerciseViewHolder(@NonNull View itemView) {
             super(itemView);
-            exerciseName = itemView.findViewById(R.id.achievementTitleTextView);
-            muscleGroups = itemView.findViewById(R.id.achievementDescriptionTextView);
-            exerciseList = itemView.findViewById(R.id.achievementProgressBar);
+            exerciseName = itemView.findViewById(R.id.exerciseTitle);
+            exerciseNumSets = itemView.findViewById(R.id.numberSets);
+            exerciseWeight = itemView.findViewById(R.id.weightNumber);
+            exerciseNumReps = itemView.findViewById(R.id.numberReps);
         }
         public void bind(exercise exercise) {
             // bind achievement data to UI
             exerciseName.setText(exercise.getExerciseName());
-
-
+            exerciseNumSets.setText(String.valueOf(exercise.getNumSets()));
+            exerciseWeight.setText(exercise.getWeight());
+            exerciseNumReps.setText(String.valueOf(exercise.getNumReps()));
         }
     }
 }

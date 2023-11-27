@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-feature android:name="android.hardware.camera" />
-<uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
@@ -21,6 +22,12 @@
         android:theme="@style/Theme.GymHomie"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".supplements.AddSupplementsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".supplements.Supplements"
+            android:exported="false" />
         <activity
             android:name=".events_finder.EventsLayoutActivity"
             android:exported="false" />
@@ -47,7 +54,7 @@
             android:exported="false"
             android:theme="@style/AppTheme.CustomTheme" />
         <activity
-            android:name=".popup_ListHomies"
+            android:name=".popup_ShowHomies"
             android:exported="false"
             android:theme="@style/AppTheme.CustomTheme" />
         <activity
@@ -70,12 +77,10 @@
             android:exported="false" />
         <activity
             android:name=".workouts.AddWorkout"
-            android:exported="false"
-            />
+            android:exported="false" />
         <activity
             android:name=".Workout_Activity"
-            android:exported="false"
-            />
+            android:exported="false" />
         <activity
             android:name=".Login_activity"
             android:exported="false" />
@@ -97,6 +102,7 @@
         <activity
             android:name=".Body_Measurement_Activity"
             android:exported="false" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
