@@ -50,6 +50,9 @@
             android:name=".Home_Activity"
             android:exported="false" />
         <activity
+            android:name=".publicExercises_Activity"
+            android:exported="false" />
+        <activity
             android:name=".BarbellCalculator_Activity"
             android:exported="false" />
         <activity
