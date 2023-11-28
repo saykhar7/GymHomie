@@ -22,12 +22,18 @@
         android:theme="@style/Theme.GymHomie"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-        <activity
-            android:name=".supplements.AddSupplementsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".supplements.Supplements"
-            android:exported="false" />
+        <receiver
+            android:name=".WaterIntakeWidget"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/water_intake_info" />
+        </receiver>
+
         <activity
             android:name=".events_finder.EventsLayoutActivity"
             android:exported="false" />
@@ -54,7 +60,7 @@
             android:exported="false"
             android:theme="@style/AppTheme.CustomTheme" />
         <activity
-            android:name=".popup_ShowHomies"
+            android:name=".popup_ListHomies"
             android:exported="false"
             android:theme="@style/AppTheme.CustomTheme" />
         <activity
@@ -102,7 +108,6 @@
         <activity
             android:name=".Body_Measurement_Activity"
             android:exported="false" />
-
         <activity
             android:name=".MainActivity"
             android:exported="true">
