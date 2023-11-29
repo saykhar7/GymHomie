@@ -50,19 +50,30 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
         boolean isExpandable = currentWorkout.isExpandable();
         holder.expandableLayout.setVisibility(isExpandable ? View.VISIBLE : View.GONE);
 
-        holder.linearLayout.setOnClickListener(new View.OnClickListener(){
+        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 currentWorkout.setExpandable(!currentWorkout.isExpandable());
                 exercises = currentWorkout.getExercises();
                 notifyItemChanged(holder.getAdapterPosition());
             }
         });
-        ExerciseAdapter exerciseAdapter = new ExerciseAdapter(context, currentWorkout.getExercises());
-        holder.exerciseRecycler.setLayoutManager(new LinearLayoutManager(context));
-        holder.exerciseRecycler.setHasFixedSize(true);
-        holder.exerciseRecycler.setAdapter(exerciseAdapter);
+
+        // Set the adapter and layout manager only if it's expandable
+        if (isExpandable) {
+            ExerciseAdapter exerciseAdapter = new ExerciseAdapter(context, currentWorkout.getExercises());
+            holder.exerciseRecycler.setLayoutManager(new LinearLayoutManager(context));
+
+            // Remove the following line to fix lint error
+            // holder.exerciseRecycler.setHasFixedSize(true); // Set it only when needed
+
+            holder.exerciseRecycler.setAdapter(exerciseAdapter);
+        } else {
+            holder.exerciseRecycler.setAdapter(null); // Clear adapter if not expandable
+        }
     }
+
+
 
     @Override
     public int getItemCount() {

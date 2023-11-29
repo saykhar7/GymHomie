@@ -1,8 +1,10 @@
 package com.gymhomie.workouts;
 
+import android.app.Activity;
+
 import java.util.ArrayList;
 
-public class AddWorkout {
+public class AddWorkout extends Activity {
     public ArrayList<String> muscleGroup;
     public workout myWorkout;
     public String name;
