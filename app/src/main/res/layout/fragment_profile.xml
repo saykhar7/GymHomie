@@ -95,15 +95,38 @@
             android:fontFamily="@font/neon"
             android:background="@drawable/button_border"/>
 
+
+
+
+
+
+
         <Button
-            android:id="@+id/logoutBtn"
+
+            android:id="@+id/supplementsbtnID"
+            android:layout_marginTop="40sp"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_border"
+            android:background="@drawable/supplements_border"
+            android:hapticFeedbackEnabled="true"
+            android:text="Discover Supplements"
+            android:fontFamily="@font/finalize"
+            android:textSize="32dp" />
+
+
+
+        <Button
+
+            android:id="@+id/logoutBtn"
+            android:layout_marginTop="50sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/logout"
             android:hapticFeedbackEnabled="true"
             android:text="Logout"
+            android:layout_gravity="center_horizontal"
             android:fontFamily="@font/neon"
-            android:textAlignment="textStart"
             android:textSize="32dp" />
 
     </LinearLayout>

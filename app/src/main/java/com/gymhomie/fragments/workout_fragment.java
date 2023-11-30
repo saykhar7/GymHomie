@@ -1,6 +1,6 @@
 package com.gymhomie.fragments;
 
-import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,31 +16,41 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.gymhomie.AchievementAdapter;
+import com.gymhomie.CalculatorMenu_Activity;
 import com.gymhomie.R;
 import com.gymhomie.WorkoutAdapter;
+import com.gymhomie.WorkoutHistoryAdapter;
 import com.gymhomie.Workout_Activity;
-import com.gymhomie.tools.Achievement;
+import com.gymhomie.publicExercises_Activity;
+import com.gymhomie.workouts.WorkoutHelper;
 import com.gymhomie.workouts.exercise;
 import com.gymhomie.workouts.workout;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 
 public class workout_fragment extends Fragment {
 
     Button add_workout_button;
+    Button workout_history_button;
+    Button publicWorkouts;
+    RecyclerView recyclerView;
     private ArrayList<workout> workoutList;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseAuth auth = FirebaseAuth.getInstance();
     String userID = auth.getCurrentUser().getUid();
     String userWorkoutsPath = "users/" + userID + "/Workouts";
+    WorkoutHelper wh = new WorkoutHelper();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -77,6 +87,9 @@ public class workout_fragment extends Fragment {
                 });
 
         add_workout_button = view.findViewById(R.id.add_workout_button);
+        workout_history_button = view.findViewById(R.id.workout_history_button);
+        recyclerView = view.findViewById(R.id.workout_recycler_view);
+        publicWorkouts = view.findViewById(R.id.publicWorkoutButton);
 
         add_workout_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,8 +100,33 @@ public class workout_fragment extends Fragment {
                 //new addWorkout();
             }
         });
+        workout_history_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<Map<String, Object>> workouts = wh.getWorkouts();
+                // Now, you have a list of workout objects. You can update your UI here.
+                updateUI(workouts, v);
+            }
+        });
+        publicWorkouts.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                // Start the Tool_Activity
+                Intent intent = new Intent(getActivity(), publicExercises_Activity.class);
+                startActivity(intent);
+            }
+        });
         return view;
-
-
     }
+    private void updateUI(ArrayList<Map<String, Object>> workouts, View v) {
+        // Create an instance of your custom RecyclerViewAdapter
+        WorkoutHistoryAdapter adapter = new WorkoutHistoryAdapter(workouts);
+
+        // Set the adapter to your RecyclerView
+        recyclerView.setAdapter(adapter);
+
+        // Optionally, you can set a layout manager to define how items are arranged
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
 }

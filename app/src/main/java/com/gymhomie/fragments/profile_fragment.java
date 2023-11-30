@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -32,6 +33,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.gymhomie.Achievement_Activity;
 import com.gymhomie.Goal_Activity;
 import com.gymhomie.R;
+import com.gymhomie.supplements.Supplements;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -40,7 +42,7 @@ import java.util.Map;
 
 
 public class profile_fragment extends Fragment {
-    private Button btnLogout;
+    private Button btnLogout, btnSupplements;
     private Button btnGoals;
     private Button btnAchievements;
     private ImageView profileBadge;
@@ -63,6 +65,14 @@ public class profile_fragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_profile, container, false);
         profileName = view.findViewById(R.id.profileName);
         profileEmail = view.findViewById(R.id.profileEmail);
+        btnSupplements = view.findViewById(R.id.supplementsbtnID);
+        btnSupplements.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), Supplements.class);
+                startActivity(i);
+            }
+        });
         FirebaseAuth auth = FirebaseAuth.getInstance();
         DocumentReference userDoc = db.collection("users").document(userID);
         userDoc.get()
@@ -197,6 +207,7 @@ public class profile_fragment extends Fragment {
     }
     private void updateBadge(View view) {
         // let's update the badge icon on the users profile
+
         Map<String, Integer> imageResourceMap = new HashMap<>();
         imageResourceMap.put("1", R.drawable.achievement_1_unlocked);
         imageResourceMap.put("2", R.drawable.achievement_2_unlocked);
@@ -236,6 +247,8 @@ public class profile_fragment extends Fragment {
                         }
                     }
                 });
+
+
     }
 
     public void setOnLogoutClickListener(OnLogoutClickListener listener) {

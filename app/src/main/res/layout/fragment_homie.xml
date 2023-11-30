@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="72dp"
             android:layout_marginTop="28dp"
-            android:text="Manage \n Homies"
+            android:text="Add \n Homies"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/homies_title" />
 

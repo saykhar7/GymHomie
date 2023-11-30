@@ -9,8 +9,6 @@
     android:orientation="vertical"
     tools:context=".fragments.workout_fragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
@@ -24,7 +22,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/workout_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="668dp"
+        android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:scrollbars="vertical" />
 
@@ -55,6 +53,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.258" />
+
+        <Button
+            android:id="@+id/publicWorkoutButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="132dp"
+            android:text="View Public \n Workouts"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/workout_history_button" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

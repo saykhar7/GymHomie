@@ -27,7 +27,7 @@ import java.util.Map;
 
 public class popup_ManageHomies extends Activity {
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
-
+    public boolean isFriend;
     FirebaseAuth auth = FirebaseAuth.getInstance();
 
     String userPath = "users"; //path for all the users
@@ -60,32 +60,37 @@ public class popup_ManageHomies extends Activity {
                             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                                 for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                                     String currentEmail = document.getString("email");
-                                    if(currentEmail.equals(homiesEmail)){//compares textfield to document's email
+                                    if(currentEmail.toUpperCase().equals(homiesEmail.toUpperCase())){//compares textfield to document's email
                                         if (userID.equals(document.getId())) {
                                             Toast.makeText(popup_ManageHomies.this, "You cant add yourself silly!", Toast.LENGTH_SHORT).show();
                                         } else {
 
 
                                             String thisUserPathtoHomies = "users/" + userID + "/Homies";
-                                            db.collection(thisUserPathtoHomies).get()
-                                                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                                                        @Override
-                                                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                            String debug2 = "users/" + document.getId() + "/Homies";
+                                            if(isFriendRequestAlreadySent(db.collection(thisUserPathtoHomies), document.getId())){
+                                                Toast.makeText(popup_ManageHomies.this, "You cant add yourself silly!", Toast.LENGTH_SHORT).show();
+                                            }
+                                            else {
+                                                db.collection(thisUserPathtoHomies).get()
+                                                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                                            @Override
+                                                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
-                                                        }
-                                                    }); //This is the path to the person's searchings collection
-                                            String homiesUserPathtoHomies = document.getReference().getPath() + "/Homies";//This is t he path to the person that is being searched
-                                            CollectionReference collectionReferenceUser = db.collection(thisUserPathtoHomies);
+                                                            }
+                                                        }); //This is the path to the person's searchings collection
+                                                String homiesUserPathtoHomies = document.getReference().getPath() + "/Homies";//This is t he path to the person that is being searched
+                                                CollectionReference collectionReferenceUser = db.collection(thisUserPathtoHomies);
 
-                                            CollectionReference collectionReferenceHomie = db.collection(homiesUserPathtoHomies);
-                                            //for both these methods we pass the collection reference of the intended target and the docRef for the one being attached so
-                                            //the user is the person sending request
-                                            //the receiver is the person who has to accept request.
-                                            DocumentReference senderDocRef = db.collection("users").document(userID);
-
-                                            addCollectionToUser(collectionReferenceUser, document);
-                                            addCollectionToReceiver(collectionReferenceHomie, senderDocRef);
-
+                                                CollectionReference collectionReferenceHomie = db.collection(homiesUserPathtoHomies);
+                                                //for both these methods we pass the collection reference of the intended target and the docRef for the one being attached so
+                                                //the user is the person sending request
+                                                //the receiver is the person who has to accept request.
+                                                DocumentReference senderDocRef = db.collection("users").document(userID);
+                                                DocumentReference receiverDocRef = document.getReference();
+                                                addCollectionToUser(collectionReferenceUser, receiverDocRef);
+                                                addCollectionToReceiver(collectionReferenceHomie, receiverDocRef);
+                                            }
                                         }
                                     }
                                 }
@@ -94,23 +99,44 @@ public class popup_ManageHomies extends Activity {
             }
         });
     }
-    public void addCollectionToUser(CollectionReference collectionReference, DocumentSnapshot homieDocSnap){
+    public boolean isFriendRequestAlreadySent(CollectionReference homieCollection, String homiesID){
+        isFriend = false;
+        homieCollection.get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                        for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                            if(document.get("HomieID").toString().equals(homiesID)){
+                                 isFriend = true;
+                            }
+                        }
+                    }
+
+
+                });
+
+        return isFriend;
+
+    }
+    public void addCollectionToUser(CollectionReference collectionReference, DocumentReference homieDocRef){
         String userID = auth.getCurrentUser().getUid();
         //     QuerySnapshot collectionSnapshot = collectionReference.get;
-        DocumentReference homieDocRef = homieDocSnap.getReference();
-        String documentPath = homieDocSnap.getReference().getPath()+"/"; // Path to the document where you want to create a subcollection
+        //DocumentReference homieDocRef = homieDocSnap.getReference();
+        String documentPath = homieDocRef.getPath()+"/"; // Path to the document where you want to create a subcollection
         String subcollectionName = "Homies";
-        String fullPath = collectionReference.getPath();
+        String fullPath = "users/" + userID;
         //If the collection does not exist the if will  initialize that collection
 
 
 
-        DocumentReference documentReference = db.document(documentPath);
+        DocumentReference documentReference = db.document(fullPath);
         CollectionReference subcollectionReference = documentReference.collection(subcollectionName);
         Map<String, Object> homieCollectionMap = new HashMap<>();
 
 
-        homieCollectionMap.put("HomieID", homieDocRef);
+        homieCollectionMap.put("HomieID", homieDocRef.getId());
         homieCollectionMap.put("isHomie", true);
         homieCollectionMap.put("isSender", true);
         subcollectionReference.add(homieCollectionMap);
@@ -148,7 +174,7 @@ public class popup_ManageHomies extends Activity {
         Map<String, Object> homieCollectionMap = new HashMap<>();
 
 
-        homieCollectionMap.put("HomieID", senderDocRef);
+        homieCollectionMap.put("HomieID", userID);
         homieCollectionMap.put("isHomie", false);
         homieCollectionMap.put("isSender", false);
         subcollectionReference.add(homieCollectionMap);

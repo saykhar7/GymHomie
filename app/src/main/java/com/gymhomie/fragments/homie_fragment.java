@@ -22,6 +22,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.gymhomie.R;
+import com.gymhomie.popup_ListHomies;
 import com.gymhomie.popup_ManageHomies;
 
 public class homie_fragment extends Fragment {
@@ -40,10 +41,18 @@ public class homie_fragment extends Fragment {
         TextView homie_title = view.findViewById(R.id.homies_title);
         ConstraintLayout constraintLayout = view.findViewById(R.id.homie_constraintlayout);
         Button mangeHomiesBtn = (Button) view.findViewById(R.id.homie_request_btn);
+        Button homieListBtn = (Button) view.findViewById(R.id.homie_list_btn);
         mangeHomiesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(view.getContext(), popup_ManageHomies.class));
+            }
+        });
+
+        homieListBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(view.getContext(), popup_ListHomies.class));
             }
         });
 //        db.collection(collectionPath).get()
