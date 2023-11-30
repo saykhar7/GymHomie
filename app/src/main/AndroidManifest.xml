@@ -88,6 +88,7 @@
         <activity
             android:name=".workouts.AddWorkout"
             android:exported="false" />
+
         <activity
             android:name=".Workout_Activity"
             android:exported="false" />
