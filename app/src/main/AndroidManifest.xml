@@ -39,6 +39,12 @@
             android:name=".events_finder.EventsLayoutActivity"
             android:exported="false" />
         <activity
+            android:name=".supplements.AddSupplementsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".supplements.Supplements"
+            android:exported="false" />
+        <activity
             android:name=".ForgotPassword"
             android:exported="false" />
         <activity
