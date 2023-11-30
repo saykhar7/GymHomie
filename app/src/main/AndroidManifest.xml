@@ -73,7 +73,23 @@
             android:exported="false"
             />
         <activity
-            android:name=".Workout_Activity"
+            android:name=".workouts.Workout_Activity"
+            android:exported="false"
+            />
+        <activity
+            android:name=".workouts.Start_Workout_Activity"
+            android:exported="false"
+            />
+        <activity
+            android:name=".workouts.Workout_History_Activity"
+            android:exported="false"
+            />
+        <activity
+            android:name=".workouts.WorkoutAdapter"
+            android:exported="false"
+            />
+        <activity
+            android:name=".workouts.ExerciseAdapter"
             android:exported="false"
             />
         <activity

@@ -41,8 +41,8 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.324"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/weightText"
         app:layout_constraintTop_toBottomOf="@+id/setsText"
         app:layout_constraintVertical_bias="0.0" />
 
@@ -69,10 +69,10 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.852"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/numberReps"
         app:layout_constraintTop_toBottomOf="@+id/exerciseTitle"
-        app:layout_constraintVertical_bias="0.134" />
+        app:layout_constraintVertical_bias="0.209" />
 
     <TextView
         android:id="@+id/numberSets"
@@ -97,10 +97,10 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.603"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/setsText"
         app:layout_constraintTop_toBottomOf="@+id/exerciseTitle"
-        app:layout_constraintVertical_bias="0.153" />
+        app:layout_constraintVertical_bias="0.214" />
 
     <TextView
         android:id="@+id/setsText"
@@ -111,10 +111,10 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.346"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/numberSets"
         app:layout_constraintTop_toBottomOf="@+id/exerciseTitle"
-        app:layout_constraintVertical_bias="0.134" />
+        app:layout_constraintVertical_bias="0.195" />
 
     <ImageView
         android:id="@+id/imageView"

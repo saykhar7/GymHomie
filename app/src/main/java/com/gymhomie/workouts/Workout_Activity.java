@@ -1,18 +1,12 @@
-package com.gymhomie;
+package com.gymhomie.workouts;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.MultiAutoCompleteTextView;
-import android.widget.NumberPicker;
-import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -24,12 +18,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.gymhomie.workouts.AddWorkout;
-import com.gymhomie.workouts.addExercise;
-import com.gymhomie.workouts.exercise;
-import com.gymhomie.workouts.workout;
+import com.gymhomie.R;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 

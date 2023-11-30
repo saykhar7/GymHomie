@@ -1,4 +1,4 @@
-package com.gymhomie;
+package com.gymhomie.workouts;
 
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.gymhomie.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +59,7 @@ public class WorkoutHistoryAdapter extends RecyclerView.Adapter<WorkoutHistoryAd
 
             List<String> muscleGroups = (List<String>) workout.get("muscleGroups");
             muscleGroupsTextView.setText("Muscle Groups: " + TextUtils.join(", ", muscleGroups));
-            publicIdentifier.setText("Public: " + workout.get("public"));
+            //publicIdentifier.setText("Public: " + workout.get("public"));
         }
     }
 }

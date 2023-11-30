@@ -9,23 +9,24 @@ import com.gymhomie.workouts.workout;
 
 public class exercise implements Parcelable {
     private String exerciseName;
-    private String minutes;
-    private String seconds;
-    private String weight;
-    private int numReps;
-    private int numSets;
+    private int minutes = 0;
+    private int seconds = 0;
+    private int weight = 0;
+    private int numReps = 0;
+    private int numSets = 0;
+    private boolean isTimed;
 
     public exercise() {
-
     }
 
     protected exercise(Parcel in) {
         exerciseName = in.readString();
-        minutes = in.readString();
-        seconds = in.readString();
-        weight = in.readString();
+        minutes = in.readInt();
+        seconds = in.readInt();
+        weight = in.readInt();
         numReps = in.readInt();
         numSets = in.readInt();
+        isTimed = in.readBoolean();
     }
 
     public static final Creator<exercise> CREATOR = new Creator<exercise>() {
@@ -48,11 +49,12 @@ public class exercise implements Parcelable {
     @Override
     public void writeToParcel(@NonNull Parcel parcel, int i) {
         parcel.writeString(exerciseName);
-        parcel.writeString(minutes);
-        parcel.writeString(seconds);
-        parcel.writeString(weight);
+        parcel.writeInt(minutes);
+        parcel.writeInt(seconds);
+        parcel.writeInt(weight);
         parcel.writeInt(numReps);
         parcel.writeInt(numSets);
+        parcel.writeBoolean(isTimed);
     }
 
     public String getExerciseName() {
@@ -63,43 +65,29 @@ public class exercise implements Parcelable {
         this.exerciseName = exerciseName;
     }
 
-    public String getMinutes() {
+    public int getMinutes() {
         return minutes;
     }
 
-    public void setMinutes(String minutes) {
-        if (minutes == null) {
-            this.minutes = "NA";
-        }
-        else {
-            this.minutes = minutes;
-        }
+    public void setMinutes(int minutes) {
+        this.minutes = minutes;
+
     }
 
-    public String getSeconds() {
+    public int getSeconds() {
         return seconds;
     }
 
-    public void setSeconds(String seconds) {
-        if (seconds == null) {
-            this.seconds = "NA";
-        }
-        else {
-            this.seconds = seconds;
-        }
+    public void setSeconds(int seconds) {
+        this.seconds = seconds;
     }
 
-    public String getWeight() {
+    public int getWeight() {
         return weight;
     }
 
-    public void setWeight(String weight) {
-        if (weight == null) {
-            this.weight = "NA";
-        }
-        else {
-            this.weight = weight;
-        }
+    public void setWeight(int weight) {
+        this.weight = weight;
     }
 
     public int getNumReps() {
@@ -116,4 +104,13 @@ public class exercise implements Parcelable {
     public void setNumSets(int numSets) {
         this.numSets = numSets;
     }
+
+    public boolean isTimed() {
+        return isTimed;
+    }
+
+    public void setTimed(boolean timed) {
+        isTimed = timed;
+    }
 }
+

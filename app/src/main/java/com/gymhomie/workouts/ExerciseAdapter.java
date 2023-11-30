@@ -1,4 +1,4 @@
-package com.gymhomie;
+package com.gymhomie.workouts;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,9 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.gymhomie.tools.Achievement;
-import com.gymhomie.workouts.exercise;
-import com.gymhomie.workouts.workout;
+import com.gymhomie.R;
 
 import java.util.List;
 
@@ -57,9 +55,9 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
         }
         public void bind(exercise exercise) {
             // bind achievement data to UI
-            exerciseName.setText(exercise.getExerciseName());
+            exerciseName.setText(exercise.getExerciseName().toString());
             exerciseNumSets.setText(String.valueOf(exercise.getNumSets()));
-            exerciseWeight.setText(exercise.getWeight());
+            exerciseWeight.setText(String.valueOf(exercise.getWeight()));
             exerciseNumReps.setText(String.valueOf(exercise.getNumReps()));
         }
     }
