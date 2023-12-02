@@ -1,8 +1,13 @@
 package com.gymhomie.workouts;
 
+
+import static androidx.core.app.ActivityCompat.startActivityForResult;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +17,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gymhomie.R;
+import com.gymhomie.fragments.workout_fragment;
 
 import java.util.List;
 
@@ -25,6 +32,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
     private List<workout> workouts;
     private List<exercise> exercises;
     private Context context;
+    private static final int REQUEST_CODE_START_WORKOUT = 98;
 
     public WorkoutAdapter(Context context, List<workout> workouts) {
         this.context = context;
@@ -68,7 +76,8 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), Start_Workout_Activity.class);
-                context.startActivity(intent);
+                intent.putExtra("newWorkout", currentWorkout);
+                ((Activity) context).startActivityForResult(intent, REQUEST_CODE_START_WORKOUT);
             }
         });
 

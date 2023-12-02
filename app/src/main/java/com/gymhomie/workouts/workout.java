@@ -1,5 +1,7 @@
 package com.gymhomie.workouts;
 
+//import static androidx.core.os.ParcelCompat.TiramisuImpl.readArrayList;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.annotation.NonNull;
@@ -24,7 +26,15 @@ public class workout implements Parcelable {
 
 
     protected workout(Parcel in) {
-        muscleGroups = in.createStringArrayList();
+        name = in.readString();
+        muscleGroups = in.readArrayList(String.class.getClassLoader());
+        //in.readList(exercises, exercise.CREATOR);
+        if (in.readByte() == 0x01) {
+            exercises = new ArrayList<exercise>();
+            //exercises = readArrayList(exercise.class.getClassLoader());
+        } else {
+            exercises = null;
+        }
     }
 
     public static final Creator<workout> CREATOR = new Creator<workout>() {
@@ -96,7 +106,15 @@ public class workout implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeString(name);
         parcel.writeStringList(muscleGroups);
+        //parcel.writeTypedList(exercises);
+        if (exercises == null) {
+            parcel.writeByte((byte) (0x00));
+        } else {
+            parcel.writeByte((byte) (0x01));
+            parcel.writeList(exercises);
+        }
     }
 
     class completed_workout {

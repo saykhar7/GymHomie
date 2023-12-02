@@ -16,6 +16,11 @@ import com.gymhomie.R;
 import java.util.HashMap;
 import java.util.Map;
 
+//when user clicks a date shown on the datepicker, database will search for
+// a "completed_workout" item / or a workout id that is associated with that date
+// if a workout is found on the selected date, it will display at the bottom of the screen
+// either just the workout name or the whole workout with exercises
+
 public class Workout_History_Activity extends AppCompatActivity {
 
     DatePicker datePicker;
