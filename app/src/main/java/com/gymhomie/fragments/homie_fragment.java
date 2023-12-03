@@ -55,51 +55,6 @@ public class homie_fragment extends Fragment {
                 startActivity(new Intent(view.getContext(), popup_ListHomies.class));
             }
         });
-//        db.collection(collectionPath).get()
-//                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-//                        for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
-//                            DocumentReference homiesDocument = (DocumentReference) document.get("homieID");
-//                            homiesDocument.get().addOnCompleteListener(task -> {
-//                                if(task.isSuccessful()){
-//                                    DocumentSnapshot names = task.getResult();
-//                                            int initialMargin = 40;
-//
-//                                                TextView textView = new TextView(view.getContext());
-//                                                textView.setText(names.getString("firstName")+ " "+names.getString("lastName"));
-////                                                ConstraintSet constraintSet = new ConstraintSet();
-////                                                constraintSet.clone(constraintLayout);
-////                                               constraintSet.centerHorizontally(textView.getId(), ConstraintSet.PARENT_ID);
-////                                                constraintSet.constrainHeight(textView.getId(), 30);
-////                                                constraintSet.constrainWidth(textView.getId(), 100);
-////                                                constraintSet.connect(textView.getId(), ConstraintSet.TOP, homie_title.getId(), ConstraintSet.BOTTOM, initialMargin);
-//                                                initialMargin += 40;
-//
-//                                    ConstraintLayout.LayoutParams lp = new ConstraintLayout.LayoutParams(
-//                                            ConstraintLayout.LayoutParams.WRAP_CONTENT,
-//                                            ConstraintLayout.LayoutParams.WRAP_CONTENT
-//                                    );
-//                                    lp.startToStart = ConstraintLayout.LayoutParams.PARENT_ID;
-//                                    lp.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID;
-//                                    lp.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
-//                                    lp.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
-//
-//                                    textView.setTextSize(16); // Set text size in SP
-//                                    textView.setTextColor(Color.BLACK); // Set text color
-//                                    textView.setBackgroundColor(Color.GRAY); // Set background color
-//                                    textView.setLayoutParams(lp);
-//                                    constraintLayout.addView(textView);
-//                                  //  constraintSet.applyTo(constraintLayout);
-//                                    initialMargin += 40;
-//                                        }
-//                                    });
-//                        }
-//                    }
-//
-//                });
-//
-//
        return view;
     }
 }

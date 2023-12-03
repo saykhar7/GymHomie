@@ -61,7 +61,7 @@ public class WorkoutHelper {
     public void setHomieWorkouts(String homiePath) {
         homieWorkouts = new ArrayList<>();
         // Assuming "workouts" is the name of your collection
-        db.collection(homiePath.substring(0, homiePath.length()-1) + "/Workouts")
+        db.collection(homiePath + "/Workouts")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
