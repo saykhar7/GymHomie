@@ -109,11 +109,18 @@ public class Start_Workout_Activity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        workout newWorkout = getIntent().getParcelableExtra("newWorkout");
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        workout newWorkout = bundle.getParcelable("newWorkout");
+
+
+        //workout newWorkout = getIntent().getParcelableExtra("newWorkout");
         myWorkout = newWorkout;
         //String wn = newWorkout.getName();
-        workoutName.setText((CharSequence) newWorkout);
+        workoutName.setText((CharSequence) newWorkout.getName().toString());
         //workoutName.setText(newWorkout.getName().toString());
         muscleGroups.setText(newWorkout.getMuscleGroups().toString());
+
+
     }
 }

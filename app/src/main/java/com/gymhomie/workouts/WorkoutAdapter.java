@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.telephony.TelephonyCallback;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +38,6 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
     public WorkoutAdapter(Context context, List<workout> workouts) {
         this.context = context;
         this.workouts = workouts;
-
     }
 
     @NonNull
@@ -67,17 +67,22 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
                 currentWorkout.setExpandable(!currentWorkout.isExpandable());
                 exercises = currentWorkout.getExercises();
                 notifyItemChanged(holder.getAdapterPosition());
-
-
             }
         });
 
         holder.start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), Start_Workout_Activity.class);
+                /*Intent intent = new Intent(view.getContext(), Start_Workout_Activity.class);
                 intent.putExtra("newWorkout", currentWorkout);
                 ((Activity) context).startActivityForResult(intent, REQUEST_CODE_START_WORKOUT);
+                */
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("workoutName", currentWorkout);
+
+                Intent intent = new Intent(view.getContext(), Start_Workout_Activity.class);
+                intent.putExtras(bundle);
+                ((Activity) context).startActivity(intent);
             }
         });
 
@@ -109,10 +114,9 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
             workoutName = itemView.findViewById(R.id.workoutTitle);
             muscleGroups = itemView.findViewById(R.id.muscleGroupsTitle);
             start = itemView.findViewById(R.id.start);
-            //this.activity = activity;
         }
         public void bind(workout workout) {
-            // bind achievement data to UI
+            // bind data to UI
             workoutName.setText(workout.getName());
             muscleGroups.setText(workout.getMuscleGroups().toString());
         }

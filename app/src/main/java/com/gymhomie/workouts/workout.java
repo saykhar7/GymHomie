@@ -10,6 +10,7 @@ import java.util.Date;
 
 public class workout implements Parcelable {
 
+    public static final String WORKOUT_PARCEL = "myWorkout";
     private String name;
     private ArrayList<String> muscleGroups = new ArrayList<String>();
     private ArrayList<exercise> exercises = new ArrayList<exercise>();
@@ -23,18 +24,11 @@ public class workout implements Parcelable {
         this.exercises = exercises;
         this.isExpandable = false;
     }
-
-
     protected workout(Parcel in) {
         name = in.readString();
-        muscleGroups = in.readArrayList(String.class.getClassLoader());
-        //in.readList(exercises, exercise.CREATOR);
-        if (in.readByte() == 0x01) {
-            exercises = new ArrayList<exercise>();
-            //exercises = readArrayList(exercise.class.getClassLoader());
-        } else {
-            exercises = null;
-        }
+        muscleGroups = in.createStringArrayList();
+        exercises = in.createTypedArrayList(exercise.CREATOR);
+        isExpandable = in.readByte() != 0;
     }
 
     public static final Creator<workout> CREATOR = new Creator<workout>() {
@@ -108,14 +102,10 @@ public class workout implements Parcelable {
     public void writeToParcel(@NonNull Parcel parcel, int i) {
         parcel.writeString(name);
         parcel.writeStringList(muscleGroups);
-        //parcel.writeTypedList(exercises);
-        if (exercises == null) {
-            parcel.writeByte((byte) (0x00));
-        } else {
-            parcel.writeByte((byte) (0x01));
-            parcel.writeList(exercises);
-        }
+        parcel.writeTypedList(exercises);
+        parcel.writeByte((byte) (isExpandable ? 1 : 0));
     }
+
 
     class completed_workout {
         private workout w;
