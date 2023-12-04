@@ -71,7 +71,6 @@ public class Start_Workout_Activity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                Log.d("Start Workout", "finish clicked");
                 //associate current date with this workout
                 //stored in database under "Workout History" document
 
@@ -113,13 +112,10 @@ public class Start_Workout_Activity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d("Start Workout", "activity result called");
         super.onActivityResult(requestCode, resultCode, data);
-
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         workout newWorkout = bundle.getParcelable("workout");
-        //Log.d("Start Workout", "Parcel:"+newWorkout.getName());
         //workout newWorkout = getIntent().getParcelableExtra("newWorkout");
         myWorkout = newWorkout;
         //String wn = newWorkout.getName();
