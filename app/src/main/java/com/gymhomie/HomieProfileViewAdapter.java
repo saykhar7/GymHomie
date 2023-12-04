@@ -10,11 +10,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class HomieProfileViewAdapter extends RecyclerView.Adapter<HomieProfileViewAdapter.ViewHolder> {
-    private List<Map<String, Object>> workouts;
+    private ArrayList<Map<String, Object>> workouts;
     // Define a listener interface
     public interface OnItemClickListener {
         void onItemClick(int position);
@@ -27,7 +28,7 @@ public class HomieProfileViewAdapter extends RecyclerView.Adapter<HomieProfileVi
         this.listener = listener;
     }
 
-    public HomieProfileViewAdapter(List<Map<String, Object>> workouts) {
+    public HomieProfileViewAdapter(ArrayList<Map<String, Object>> workouts) {
         this.workouts = workouts;
     }
 
@@ -37,10 +38,13 @@ public class HomieProfileViewAdapter extends RecyclerView.Adapter<HomieProfileVi
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_workout, parent, false);
         return new ViewHolder(view);
     }
-
+    public void updateData(ArrayList<Map<String, Object>> newWorkouts) {
+        this.workouts = newWorkouts;
+        notifyDataSetChanged();
+    }
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        Map<String, Object> workout = workouts.get(position);
+        Map<String, Object> workout = (Map<String, Object>) workouts.get(position);
         holder.bind(workout);
         // Set an OnClickListener for the item
         holder.itemView.setOnClickListener(new View.OnClickListener() {

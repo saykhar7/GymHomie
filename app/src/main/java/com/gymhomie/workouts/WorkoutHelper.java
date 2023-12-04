@@ -18,7 +18,7 @@ import java.util.Map;
 
 public class WorkoutHelper {
     ArrayList<Map<String, Object>> workouts;
-    ArrayList<Map<String, Object>> homieWorkouts;
+    ArrayList<ArrayList<Map<String, Object>>> homieWorkouts;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseAuth auth = FirebaseAuth.getInstance();
     String userID = auth.getCurrentUser().getUid();
@@ -54,8 +54,35 @@ public class WorkoutHelper {
         return workouts;
     }
 
-    public ArrayList<Map<String, Object>> getHomieWorkouts() {
+    public ArrayList<ArrayList<Map<String, Object>>> getHomieWorkouts() {
         return homieWorkouts;
+    }
+    public ArrayList<Map<String, Object>> getHomieWorkout(int index){ return homieWorkouts.get(index); }
+    public void setHomieWorkouts(ArrayList<String> paths) {
+        homieWorkouts = new ArrayList<>();
+
+        for (String homiePath : paths) {
+            // Assuming "workouts" is the name of your collection
+            db.collection(homiePath + "/Workouts")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                // Iterate through the documents and extract workout details
+                                ArrayList<Map<String, Object>> workouts = new ArrayList<>();
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    // Assuming "Workout" is your model class
+                                    workouts.add((Map<String, Object>) document.get("Workout"));
+                                }
+                                homieWorkouts.add(workouts);
+                                // this.workouts = workouts;
+                            } else {
+                                Log.d(TAG, "Error getting documents: ", task.getException());
+                            }
+                        }
+                    });
+        }
     }
 
     public void setHomieWorkouts(String homiePath) {
@@ -68,11 +95,12 @@ public class WorkoutHelper {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             // Iterate through the documents and extract workout details
-                            //ArrayList<Map<String, Object>> workouts = new ArrayList<>();
+                            ArrayList<Map<String, Object>> workouts = new ArrayList<>();
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 // Assuming "Workout" is your model class
-                                homieWorkouts.add((Map<String, Object>) document.get("Workout"));
+                                workouts.add((Map<String, Object>) document.get("Workout"));
                             }
+                            homieWorkouts.add(workouts);
                             //this.workouts = workouts;
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());

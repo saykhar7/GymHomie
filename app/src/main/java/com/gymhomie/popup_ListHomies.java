@@ -9,10 +9,8 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +38,7 @@ public class popup_ListHomies extends Activity {
     private LinearLayout sv;
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     public boolean isFriend;
+    private int count = 0;
     private ArrayList<Homie> requestList = new ArrayList<Homie>();
     private ArrayList<Homie> homieList = new ArrayList<Homie>();
     FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -48,7 +47,7 @@ public class popup_ListHomies extends Activity {
     Homie homie = new Homie();
     ArrayList<String> paths = homie.getPaths();
     String collectionPath = "users/" + userID + "/Homies";
-    WorkoutHelper wh = new WorkoutHelper();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +79,9 @@ public class popup_ListHomies extends Activity {
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        WorkoutHelper wh = new WorkoutHelper();
+                        ArrayList<ArrayList<Map<String, Object>>> workouts = wh.getHomieWorkouts();
+                        wh.setHomieWorkouts(paths);
                         for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                            String homiesID = document.getString("HomieID");
                             String documentPath = "users/"+homiesID; // Replace with your actual collection name and document ID
@@ -94,10 +96,10 @@ public class popup_ListHomies extends Activity {
                                                 if (documentSnapshot.exists()) {
                                                     Homie temp = new Homie(documentSnapshot.getString("firstName"), documentSnapshot.getString("lastName"),documentSnapshot.getString("email"),docRef );
                                                     homieList.add(temp);
+                                                    final int currentCount = count;
                                                     runOnUiThread(new Runnable() {
                                                         @Override
                                                         public void run() {
-                                                            int count = 0;
                                                             Button tempView = new Button(getApplicationContext());
                                                             tempView.setText(temp.getFirstName() + " " + temp.getLastName());
                                                             LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
@@ -106,14 +108,13 @@ public class popup_ListHomies extends Activity {
                                                             param.gravity = Gravity.CENTER;
                                                             tempView.setLayoutParams(param);
                                                             sv.addView(tempView);
-                                                            wh.setHomieWorkouts(paths.get(count));
-                                                            ArrayList<Map<String, Object>> workouts = wh.getHomieWorkouts();
+                                                            ArrayList<Map<String, Object>> workouts = wh.getHomieWorkout(currentCount);
                                                             // Set an OnClickListener for each button
-                                                            int finalCount = count;
+                                                            //int finalCount = count;
                                                             tempView.setOnClickListener(new View.OnClickListener() {
                                                                 @Override
                                                                 public void onClick(View v) {
-                                                                    showProfileConfirmationDialog(workouts, temp.getFirstName() + " " + temp.getLastName(), finalCount, v);
+                                                                    showProfileConfirmationDialog(workouts, temp.getFirstName() + " " + temp.getLastName(), currentCount, v);
                                                                 }
                                                             });
                                                             count++;
@@ -129,8 +130,6 @@ public class popup_ListHomies extends Activity {
                                 addToRequestList(documentPath);
 
                             }
-
-
                         }
                     }
 
@@ -194,7 +193,7 @@ public class popup_ListHomies extends Activity {
         // Find the RecyclerView in the profileView
         RecyclerView recyclerView = profileView.findViewById(R.id.workoutsRecyclerView);
 
-        // Create an instance of your custom RecyclerViewAdapter
+        // Create a new instance of HomieProfileViewAdapter for each homie
         HomieProfileViewAdapter adapter = new HomieProfileViewAdapter(workouts);
 
         // Set the item click listener
@@ -217,6 +216,7 @@ public class popup_ListHomies extends Activity {
         builder.setView(profileView);
         builder.show();
     }
+
     private void showAddWorkoutConfirmationDialog(Map<String, Object> workout) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Add Workout");
@@ -228,7 +228,7 @@ public class popup_ListHomies extends Activity {
                 // Handle the user's decision to add the workout
                 // You can add the workout to the user's collection here
                 // ...
-                addWorkoutToFirestore(workout);
+                addWorkoutToFirestore((Map<String, Object>) workout.get(which));
                 Toast.makeText(popup_ListHomies.this, "Workout added!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -319,9 +319,6 @@ public class popup_ListHomies extends Activity {
             this.lastName = lName;
             this.email = email;
             this.ref = ref;
-            paths = new ArrayList<>();
-            homie = new ArrayList<>();
-            setPaths(paths);
         }
          public String getFirstName() {
              return firstName;
