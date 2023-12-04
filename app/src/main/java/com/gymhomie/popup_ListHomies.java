@@ -80,8 +80,8 @@ public class popup_ListHomies extends Activity {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         WorkoutHelper wh = new WorkoutHelper();
-                        ArrayList<ArrayList<Map<String, Object>>> workouts = wh.getHomieWorkouts();
                         wh.setHomieWorkouts(paths);
+                        ArrayList<ArrayList<Map<String, Object>>> workouts = wh.getHomieWorkouts();
                         for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                            String homiesID = document.getString("HomieID");
                             String documentPath = "users/"+homiesID; // Replace with your actual collection name and document ID
@@ -108,13 +108,13 @@ public class popup_ListHomies extends Activity {
                                                             param.gravity = Gravity.CENTER;
                                                             tempView.setLayoutParams(param);
                                                             sv.addView(tempView);
-                                                            ArrayList<Map<String, Object>> workouts = wh.getHomieWorkout(currentCount);
+                                                            //ArrayList<Map<String, Object>> workouts = wh.getHomieWorkout(currentCount);
                                                             // Set an OnClickListener for each button
                                                             //int finalCount = count;
                                                             tempView.setOnClickListener(new View.OnClickListener() {
                                                                 @Override
                                                                 public void onClick(View v) {
-                                                                    showProfileConfirmationDialog(workouts, temp.getFirstName() + " " + temp.getLastName(), currentCount, v);
+                                                                    showProfileConfirmationDialog(workouts.get(currentCount), temp.getFirstName() + " " + temp.getLastName(), currentCount, v);
                                                                 }
                                                             });
                                                             count++;
