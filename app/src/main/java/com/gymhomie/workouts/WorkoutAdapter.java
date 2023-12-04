@@ -78,7 +78,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
                 ((Activity) context).startActivityForResult(intent, REQUEST_CODE_START_WORKOUT);
                 */
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("workoutName", currentWorkout);
+                bundle.putParcelable("workout", currentWorkout);
 
                 Intent intent = new Intent(view.getContext(), Start_Workout_Activity.class);
                 intent.putExtras(bundle);
