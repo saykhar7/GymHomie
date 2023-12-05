@@ -92,29 +92,29 @@ public class gym_membership extends AppCompatActivity {
         int width = membershipQR.getWidth();
         int height = membershipQR.getHeight();
 
-        // Check if the dimensions are valid
-        if (width > 0 && height > 0) {
-            try {
-                BarcodeFormat format = (width > 0 && height > 0) ? BarcodeFormat.CODE_128 : BarcodeFormat.QR_CODE;
-                BitMatrix bitMatrix = multiFormatWriter.encode(content, format, width, height);
+        // Create a default bitmap if dimensions are not valid
+        if (width <= 0 || height <= 0) {
+            width = 800; // Set a default width
+            height = 400; // Set a default height
+        }
 
-                Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
-                for (int i = 0; i < width; i++) {
-                    for (int j = 0; j < height; j++) {
-                        bitmap.setPixel(i, j, bitMatrix.get(i, j) ? Color.BLACK : Color.WHITE);
-                    }
+        try {
+            BarcodeFormat format = BarcodeFormat.CODE_128;
+            BitMatrix bitMatrix = multiFormatWriter.encode(content, format, width, height);
+
+            Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+            for (int i = 0; i < width; i++) {
+                for (int j = 0; j < height; j++) {
+                    bitmap.setPixel(i, j, bitMatrix.get(i, j) ? Color.BLACK : Color.WHITE);
                 }
-
-                membershipQR.setImageBitmap(bitmap);
-            } catch (WriterException e) {
-                throw new RuntimeException(e);
             }
-        } else {
-            // Log or handle the case when dimensions are not valid
-            // You can add a Log statement or handle it based on your requirements
-            Log.e("GymMembershipActivity", "Invalid ImageView dimensions");
+
+            membershipQR.setImageBitmap(bitmap);
+        } catch (WriterException e) {
+            throw new RuntimeException(e);
         }
     }
+
 
 
     private static void retrieveContent(OnContentReceivedListener listener) {
@@ -142,4 +142,13 @@ public class gym_membership extends AppCompatActivity {
         generateBarcode(content);
     };
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        retrieveContent(listener);
+    }
+
+
 }
+
+
