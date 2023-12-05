@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/addworkout_title2"
+        android:id="@+id/workout_history_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -23,24 +23,25 @@
 
     <DatePicker
         android:id="@+id/history_date_picker"
-        android:layout_width="353dp"
-        android:layout_height="478dp"
+        android:layout_width="349dp"
+        android:layout_height="439dp"
         android:layout_gravity="center_horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.226" />
+        app:layout_constraintVertical_bias="0.192" />
 
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="319dp"
-        android:layout_height="211dp"
-        android:text="*displays workout on the selected date*"
-        android:textSize="25sp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/workout_history_recycler"
+        android:layout_width="410dp"
+        android:layout_height="228dp"
+        android:layout_marginTop="412dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/addworkout_title2"
-        app:layout_constraintVertical_bias="0.901" />
+        app:layout_constraintTop_toTopOf="@+id/history_date_picker"
+        app:layout_constraintVertical_bias="1.0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

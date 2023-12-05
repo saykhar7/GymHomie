@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.internal.runner.intent.IntentMonitorImpl;
 
@@ -21,6 +22,8 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.gymhomie.R;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -66,6 +69,12 @@ public class Start_Workout_Activity extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
         myWorkout = bundle.getParcelable("workout");
         workoutName.setText(myWorkout.getName());
+        muscleGroups.setText(myWorkout.getMuscleGroups().toString());
+
+        ExerciseAdapter exerciseAdapter = new ExerciseAdapter(getApplicationContext(), myWorkout.getExercises());
+        exercises.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        exercises.setHasFixedSize(true);
+        exercises.setAdapter(exerciseAdapter);
 
         finish.setOnClickListener(new View.OnClickListener() {
 
@@ -76,6 +85,11 @@ public class Start_Workout_Activity extends AppCompatActivity {
 
                 //workout.completed_workout thisWorkout =
 
+                LocalDate currentDate = LocalDate.now(); //get the current date
+                int currentMonth = currentDate.getMonthValue();
+                int currentDay = currentDate.getDayOfMonth();
+                int currentYear = currentDate.getYear();
+
                 FirebaseAuth auth = FirebaseAuth.getInstance();
                 String userID = auth.getCurrentUser().getUid();
                 String collectionPath = "users/"+userID+"/Workout History";
@@ -83,6 +97,11 @@ public class Start_Workout_Activity extends AppCompatActivity {
                 //workout myWorkout = new workout(workoutName.getText().toString(), muscleGroups, exercises);
                 Map<String, Object> note = new HashMap<>();
                 note.put("Workout", myWorkout);
+                note.put("Month", currentMonth);
+                note.put("Day", currentDay);
+                note.put("Year", currentYear);
+                //note.put("Date", date);
+
 
                 /*
                 note.put("Workout name", workoutName.getText().toString());
@@ -90,7 +109,7 @@ public class Start_Workout_Activity extends AppCompatActivity {
                 note.put("Exercises", exercises);
                 */
 
-                db.collection(collectionPath).document(workoutName.getText().toString()).set(note)
+                db.collection(collectionPath).document().set(note)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
@@ -123,6 +142,10 @@ public class Start_Workout_Activity extends AppCompatActivity {
         //workoutName.setText(newWorkout.getName().toString());
         muscleGroups.setText(newWorkout.getMuscleGroups().toString());
 
+        LocalDate currentDate = LocalDate.now(); //get the current date
+        int currentDay = currentDate.getDayOfMonth();
+        int currentMonth = currentDate.getMonthValue();
+        int currentYear = currentDate.getYear();
 
     }
 }

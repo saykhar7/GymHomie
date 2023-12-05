@@ -7,8 +7,15 @@
     <TextView
         android:id="@+id/body_measurement_title2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="96dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="738dp"
         android:fontFamily="@font/neon"
         android:text="Body Measurement Tracker"
         android:textAlignment="center"
@@ -21,45 +28,38 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TableLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="805dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="203dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="648dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="109dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
         android:background="@android:color/white">
 
         <TableRow
 
+            android:id="@+id/text_row"
             android:background="#38A5F2">
 
             <TextView
-                android:layout_width="0dp"
+                android:id="@+id/bicep_text"
+                android:layout_width="2dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="4"
+                android:layout_weight="0"
                 android:gravity="center_horizontal"
-                android:padding="10sp"
-                android:textColor="@color/black"
-                android:textSize="35sp" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:gravity="center_horizontal"
-                android:padding="10sp"
                 android:text="@string/bicep"
                 android:textColor="@color/black"
                 android:textSize="30sp" />
 
             <TextView
-                android:layout_width="0dp"
+                android:id="@+id/forearm_text"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="4"
+                android:layout_weight="0"
                 android:gravity="center_horizontal"
                 android:padding="10sp"
                 android:text="@string/forearms"
@@ -67,9 +67,10 @@
                 android:textSize="28sp" />
 
             <TextView
-                android:layout_width="0dp"
+                android:id="@+id/thigh_text"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="4"
+                android:layout_weight="0"
                 android:gravity="center_horizontal"
                 android:padding="10sp"
                 android:text="@string/thighs"
@@ -77,20 +78,22 @@
                 android:textSize="30sp" />
 
             <TextView
-                android:layout_width="0dp"
+                android:id="@+id/calves_text"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="4"
+                android:layout_weight="0"
                 android:gravity="center_horizontal"
                 android:padding="10sp"
                 android:text="@string/calves"
                 android:textColor="@color/black"
                 android:textSize="30sp" />
+
         </TableRow>
 
-        <TableRow>
+        <TableRow android:layout_height="343dp">
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="551dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
                 android:gravity="center_horizontal"
@@ -100,14 +103,14 @@
                 android:textSize="30sp" />
 
             <EditText
-                android:layout_width="147dp"
-                android:layout_height="wrap_content"></EditText>
-
-            <EditText
-                android:layout_width="144dp"
+                android:layout_width="98dp"
                 android:layout_height="wrap_content">
 
             </EditText>
+
+            <EditText
+                android:layout_width="94dp"
+                android:layout_height="wrap_content"></EditText>
 
             <EditText
                 android:layout_width="143dp"
@@ -156,6 +159,7 @@
         <TableRow android:background="#38A5F2">
 
             <TextView
+                android:id="@+id/shoulder_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
@@ -166,6 +170,7 @@
                 android:textSize="30sp" />
 
             <TextView
+                android:id="@+id/waist_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
@@ -179,11 +184,11 @@
         <TableRow android:layout_width="430dp">
 
             <EditText
-                android:layout_width="354dp"
+                android:layout_width="207dp"
                 android:layout_height="wrap_content"></EditText>
 
             <EditText
-                android:layout_width="0dp"
+                android:layout_width="212dp"
                 android:layout_height="wrap_content"></EditText>
         </TableRow>
 

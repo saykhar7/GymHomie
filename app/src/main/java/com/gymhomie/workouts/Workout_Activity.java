@@ -181,7 +181,7 @@ public class Workout_Activity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Toast.makeText(Workout_Activity.this, "Note saved: "+userID, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Workout_Activity.this, "Note saved: ", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
