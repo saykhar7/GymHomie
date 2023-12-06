@@ -8,6 +8,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.icu.math.BigDecimal;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -34,6 +35,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.gymhomie.tools.StepCounter;
 
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -118,21 +120,6 @@ public class Step_Activity extends AppCompatActivity implements SensorEventListe
         } else {
             // Handle the case when the accelerometer sensor is not available on the device
         }
-
-        // Schedule the alarm to trigger at midnight
-//        Calendar midnight = Calendar.getInstance();
-//        currentMonth = midnight.get(Calendar.MONTH) + 1;
-//        currentDayOfWeek = midnight.get(Calendar.DAY_OF_WEEK) - 1;
-//        midnight.setTimeInMillis(System.currentTimeMillis());
-//        midnight.set(Calendar.HOUR_OF_DAY, 0);
-//        midnight.set(Calendar.MINUTE, 0);
-//        midnight.set(Calendar.SECOND, 0);
-
-//        Intent intent = new Intent(this, MidnightResetReceiver.class);
-//        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-//
-//        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-//        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, midnight.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
 
         stepButton = findViewById(R.id.stepButton);
         feetButton = findViewById(R.id.feetButton);
@@ -255,28 +242,56 @@ public class Step_Activity extends AppCompatActivity implements SensorEventListe
                     .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            Map<String, Long> sumMap = new HashMap<>();
+
                             for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
-                                StepCounter util = new StepCounter(document.getLong("day"), document.getLong("month"), document.getLong("year"), document.getLong("steps"));
+                                Long day = document.getLong("day");
+                                Long month = document.getLong("month");
+                                Long year = document.getLong("year");
+                                Long steps = document.getLong("steps");
+
+                                // Create a unique key for the day, month, and year combination
+                                String key = day + "-" + month + "-" + year;
+
+                                // Get the current sum for the key, defaulting to 0 if not present
+                                Long currentSum = sumMap.getOrDefault(key, 0L);
+
+                                // Update the sum for the key
+                                sumMap.put(key, currentSum + steps);
+                            }
+
+                            // Now 'sumMap' contains the sum of steps for each unique day, month, and year combination
+                            // You can iterate over the map and add the values to your 'list'
+                            for (Map.Entry<String, Long> entry : sumMap.entrySet()) {
+                                //StepCounter util = new StepCounter(entry.getKey(), entry.getValue());
+                                String[] parts = entry.getKey().split("-");
+                                // Parse the parts into integers
+                                int day = Integer.parseInt(parts[0]);
+                                int month = Integer.parseInt(parts[1]);
+                                int year = Integer.parseInt(parts[2]);
+                                StepCounter util = new StepCounter((long) day, (long) month, (long) year, entry.getValue());
                                 ArrayList<String> items = new ArrayList<>();
+                                //items.add(entry.getKey());
                                 items.add(String.valueOf(util.getSteps()));
                                 list.add(items);
                             }
+
                             ArrayList<Float> stepsRes = new ArrayList<>();
                             for (int i = 0; i < list.size(); i++) {
                                 stepsRes.add(Float.parseFloat(list.get(i).get(0)));
                             }
-                            ArrayList barEntriesArrayList = new ArrayList<>();
-                            // adding new entry to our array list with bar
-                            // entry and passing x and y axis value to it.
-                            barEntriesArrayList.add(new BarEntry(1, stepsRes.get(0)));
-                            barEntriesArrayList.add(new BarEntry(2, stepsRes.get(1)));
-                            barEntriesArrayList.add(new BarEntry(3, stepsRes.get(2)));
-                            barEntriesArrayList.add(new BarEntry(4, stepsRes.get(3)));
-                            barEntriesArrayList.add(new BarEntry(5, stepsRes.get(4)));
-                            barEntriesArrayList.add(new BarEntry(6, stepsRes.get(5)));
-                            barEntriesArrayList.add(new BarEntry(7, stepsRes.get(6)));
+
+                            ArrayList<BarEntry> barEntriesArrayList = new ArrayList<>();
+
+                            int numberOfEntries = 7;
+                            for (int i = 0; i < numberOfEntries; i++) {
+                                float value = (i < stepsRes.size()) ? stepsRes.get(i) : 0.0f;
+                                barEntriesArrayList.add(new BarEntry(i + 1, value));
+                            }
 
                             BarDataSet barDataSet = new BarDataSet(barEntriesArrayList, "Weekly Step Analytics");
+                            // Rest of your code remains unchanged
+
 
                             // creating a new bar data and
                             // passing our bar data set.
@@ -322,30 +337,56 @@ public class Step_Activity extends AppCompatActivity implements SensorEventListe
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        Map<String, Long> sumMap = new HashMap<>();
+
                         for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
-                            StepCounter util = new StepCounter(document.getLong("day"), document.getLong("month"), document.getLong("year"), document.getLong("steps"));
+                            Long day = document.getLong("day");
+                            Long month = document.getLong("month");
+                            Long year = document.getLong("year");
+                            Long steps = document.getLong("steps");
+
+                            // Create a unique key for the day, month, and year combination
+                            String key = day + "-" + month + "-" + year;
+
+                            // Get the current sum for the key, defaulting to 0 if not present
+                            Long currentSum = sumMap.getOrDefault(key, 0L);
+
+                            // Update the sum for the key
+                            sumMap.put(key, currentSum + steps);
+                        }
+
+                        // Now 'sumMap' contains the sum of steps for each unique day, month, and year combination
+                        // You can iterate over the map and add the values to your 'list'
+                        for (Map.Entry<String, Long> entry : sumMap.entrySet()) {
+                            //StepCounter util = new StepCounter(entry.getKey(), entry.getValue());
+                            String[] parts = entry.getKey().split("-");
+                            // Parse the parts into integers
+                            int day = Integer.parseInt(parts[0]);
+                            int month = Integer.parseInt(parts[1]);
+                            int year = Integer.parseInt(parts[2]);
+                            StepCounter util = new StepCounter((long) day, (long) month, (long) year, entry.getValue());
                             ArrayList<String> items = new ArrayList<>();
+                            //items.add(entry.getKey());
                             items.add(String.valueOf(util.getSteps()));
                             list.add(items);
                         }
+
                         ArrayList<Float> stepsRes = new ArrayList<>();
                         for (int i = 0; i < list.size(); i++) {
                             stepsRes.add(Float.parseFloat(list.get(i).get(0)));
                         }
-                        ArrayList barEntriesArrayList = new ArrayList<>();
-                        // adding new entry to our array list with bar
-                        // entry and passing x and y axis value to it.
+                        ArrayList<BarEntry> barEntriesArrayList = new ArrayList<>();
                         StepCounter util = new StepCounter();
-                        barEntriesArrayList.add(new BarEntry(1, (float) util.feetTravelled(Math.round(stepsRes.get(0)))));
-                        barEntriesArrayList.add(new BarEntry(2, (float) util.feetTravelled(Math.round(stepsRes.get(1)))));
-                        barEntriesArrayList.add(new BarEntry(3, (float) util.feetTravelled(Math.round(stepsRes.get(2)))));
-                        barEntriesArrayList.add(new BarEntry(4, (float) util.feetTravelled(Math.round(stepsRes.get(3)))));
-                        barEntriesArrayList.add(new BarEntry(5, (float) util.feetTravelled(Math.round(stepsRes.get(4)))));
-                        barEntriesArrayList.add(new BarEntry(6, (float) util.feetTravelled(Math.round(stepsRes.get(5)))));
-                        barEntriesArrayList.add(new BarEntry(7, (float) util.feetTravelled(Math.round(stepsRes.get(6)))));
 
+                        int numberOfEntries = 7;
+                        for (int i = 0; i < numberOfEntries; i++) {
+                            float value = (i < stepsRes.size()) ? (float) util.feetTravelled(Math.round(stepsRes.get(i))) : 0.0f;
+                            barEntriesArrayList.add(new BarEntry(i + 1, value));
+                        }
 
                         BarDataSet barDataSet = new BarDataSet(barEntriesArrayList, "Weekly Step Analytics: Feet");
+                        // Rest of your code remains unchanged
+
 
                         // creating a new bar data and
                         // passing our bar data set.
@@ -391,30 +432,60 @@ public class Step_Activity extends AppCompatActivity implements SensorEventListe
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        Map<String, Long> sumMap = new HashMap<>();
+
                         for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
-                            StepCounter util = new StepCounter(document.getLong("day"), document.getLong("month"), document.getLong("year"), document.getLong("steps"));
+                            Long day = document.getLong("day");
+                            Long month = document.getLong("month");
+                            Long year = document.getLong("year");
+                            Long steps = document.getLong("steps");
+
+                            // Create a unique key for the day, month, and year combination
+                            String key = day + "-" + month + "-" + year;
+
+                            // Get the current sum for the key, defaulting to 0 if not present
+                            Long currentSum = sumMap.getOrDefault(key, 0L);
+
+                            // Update the sum for the key
+                            sumMap.put(key, currentSum + steps);
+                        }
+
+                        // Now 'sumMap' contains the sum of steps for each unique day, month, and year combination
+                        // You can iterate over the map and add the values to your 'list'
+                        for (Map.Entry<String, Long> entry : sumMap.entrySet()) {
+                            //StepCounter util = new StepCounter(entry.getKey(), entry.getValue());
+                            String[] parts = entry.getKey().split("-");
+                            // Parse the parts into integers
+                            int day = Integer.parseInt(parts[0]);
+                            int month = Integer.parseInt(parts[1]);
+                            int year = Integer.parseInt(parts[2]);
+                            StepCounter util = new StepCounter((long) day, (long) month, (long) year, entry.getValue());
                             ArrayList<String> items = new ArrayList<>();
+                            //items.add(entry.getKey());
                             items.add(String.valueOf(util.getSteps()));
                             list.add(items);
                         }
+
                         ArrayList<Float> stepsRes = new ArrayList<>();
                         for (int i = 0; i < list.size(); i++) {
                             stepsRes.add(Float.parseFloat(list.get(i).get(0)));
                         }
-                        ArrayList barEntriesArrayList = new ArrayList<>();
-                        // adding new entry to our array list with bar
-                        // entry and passing x and y axis value to it.
+
+                        ArrayList<BarEntry> barEntriesArrayList = new ArrayList<>();
                         StepCounter util = new StepCounter();
-                        barEntriesArrayList.add(new BarEntry(1, (float) util.milesTravelled(Math.round(stepsRes.get(0)))));
-                        barEntriesArrayList.add(new BarEntry(2, (float) util.milesTravelled(Math.round(stepsRes.get(1)))));
-                        barEntriesArrayList.add(new BarEntry(3, (float) util.milesTravelled(Math.round(stepsRes.get(2)))));
-                        barEntriesArrayList.add(new BarEntry(4, (float) util.milesTravelled(Math.round(stepsRes.get(3)))));
-                        barEntriesArrayList.add(new BarEntry(5, (float) util.milesTravelled(Math.round(stepsRes.get(4)))));
-                        barEntriesArrayList.add(new BarEntry(6, (float) util.milesTravelled(Math.round(stepsRes.get(5)))));
-                        barEntriesArrayList.add(new BarEntry(7, (float) util.milesTravelled(Math.round(stepsRes.get(6)))));
+
+                        int numberOfEntries = 7;
+                        for (int i = 0; i < numberOfEntries; i++) {
+                            float value = (i < stepsRes.size()) ? (float) util.milesTravelled(Math.round(stepsRes.get(i))) : 0.0f;
+                            // Use BigDecimal for precise formatting
+                            BigDecimal decimalValue = new BigDecimal(value);
+                            decimalValue = decimalValue.setScale(2, RoundingMode.HALF_UP.ordinal());
+
+                            barEntriesArrayList.add(new BarEntry(i + 1, decimalValue.floatValue()));
+                        }
 
                         BarDataSet barDataSet = new BarDataSet(barEntriesArrayList, "Weekly Step Analytics: Miles");
-
+                        // Rest of your code remains unchanged
                         // creating a new bar data and
                         // passing our bar data set.
                         barData = new BarData(barDataSet);

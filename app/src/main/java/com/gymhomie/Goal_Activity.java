@@ -555,7 +555,7 @@ public class Goal_Activity extends AppCompatActivity {
                 }} else if(currentImageIndex == 3){
                     if(goal.getGoalCollection().get(3)) {
                         // start active goals intent
-                        String title = "hydration";
+                        String title = "exercise";
                         Stack<String> start_dates = new Stack<>();
                         Stack<String> end_dates = new Stack<>();
                         Stack<String> types = new Stack<>();
@@ -673,8 +673,21 @@ public class Goal_Activity extends AppCompatActivity {
             marginLayoutParams.topMargin = marginTopInPixels;
             chart.setLayoutParams(marginLayoutParams);
             ArrayList<PieEntry> entries = new ArrayList<>();
-            entries.add(new PieEntry(Float.parseFloat(targets.get(0)), "Target"));
-            entries.add(new PieEntry(Float.parseFloat(currents.get(0)), "Current"));
+            // Check if targets and currents are not null and have at least one element
+            if (targets != null && targets.size() > 0 && targets.get(0) != null) {
+                entries.add(new PieEntry(Float.parseFloat(targets.get(0)), "Target"));
+            } else {
+                // Handle the case when targets is null or empty
+                // You may choose to add a default value or skip adding the entry
+                entries.add(new PieEntry(0.0F, "Target"));
+            }
+
+            if (currents != null && currents.size() > 0 && currents.get(0) != null) {
+                entries.add(new PieEntry(0.0F, "Current"));
+            } else {
+                // Handle the case when currents is null or empty
+                // You may choose to add a default value or skip adding the entry
+            }
             String formattedDate = getFormattedDate();
             PieDataSet dataSet = new PieDataSet(entries, formattedDate);
             dataSet.setColors(new int[]{Color.BLUE, Color.RED}); // Set colors for each segment
@@ -937,8 +950,11 @@ public class Goal_Activity extends AppCompatActivity {
 
             // Customize the chart settings
             chart.getDescription().setEnabled(false);
+        float currentValue = 0.0f;
             // Set target value (change as needed)
-            float currentValue = Float.parseFloat(currents.get(0));
+        if (currents != null && currents.size() > 0 && currents.get(0) != null) {
+            currentValue = Float.parseFloat(currents.get(0));
+        }
 
             ((HorizontalBarChart)chart).getAxisRight().setEnabled(false);
 
@@ -957,7 +973,7 @@ public class Goal_Activity extends AppCompatActivity {
             ((HorizontalBarChart)chart).getLegend().setEnabled(false);
 
             ArrayList<BarEntry> entries = new ArrayList<>();
-            entries.add(new BarEntry(0, Float.parseFloat(currents.get(0)))); // First entry
+            entries.add(new BarEntry(0, currentValue)); // First entry
 
             // Create data for the chart
             BarDataSet dataSet = new BarDataSet(entries, "Progress");

@@ -54,7 +54,32 @@ public class StepCounter {
         this.month = Math.toIntExact(month);
         this.day = Math.toIntExact(day);
     }
+    public int getTodaysStepData(int day, int month, int year) {
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        LocalDate currentDate = LocalDate.now();
 
+        firestore.collection("users")
+                .document(auth.getUid())
+                .collection("StepCounter")
+                .whereEqualTo(String.valueOf(day), currentDate.getDayOfMonth())
+                .whereEqualTo(String.valueOf(month), currentDate.getMonthValue())
+                .whereEqualTo(String.valueOf(year), currentDate.getYear())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener < QuerySnapshot > () {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (DocumentSnapshot document: queryDocumentSnapshots.getDocuments()) {
+                            // get the number of steps for the day
+                            Long stepsValue = document.getLong("steps");
+                            if (stepsValue != null) {
+                                steps += stepsValue.intValue();
+                            }
+                        }
+                    }
+                });
+        return steps;
+    }
     public int getDay() {
         return day;
     }
