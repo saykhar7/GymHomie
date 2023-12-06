@@ -50,12 +50,15 @@ public class Workout_History_Activity extends AppCompatActivity {
         workoutRecycler = findViewById(R.id.workout_history_recycler);
 
         int year = datePicker.getYear();
-        int month = datePicker.getMonth()+1;
+        int month = datePicker.getMonth();
         int day = datePicker.getDayOfMonth();
         datePicker.init(year, month, day, new DatePicker.OnDateChangedListener() {
             @Override
-            public void onDateChanged(DatePicker datePicker, int month, int day, int year) {
+            public void onDateChanged(DatePicker datePicker, int year, int month, int day) {
                 //make textviews and display the selected date to test values
+                year = datePicker.getYear();
+                month = datePicker.getMonth()+1;
+                day = datePicker.getDayOfMonth();
                 displayWorkout(month, day, year);
 
             }
@@ -64,8 +67,7 @@ public class Workout_History_Activity extends AppCompatActivity {
     }
 
     public void displayWorkout(int month, int day, int year) {
-
-        ArrayList<workout> myWorkout = new ArrayList<workout>();
+        ArrayList<workout> workoutList = new ArrayList<workout>();
 
         db.collection(userWorkoutHistoryPath).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -77,20 +79,34 @@ public class Workout_History_Activity extends AppCompatActivity {
                             int workoutYear = ((Long) documentSnapshot.get("Year")).intValue();
                             if(year == workoutYear && month == workoutMonth && day == workoutDay)
                             {
-                                String id = documentSnapshot.getId();
-                                String name = ((String) documentSnapshot.get("name")).toString();
-                                ArrayList<String> muscleGroups = (ArrayList<String>) documentSnapshot.get("muscleGroups");
-                                ArrayList<exercise> exercises= (ArrayList<exercise>) documentSnapshot.get("exercises");
-
-                                workout currentWorkout = new workout(name, muscleGroups, exercises);
-
-                                myWorkout.add(currentWorkout);
+                                //String id = documentSnapshot.getId();
+                                Map<String, Object> workoutData = (Map<String, Object>) documentSnapshot.get("Workout");
+                                //String name = ((String) workoutData.get("name")).toString();
+                                //ArrayList<String> muscleGroups = (ArrayList<String>) workoutData.get("muscleGroups");
+                                ArrayList<exercise> exercisesData = (ArrayList<exercise>) workoutData.get("exercises");
+                                ArrayList<exercise> exercises = new ArrayList<>();
+                                if (exercisesData != null) {
+                                    for (int i = 0; i < exercisesData.size(); i++) {
+                                        Map<String, Object> exerciseData = (Map<String, Object>) exercisesData.get(i);
+                                        exercise currentExercise = new exercise();
+                                        currentExercise.setExerciseName((String) exerciseData.get("exerciseName"));
+                                        currentExercise.setMinutes(((Long) exerciseData.get("minutes")).intValue());
+                                        currentExercise.setNumReps(((Long) exerciseData.get("numReps")).intValue());
+                                        currentExercise.setSeconds(((Long) exerciseData.get("seconds")).intValue());
+                                        currentExercise.setNumSets(((Long) exerciseData.get("numSets")).intValue());
+                                        currentExercise.setWeight(((Long) exerciseData.get("weight")).intValue());
+                                        exercises.add(currentExercise);
+                                    }
+                                }
+                                workout currentWorkout = new workout((String) workoutData.get("name"),
+                                        (ArrayList<String>) workoutData.get("muscleGroups"), exercises);
+                                workoutList.add(currentWorkout);
                             }
                             //else "no workout done"
 
                         }
                         // update UI
-                        WorkoutAdapter adapter = new WorkoutAdapter(getApplicationContext(), myWorkout);
+                        WorkoutAdapter adapter = new WorkoutAdapter(getApplicationContext(), workoutList);
                         workoutRecycler.setAdapter(adapter);
                         workoutRecycler.setLayoutManager(new LinearLayoutManager((getApplicationContext())));
                     }

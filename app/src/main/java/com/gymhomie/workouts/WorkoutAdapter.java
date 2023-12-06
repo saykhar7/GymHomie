@@ -82,7 +82,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
 
                 Intent intent = new Intent(view.getContext(), Start_Workout_Activity.class);
                 intent.putExtras(bundle);
-                ((Activity) context).startActivity(intent);
+                view.getContext().startActivity(intent);
             }
         });
 

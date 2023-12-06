@@ -23,6 +23,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.gymhomie.Achievement_Activity;
+import com.gymhomie.Body_Measurement_Activity;
 import com.gymhomie.Goal_Activity;
 import com.gymhomie.R;
 
@@ -36,6 +37,7 @@ public class profile_fragment extends Fragment {
     private Button btnLogout;
     private Button btnGoals;
     private Button btnAchievements;
+    private Button btnBodyMeasurement;
     private ImageView profileBadge;
     private TextView profileName;
     private TextView profileEmail;
@@ -104,6 +106,17 @@ public class profile_fragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+
+        btnBodyMeasurement = view.findViewById(R.id.body_measurement_button);
+        btnBodyMeasurement.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), Body_Measurement_Activity.class);
+                startActivity(intent);
+            }
+        });
+
         profileBadge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

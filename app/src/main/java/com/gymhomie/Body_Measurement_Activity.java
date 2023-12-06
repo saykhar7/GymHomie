@@ -65,6 +65,7 @@ public class Body_Measurement_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 savenote();
+                finish();
             }
         });
     }
@@ -81,16 +82,16 @@ public class Body_Measurement_Activity extends AppCompatActivity {
                                 continue;
                             }
 
-                            left_bicep_size.setText((String) documentSnapshot.get("Left Bicep"));
-                            right_bicep_size.setText((String) documentSnapshot.get("Right Bicep"));
-                            left_forearm_size.setText((String) documentSnapshot.get("Left Forearm"));
-                            right_forearm_size.setText((String) documentSnapshot.get("Right Forearm"));
-                            left_thigh_size.setText((String) documentSnapshot.get("Left Thigh"));
-                            right_thigh_size.setText((String) documentSnapshot.get("Right Thigh"));
-                            left_calf_size.setText((String) documentSnapshot.get("Left Calf"));
-                            right_calf_size.setText((String) documentSnapshot.get("Right Calf"));
-                            shoulder_size.setText((String) documentSnapshot.get("Shoulders"));
-                            waist_size.setText((String) documentSnapshot.get("Waist"));
+                            left_bicep_size.setText((String) documentSnapshot.get("Left Bicep").toString());
+                            right_bicep_size.setText((String) documentSnapshot.get("Right Bicep").toString());
+                            left_forearm_size.setText((String) documentSnapshot.get("Left Forearm").toString());
+                            right_forearm_size.setText((String) documentSnapshot.get("Right Forearm").toString());
+                            left_thigh_size.setText((String) documentSnapshot.get("Left Thigh").toString());
+                            right_thigh_size.setText((String) documentSnapshot.get("Right Thigh").toString());
+                            left_calf_size.setText((String) documentSnapshot.get("Left Calf").toString());
+                            right_calf_size.setText((String) documentSnapshot.get("Right Calf").toString());
+                            shoulder_size.setText((String) documentSnapshot.get("Shoulders").toString());
+                            waist_size.setText((String) documentSnapshot.get("Waist").toString());
                         }
                     }
                 })
@@ -109,20 +110,20 @@ public class Body_Measurement_Activity extends AppCompatActivity {
         String collectionPath = "users/"+userID+"/Body Measurements";
 
         Map<String, Object> note = new HashMap<>();
-        note.put("Left Bicep", left_bicep_size.getText());
-        note.put("Right Bicep", right_bicep_size.getText());
+        note.put("Left Bicep", left_bicep_size.getText().toString());
+        note.put("Right Bicep", right_bicep_size.getText().toString());
 
-        note.put("Left Forearm", left_forearm_size.getText());
-        note.put("Right Forearm", right_forearm_size.getText());
+        note.put("Left Forearm", left_forearm_size.getText().toString());
+        note.put("Right Forearm", right_forearm_size.getText().toString());
 
-        note.put("Left Thigh", left_thigh_size.getText());
-        note.put("Right Thigh", right_thigh_size.getText());
+        note.put("Left Thigh", left_thigh_size.getText().toString());
+        note.put("Right Thigh", right_thigh_size.getText().toString());
 
-        note.put("Left Calf", left_calf_size.getText());
-        note.put("Right Calf", right_calf_size.getText());
+        note.put("Left Calf", left_calf_size.getText().toString());
+        note.put("Right Calf", right_calf_size.getText().toString());
 
-        note.put("Shoulders", shoulder_size.getText());
-        note.put("Waist", waist_size.getText());
+        note.put("Shoulders", shoulder_size.getText().toString());
+        note.put("Waist", waist_size.getText().toString());
 
 
         db.collection(collectionPath).document("My Measurements").set(note)
