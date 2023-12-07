@@ -39,36 +39,41 @@
 
     <Button
         android:id="@+id/add_workout_button"
-        android:layout_width="175dp"
+        android:layout_width="120dp"
         android:layout_height="75dp"
         android:layout_marginBottom="73dp"
         android:text="Add Workout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.932"
+        app:layout_constraintHorizontal_bias="0.95"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.998" />
+        app:layout_constraintVertical_bias="1.1" />
 
-        <Button
-            android:id="@+id/workout_history_button"
-            android:layout_width="157dp"
-            android:layout_height="74dp"
-            android:text="Workout History"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.137"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.258" />
+    <Button
+        android:id="@+id/workout_history_button"
+        android:layout_width="120dp"
+        android:layout_height="75dp"
+        android:layout_marginBottom="73dp"
+        android:text="Workout History"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.1" />
 
-        <Button
-            android:id="@+id/publicWorkoutButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="132dp"
-            android:text="View Public \n Workouts"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/workout_history_button" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/publicWorkoutButton"
+        android:layout_width="120dp"
+        android:layout_height="75dp"
+        android:layout_marginBottom="73dp"
+        android:text="View Public \n Workouts"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.1" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
