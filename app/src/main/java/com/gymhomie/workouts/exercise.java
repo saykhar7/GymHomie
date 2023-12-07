@@ -1,5 +1,6 @@
 package com.gymhomie.workouts;
 
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -26,7 +27,7 @@ public class exercise implements Parcelable {
         weight = in.readInt();
         numReps = in.readInt();
         numSets = in.readInt();
-        isTimed = in.readBoolean();
+        isTimed = in.readInt() != 0;
     }
 
     public static final Creator<exercise> CREATOR = new Creator<exercise>() {
@@ -54,7 +55,7 @@ public class exercise implements Parcelable {
         parcel.writeInt(weight);
         parcel.writeInt(numReps);
         parcel.writeInt(numSets);
-        parcel.writeBoolean(isTimed);
+        parcel.writeInt(isTimed ? 1 : 0);
     }
 
     public String getExerciseName() {

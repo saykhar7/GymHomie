@@ -22,7 +22,7 @@
         android:id="@+id/lbsText"
         android:layout_width="29dp"
         android:layout_height="26dp"
-        android:text="lbs"
+        android:text=" lbs"
         android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -30,11 +30,11 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/weightNumber"
         app:layout_constraintTop_toBottomOf="@+id/numberReps"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.666" />
 
     <TextView
         android:id="@+id/weightNumber"
-        android:layout_width="53dp"
+        android:layout_width="wrap_content"
         android:layout_height="28dp"
         android:text="weight number"
         android:textColor="@color/black"
@@ -44,12 +44,12 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/weightText"
         app:layout_constraintTop_toBottomOf="@+id/setsText"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/weightText"
-        android:layout_width="71dp"
-        android:layout_height="34dp"
+        android:layout_width="69dp"
+        android:layout_height="28dp"
         android:text="Weight: "
         android:textColor="@color/black"
         android:textSize="18sp"
@@ -61,24 +61,57 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <TextView
-        android:id="@+id/repsText"
+        android:id="@+id/minutesText"
         android:layout_width="70dp"
-        android:layout_height="25dp"
-        android:text="reps"
+        android:layout_height="27dp"
+        android:layout_marginEnd="32dp"
+        android:text=" minutes"
         android:textColor="@color/black"
         android:textSize="18sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/num_minutes"
+        app:layout_constraintTop_toBottomOf="@+id/exerciseTitle"
+        app:layout_constraintVertical_bias="0.181" />
+
+    <TextView
+        android:id="@+id/secondsText"
+        android:layout_width="70dp"
+        android:layout_height="27dp"
+        android:layout_marginEnd="4dp"
+        android:text="seconds"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/num_seconds"
+        app:layout_constraintTop_toBottomOf="@+id/exerciseTitle"
+        app:layout_constraintVertical_bias="0.181" />
+
+    <TextView
+        android:id="@+id/repsText"
+        android:layout_width="70dp"
+        android:layout_height="27dp"
+        android:text=" reps"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/numberReps"
         app:layout_constraintTop_toBottomOf="@+id/exerciseTitle"
-        app:layout_constraintVertical_bias="0.209" />
+        app:layout_constraintVertical_bias="0.142" />
 
     <TextView
         android:id="@+id/numberSets"
-        android:layout_width="71dp"
+        android:layout_width="wrap_content"
         android:layout_height="27dp"
-        android:text="Number of Sets"
+        android:text="numsets"
         android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -90,23 +123,54 @@
 
     <TextView
         android:id="@+id/numberReps"
-        android:layout_width="77dp"
+        android:layout_width="wrap_content"
         android:layout_height="26dp"
-        android:text="Number of Reps"
+        android:text="numreps"
         android:textColor="@color/black"
         android:textSize="18sp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/setsText"
         app:layout_constraintTop_toBottomOf="@+id/exerciseTitle"
-        app:layout_constraintVertical_bias="0.214" />
+        app:layout_constraintVertical_bias="0.146" />
+
+    <TextView
+        android:id="@+id/num_minutes"
+        android:layout_width="wrap_content"
+        android:layout_height="27dp"
+        android:layout_marginStart="8dp"
+        android:text="min"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/setsText"
+        app:layout_constraintTop_toBottomOf="@+id/exerciseTitle"
+        app:layout_constraintVertical_bias="0.151" />
+
+    <TextView
+        android:id="@+id/num_seconds"
+        android:layout_width="wrap_content"
+        android:layout_height="27dp"
+        android:layout_marginEnd="32dp"
+        android:text="numsec"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/minutesText"
+        app:layout_constraintTop_toBottomOf="@+id/exerciseTitle"
+        app:layout_constraintVertical_bias="0.181" />
 
     <TextView
         android:id="@+id/setsText"
         android:layout_width="77dp"
         android:layout_height="27dp"
-        android:text="sets of"
+        android:text=" sets of"
         android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -114,12 +178,12 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/numberSets"
         app:layout_constraintTop_toBottomOf="@+id/exerciseTitle"
-        app:layout_constraintVertical_bias="0.195" />
+        app:layout_constraintVertical_bias="0.15" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="15dp"
-        android:layout_height="13dp"
+        android:layout_width="13dp"
+        android:layout_height="12dp"
         android:layout_marginTop="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/exerciseTitle"

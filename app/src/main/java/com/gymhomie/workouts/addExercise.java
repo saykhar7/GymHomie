@@ -91,6 +91,7 @@ public class addExercise extends AppCompatActivity{
                 if (isChecked)
                 {
                     isTimed = true;
+                    e.setTimed(true);
                     minutes.setVisibility(View.VISIBLE);
                     seconds.setVisibility(View.VISIBLE);
                     minutesText.setVisibility(View.VISIBLE);
@@ -101,6 +102,7 @@ public class addExercise extends AppCompatActivity{
                 else
                 {
                     isTimed = false;
+                    e.setTimed(false);
                     minutes.setVisibility(View.GONE);
                     seconds.setVisibility(View.GONE);
                     minutesText.setVisibility(View.GONE);
@@ -126,10 +128,13 @@ public class addExercise extends AppCompatActivity{
                 if(isTimed) {
                     e.setSeconds(seconds.getValue());
                     e.setMinutes(minutes.getValue());
+                    e.setTimed(true);
                 }
                 else{
                     e.setNumReps(numReps.getValue());
+                    e.setTimed(false);
                 }
+
 
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("newExercise", e);
