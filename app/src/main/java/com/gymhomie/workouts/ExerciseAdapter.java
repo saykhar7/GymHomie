@@ -42,7 +42,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
 
     public class ExerciseViewHolder extends RecyclerView.ViewHolder {
         private TextView exerciseName, exerciseNumSets, exerciseWeight, exerciseNumReps,
-                exerciseSeconds, exerciseMinutes, setsText, repsText, minText, secsText;
+                exerciseSeconds, exerciseMinutes;
 
         public ExerciseViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -52,36 +52,15 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
             exerciseNumReps = itemView.findViewById(R.id.numberReps);
             exerciseSeconds = itemView.findViewById(R.id.num_seconds);
             exerciseMinutes = itemView.findViewById(R.id.num_minutes);
-            //setsText = itemView.findViewById(R.id.setsText);
-            repsText = itemView.findViewById(R.id.repsText);
-            minText = itemView.findViewById(R.id.minutesText);
-            secsText = itemView.findViewById(R.id.secondsText);
         }
         public void bind(exercise exercise) {
             // bind achievement data to UI
             exerciseName.setText(exercise.getExerciseName().toString());
             exerciseWeight.setText(String.valueOf(exercise.getWeight()));
             exerciseNumSets.setText(String.valueOf(exercise.getNumSets()));
-            if(!exercise.isTimed())
-            {
-                exerciseMinutes.setVisibility(View.GONE);
-                exerciseSeconds.setVisibility(View.GONE);
-                minText.setVisibility(View.GONE);
-                secsText.setVisibility(View.GONE);
-                exerciseNumReps.setVisibility(View.VISIBLE);
-                repsText.setVisibility(View.VISIBLE);
-                exerciseNumReps.setText(String.valueOf(exercise.getNumReps()));
-            }
-            else {
-                exerciseNumReps.setVisibility(View.GONE);
-                repsText.setVisibility(View.GONE);
-                exerciseMinutes.setVisibility(View.VISIBLE);
-                exerciseSeconds.setVisibility(View.VISIBLE);
-                minText.setVisibility(View.VISIBLE);
-                secsText.setVisibility(View.VISIBLE);
-                exerciseMinutes.setText((String.valueOf(exercise.getMinutes())));
-                exerciseSeconds.setText(String.valueOf(exercise.getSeconds()));
-            }
+            exerciseNumReps.setText(String.valueOf(exercise.getNumReps()));
+            exerciseMinutes.setText((String.valueOf(exercise.getMinutes())));
+            exerciseSeconds.setText(String.valueOf(exercise.getSeconds()));
 
         }
     }
