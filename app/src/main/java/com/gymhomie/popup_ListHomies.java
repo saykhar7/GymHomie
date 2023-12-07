@@ -228,7 +228,7 @@ public class popup_ListHomies extends Activity {
                 // Handle the user's decision to add the workout
                 // You can add the workout to the user's collection here
                 // ...
-                addWorkoutToFirestore((Map<String, Object>) workout.get(which));
+                addWorkoutToFirestore(workout);
                 Toast.makeText(popup_ListHomies.this, "Workout added!", Toast.LENGTH_SHORT).show();
             }
         });
