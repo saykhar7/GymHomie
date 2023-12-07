@@ -1,4 +1,4 @@
-package com.gymhomie;
+package com.gymhomie.workouts;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,9 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.gymhomie.tools.Achievement;
-import com.gymhomie.workouts.exercise;
-import com.gymhomie.workouts.workout;
+import com.gymhomie.R;
 
 import java.util.List;
 
@@ -43,10 +41,8 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
     }
 
     public class ExerciseViewHolder extends RecyclerView.ViewHolder {
-        private TextView exerciseName;
-        private TextView exerciseNumSets;
-        private TextView exerciseWeight;
-        private TextView exerciseNumReps;
+        private TextView exerciseName, exerciseNumSets, exerciseWeight, exerciseNumReps,
+                exerciseSeconds, exerciseMinutes;
 
         public ExerciseViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -54,13 +50,18 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
             exerciseNumSets = itemView.findViewById(R.id.numberSets);
             exerciseWeight = itemView.findViewById(R.id.weightNumber);
             exerciseNumReps = itemView.findViewById(R.id.numberReps);
+            exerciseSeconds = itemView.findViewById(R.id.num_seconds);
+            exerciseMinutes = itemView.findViewById(R.id.num_minutes);
         }
         public void bind(exercise exercise) {
             // bind achievement data to UI
-            exerciseName.setText(exercise.getExerciseName());
+            exerciseName.setText(exercise.getExerciseName().toString());
+            exerciseWeight.setText(String.valueOf(exercise.getWeight()));
             exerciseNumSets.setText(String.valueOf(exercise.getNumSets()));
-            exerciseWeight.setText(exercise.getWeight());
             exerciseNumReps.setText(String.valueOf(exercise.getNumReps()));
+            exerciseMinutes.setText((String.valueOf(exercise.getMinutes())));
+            exerciseSeconds.setText(String.valueOf(exercise.getSeconds()));
+
         }
     }
 }

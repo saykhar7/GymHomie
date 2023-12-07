@@ -11,21 +11,15 @@ import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.Switch;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.gymhomie.R;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.gymhomie.Water_Intake_Activity;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,19 +33,14 @@ public class addExercise extends AppCompatActivity{
     private static final String KEY_REPS = "Number of Reps";
     private static final String KEY_WEIGHT = "Amount of Weight";
 
-    //workout w = new workout();
     MultiAutoCompleteTextView exerciseName;
-    NumberPicker numSets, numReps;
-    EditText numWeight, time;
+    NumberPicker numSets, numReps, minutes, seconds, numWeight;
     Switch timed;
-    TextView seconds, repsText;
+    TextView repsText, minutesText, secondsText;
     Button saveExercise;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    //String workoutName;
     boolean isTimed;
     exercise e;
-
-    String workoutName;
 
     protected void onCreate (Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -66,9 +55,12 @@ public class addExercise extends AppCompatActivity{
         numWeight = findViewById(R.id.weight);
         timed = findViewById(R.id.time_switch);
         saveExercise = findViewById(R.id.save_exercise_button);
-        time = findViewById(R.id.time);
-        seconds = findViewById(R.id.seconds_text);
+        minutes = findViewById(R.id.minutes);
+        seconds = findViewById(R.id.seconds);
         repsText = findViewById(R.id.numreps_text);
+        minutesText = findViewById(R.id.minutes_text);
+        secondsText = findViewById(R.id.seconds_text);
+
 
         numSets.setMinValue(1);
         numSets.setMaxValue(20);
@@ -78,7 +70,18 @@ public class addExercise extends AppCompatActivity{
         numReps.setMaxValue(30);
         numReps.setValue(10);
 
-        //  getIntent().putExtra("newWorkout", workoutObj);
+        numWeight.setMinValue(0);
+        numWeight.setMaxValue(1000);
+        numWeight.setValue(10);
+
+        minutes.setMinValue(0);
+        minutes.setMaxValue(300);
+        minutes.setValue(0);
+
+        seconds.setMinValue(0);
+        seconds.setMaxValue(59);
+        seconds.setValue(10);
+
 
         timed.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
@@ -88,16 +91,22 @@ public class addExercise extends AppCompatActivity{
                 if (isChecked)
                 {
                     isTimed = true;
-                    time.setVisibility(View.VISIBLE);
+                    e.setTimed(true);
+                    minutes.setVisibility(View.VISIBLE);
                     seconds.setVisibility(View.VISIBLE);
+                    minutesText.setVisibility(View.VISIBLE);
+                    secondsText.setVisibility(View.VISIBLE);
                     numReps.setVisibility(View.GONE);
                     repsText.setVisibility(View.GONE);
                 }
                 else
                 {
                     isTimed = false;
-                    time.setVisibility(View.GONE);
+                    e.setTimed(false);
+                    minutes.setVisibility(View.GONE);
                     seconds.setVisibility(View.GONE);
+                    minutesText.setVisibility(View.GONE);
+                    secondsText.setVisibility(View.GONE);
                     numReps.setVisibility(View.VISIBLE);
                     repsText.setVisibility(View.VISIBLE);
                 }
@@ -115,37 +124,26 @@ public class addExercise extends AppCompatActivity{
 
                 e.setExerciseName(exerciseName.getText().toString());
                 e.setNumSets(numSets.getValue());
-                e.setWeight((numWeight.getText().toString()));
+                e.setWeight(numWeight.getValue());
                 if(isTimed) {
-                    e.setSeconds(time.getText().toString());
+                    e.setSeconds(seconds.getValue());
+                    e.setMinutes(minutes.getValue());
+                    e.setTimed(true);
                 }
                 else{
                     e.setNumReps(numReps.getValue());
+                    e.setTimed(false);
                 }
+
 
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("newExercise", e);
                 Log.d("addExercise name", e.getExerciseName());
-                //savenote(view);
                 setResult(RESULT_OK, resultIntent);
                 finish();
             }
         });
     }
-
-    public void savenote(View v){
-
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        String userID = auth.getCurrentUser().getUid();
-        String collectionPath = "users/"+userID+"/Workouts";
-
-        Map<String, Object> workoutMap = new HashMap<>();
-        workoutMap.put("Exercises", e);
-
-        db.collection(collectionPath).document()
-                .set(workoutMap);
-    }
-
 
     private static final String[] EXERCISES = new String[]{
             "Bicep Curl", "Lateral Raise", "Crunch", "RDL", "Goblet Squat"

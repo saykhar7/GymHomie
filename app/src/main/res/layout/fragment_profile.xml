@@ -95,11 +95,16 @@
             android:fontFamily="@font/neon"
             android:background="@drawable/button_border"/>
 
-
-
-
-
-
+        <Button
+            android:id="@+id/body_measurement_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_border"
+            android:fontFamily="@font/neon"
+            android:hapticFeedbackEnabled="true"
+            android:text="Body Measurements"
+            android:textAlignment="textStart"
+            android:textSize="32dp" />
 
         <Button
 

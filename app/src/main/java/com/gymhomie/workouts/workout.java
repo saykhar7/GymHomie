@@ -1,13 +1,16 @@
 package com.gymhomie.workouts;
 
-import android.os.Bundle;
+//import static androidx.core.os.ParcelCompat.TiramisuImpl.readArrayList;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.annotation.NonNull;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class workout implements Parcelable {
 
+    public static final String WORKOUT_PARCEL = "myWorkout";
     private String name;
     private ArrayList<String> muscleGroups = new ArrayList<String>();
     private ArrayList<exercise> exercises = new ArrayList<exercise>();
@@ -21,10 +24,11 @@ public class workout implements Parcelable {
         this.exercises = exercises;
         this.isExpandable = false;
     }
-
-
     protected workout(Parcel in) {
+        name = in.readString();
         muscleGroups = in.createStringArrayList();
+        exercises = in.createTypedArrayList(exercise.CREATOR);
+        isExpandable = in.readByte() != 0;
     }
 
     public static final Creator<workout> CREATOR = new Creator<workout>() {
@@ -96,7 +100,37 @@ public class workout implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeString(name);
         parcel.writeStringList(muscleGroups);
+        parcel.writeTypedList(exercises);
+        parcel.writeByte((byte) (isExpandable ? 1 : 0));
+    }
+
+
+    class completed_workout {
+        private workout w;
+        private Date d;
+
+        public completed_workout(workout w, Date d) {
+            this.w = w;
+            this.d = d;
+        }
+
+        public workout getW() {
+            return w;
+        }
+
+        public Date getD() {
+            return d;
+        }
+
+        public void setW(workout w) {
+            this.w = w;
+        }
+
+        public void setD(Date d) {
+            this.d = d;
+        }
     }
 
 }
