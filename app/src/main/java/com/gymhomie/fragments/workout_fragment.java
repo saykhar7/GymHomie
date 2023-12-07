@@ -35,7 +35,7 @@ import java.util.Map;
 public class workout_fragment extends Fragment {
 
     Button add_workout_button, workout_history_button;
-    private ArrayList<workout> workoutList = new ArrayList<workout>();
+
     private RecyclerView recyclerView;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -76,6 +76,7 @@ public class workout_fragment extends Fragment {
     }
     private void listWorkouts()
     {
+        ArrayList<workout> workoutList = new ArrayList<workout>();
         db.collection(userWorkoutsPath).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     //check if workouts exist
@@ -120,4 +121,10 @@ public class workout_fragment extends Fragment {
                     }
                 });
     }
+    @Override
+    public void onResume(){
+        super.onResume();
+        listWorkouts();
+    }
+
 }
