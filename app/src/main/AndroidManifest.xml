@@ -38,6 +38,9 @@
             android:name=".gymqr.gym_membership"
             android:exported="false" />
         <activity
+            android:name=".BMI_Activity"
+            android:exported="false"/>
+        <activity
             android:name=".Home_Activity"
             android:exported="false" />
         <activity

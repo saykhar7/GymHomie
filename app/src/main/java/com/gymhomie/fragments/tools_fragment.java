@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.gymhomie.BMI_Activity;
 import com.gymhomie.CalculatorMenu_Activity;
 import com.gymhomie.GymFinder_Activity;
 import com.gymhomie.Gym_Reminder_Activity;
@@ -26,6 +27,7 @@ public class tools_fragment extends Fragment {
     private Button water_intake_button;
     private  Button gymFinderButton;
     private Button gym_reminder_button;
+    private Button BMI_button;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,6 +40,7 @@ public class tools_fragment extends Fragment {
         timer_button = view.findViewById(R.id.stopwatch_button);
         gymFinderButton = view.findViewById(R.id.gymfinder);
         gym_reminder_button = view.findViewById(R.id.gym_reminder_button);
+        BMI_button = view.findViewById(R.id.BMI_button);
 
         barbell_Calculator.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -82,6 +85,13 @@ public class tools_fragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), Gym_Reminder_Activity.class);
+                startActivity(intent);
+            }
+        });
+        BMI_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), BMI_Activity.class);
                 startActivity(intent);
             }
         });
