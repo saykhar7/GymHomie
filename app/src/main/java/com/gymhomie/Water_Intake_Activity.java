@@ -242,6 +242,7 @@ public class Water_Intake_Activity extends AppCompatActivity{
                                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                                         if (!documentSnapshot.exists()) {
                                             Log.e("Water Intake Achievement Update", "hydrationNovice doc reference dne");
+                                            return;
                                         }
                                         int currentProgress = ((Long) documentSnapshot.get("progress")).intValue();
                                         if (currentProgress < finalTotalAmount) { // first we check to not overwrite if already progressed further (a different date)
@@ -271,6 +272,7 @@ public class Water_Intake_Activity extends AppCompatActivity{
                                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                                         if (!documentSnapshot.exists()) {
                                             Log.e("Water Intake Achievement Update", "hydrationEnthusiast doc reference dne");
+                                            return;
                                         }
                                         int currentProgress = ((Long) documentSnapshot.get("progress")).intValue();
                                         if (currentProgress < finalTotalAmount) {
@@ -300,6 +302,7 @@ public class Water_Intake_Activity extends AppCompatActivity{
                                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                                         if (!documentSnapshot.exists()) {
                                             Log.d("Water Intake Achievement Update", "parchedGymBro doc reference dne");
+                                            return;
                                         }
                                         parchedGymBro.update("progress", finalTotalAmount);
                                         int progressNeeded = ((Long) documentSnapshot.get("criteria")).intValue();
