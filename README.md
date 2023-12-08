@@ -1,11 +1,8 @@
-# GymHomie
-
 ## Gym Homie App
 *PREFACE: The Gym Homie App is still under construction and the first scheduled release 1.0 is January 1st, 2023*
 
 
-# How to Download and Install Our APK
-## Download APK
+## Download and Install APK
 
 Click [here](https://github.com/saykhar7/GymHomie/releases/download/GymHomieAppV2_Release/GymHomie_APK_V2.apk) to download the latest version of our APK.
 
